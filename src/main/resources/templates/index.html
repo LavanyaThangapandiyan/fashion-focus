@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org"> 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+</head>
+<body>
+  <header>
+    <div>
+        <nav class="navbar navbar-expand-md navbar-dark"
+          style="background-color: #740074">
+          <a href="" class="navbar-brand">Fashion Focus Boutique</a>
+          <a th:href="@{/login}" class="log">Login</a>
+          <form class="example" action="action_page.php">
+            <input type="text" id="search" placeholder="Search by Product..." name="search">
+            <button type="submit"><i class="fa fa-search"></i> </button>
+          </form>
+        </nav></div>
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'ethnic')">Women Ethnic</button>
+        <button class="tablinks" onclick="openCity(event, 'western')">Women Western</button>
+        <button class="tablinks" onclick="openCity(event, 'men')">Men</button>
+        <button class="tablinks" onclick="openCity(event, 'kids')">Kids</button>
+      </div>
+       
+      
+    </div></div></header>
+      <!-- Tab content -->
+      <div id="ethnic" class="tabcontent">
+        <h4 style="color:purple;">All Women Ethnic</h4>
+        <table >
+          <thead >
+            <th >All Sarees</th>
+            <th>Kurtis</th>
+            <th>Kurta  Sets</th>
+            <th>Suits & Dress Material</th>
+            <th>Other Ethnic</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>All Sarees</td>
+                <td>All Kurtis</td>
+                <td>All Kurta Sets</td>
+                <td>All Suits &Dress Material</td>
+                <td>Dupattas</td>
+              </tr>
+              <tr>
+                <td>Silk Sarees</td>
+                <td>Anarkali Kurtis</td>
+                <td></td>
+                <td>Cotton Suits</td>
+                <td>Lehanga</td>
+              </tr>
+              <tr>
+                <td>Cotton Sarees</td>
+                <td>Rayon Kurtis</td>
+                <td></td>
+                <td>Cotton Suits</td>
+                <td>Gown</td>
+              </tr>
+              <tr>
+                <td>Georgette Sarees</td>
+                <td>Embroidered Kurtis</td>
+                <td></td>
+                <td>Embroidered Suits</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Chiffon Sarees</td>
+                <td>Cotton Kurtis</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Embroidered Sarees</td>
+              </tr> 
+            </tbody>
+        </table>
+      </div>
+      <div id="western" class="tabcontent">
+        <h4 style="color:purple;">All Women Western</h4>
+        <table >
+          <thead >
+            <th >Top Wear</th>
+            <th>Bottom Wear</th>
+            <th>Sleep wear</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tops</td>
+                <td>Jeans</td>
+                <td>Night Suits</td>
+              </tr>
+              <tr>
+                <td>Dresses</td>
+                <td>Jeggins</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Sweaters</td>
+                <td>Plazzos</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Jump Suits</td>
+                <td>Shorts</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td> </td>
+                <td></td>
+                <td></td>
+              </tr>
+              </tbody></table></div>
+      </div>
+      <div id="men" class="tabcontent">
+        <table >
+          <thead >
+            <th >Top Wear</th>
+            <th>Bottom Wear</th>
+            <th>Ethnic Wear</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>All Top  Wear</td>
+                <td>Track pants</td>
+                <td>Men Kurtas</td>
+              </tr>
+              <tr>
+                <td>Tshirts</td>
+                <td>Jeans</td>
+                <td>Ethnic Jackets</td>
+              </tr>
+              <tr>
+                <td>Shirts</td>
+                <td>Trousers</td>
+                <td></td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+      <div id="men" class="tabcontent">
+        <table >
+          <thead >
+            <th >Top Wear</th>
+            <th>Bottom Wear</th>
+            <th>Ethnic Wear</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>All Top  Wear</td>
+                <td>Track pants</td>
+                <td>Men Kurtas</td>
+              </tr>
+              <tr>
+                <td>Tshirts</td>
+                <td>Jeans</td>
+                <td>Ethnic Jackets</td>
+              </tr>
+              <tr>
+                <td>Shirts</td>
+                <td>Trousers</td>
+                <td></td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+      <div id="kids" class="tabcontent">
+        <table >
+          <thead >
+            <th >All Dresses</th>
+              </thead>
+            </tbody>
+        </table>
+      </div>
+    <style>
+    
+
+/* Style the search field */
+form.example input[type=text] {
+ 
+  font-size: 17px;
+  border: 1px solid grey;
+  float: right;
+  width: 80%;
+  background: #f1f1f1;
+}
+#search{
+  float: right;
+}
+
+/* Style the submit button */
+form.example button {
+  float: right;
+  width: 20%;
+  background: #aaaeb1;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #94149f;
+  overflow: hidden;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+} 
+.tab {
+  overflow-wrap: break-word;
+  border: 20px solid #ccc;
+  background-color: #fdfcfc;
+}
+.tab a:hover {
+    background-color: #94149f;
+    padding: 5px 5px;
+}
+
+/* Create an active/current tablink class */
+.tab a.active {
+    background-color: #94149f;
+}
+.tabcontent {
+  display: none;
+  
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/* Style the tab */
+table {
+  border-collapse: separate;
+  border-spacing: 50px 0;
+}
+
+td {
+  padding: 10px 0;
+}
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color:  #94149f;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color:  #94149f;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+ </style>
+    <script>
+      function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+    </script>
+</body>
+</html>

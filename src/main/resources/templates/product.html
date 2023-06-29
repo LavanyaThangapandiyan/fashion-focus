@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org"> 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="css/tab.css"> 
+<head>
+<meta charset="ISO-8859-1">
+<title>Item-Form</title>
+</head>
+<body>
+<header>
+<div class="tab">
+    <nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: #740074">
+			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
+			<a th:href="login.html" class="navbar-brand">Men</a>
+			<a th:href="login.html" class="navbar-brand">Women</a>
+			<a th:href="login.html" class="navbar-brand">Kids</a>
+			<a th:href="@{/login}" class="navbar-brand">Login</a>
+            </nav>
+</div>		
+</header>
+<script>
+  function increaseValue() {
+  var value = parseInt(document.getElementById('number').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  document.getElementById('number').value = value;
+}
+
+function decreaseValue() {
+  var value = parseInt(document.getElementById('number').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value < 1 ? value = 1 : '';
+  value--;
+  document.getElementById('number').value = value;
+}
+</script>
+<div class="container">
+	<form id="form" action="product" th:action="@{/product-submit}" th:object="${product}" method="GET">
+		<h1>Welcome</h1>
+		<p>Please set up product details</p>
+		<div class="input-group">
+			<label><b>Name</b></label>
+			<input type="text" id="name" pattern="^[a-zA-Z]+$" placeholder="Enter Product Name" name="name" required>
+			
+		</div>
+		<div class="input-group">
+			<label for="email"><b>Price</b></label>
+			<input type="number" id="price" Min="1" placeholder="Enter Product Price" name="price" required>
+      </div>
+      <div class="input-group">
+        <label for="type"><b>Type</b></label>
+        <input type="text"  pattern="^[a-zA-Z]+$"  id="type" placeholder="Enter Type"  name="type" required>	
+      </div>
+       <div>
+<label for="cars">Choose a gender type:</label>
+<select name="gender" id="op">
+  <option name="men">Men</option>
+  <option name="women" >Women</option>
+  <option name="kids" >Kids</option>
+</select>
+</div>
+      <div class="input-group">
+        <label for="fabric"><b>Fabric</b></label>
+        <input type="text"  id="fabric" placeholder="Enter Fabric type " name="fabric" required>  
+      </div>
+			
+		<div >
+			<label for=><b>Size</b></label><br>
+			<input type="checkbox" value="S" id="sz" name="size" >        S   <br>
+			<input type="checkbox" value="M" id="sz" name="size" >       M   <br>
+			<input type="checkbox" value="L" id="sz" name="size" >       L   <br>
+			<input type="checkbox" value="XL" id="sz" name="size" >       XL   <br>
+			<input type="checkbox" value="XXL" id="sz" name="size" >       XXL   <br> 
+			<input type="checkbox" value="XXXl" id="sz" name="size" >       XXXL   <br>
+			<input type="checkbox" value="XXXl" id="sz" name="size" >       ALL
+		</div>
+    <label for="type"><b>Quantity</b></label>
+		<div class="quantity">
+        <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value"><b>-</b></div>
+        <input type="number" id="number" name="quantity" value="0" />
+        <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value"><b>+</b></div>
+    </div>
+    <label for="fabric"><b>Image</b></label>
+		<div class="Neon Neon-theme-dragdropbox">
+        <input style="z-index: 999; opacity: 0; width: 320px; height: 200px; position: absolute; right: 0px; left: 0px; margin-right: auto; margin-left: auto;" name="file" id="filer_input2" multiple="multiple" type="file">
+        <div class="Neon-input-dragDrop"><div class="Neon-input-inner"><div class="Neon-input-icon"><i class="fa fa-file-image-o"></i></div><div class="Neon-input-text"><h3>Drag&amp;Drop Image here</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="Neon-input-choose-btn blue">Browse Images</a></div></div>
+        </div>
+		<button type="submit">Submit</button>
+		<br>
+		<button type="submit">
+			<a th:href="@{/product}">Cancel</a>
+		</button>
+	</form>
+</div>
+
+
+<style>
+
+.quantity {
+  text-align: center;
+  width: 200px;
+  margin: 10px;
+  align: center;
+ 
+}
+
+.value-button {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 11px 0;
+  background: #eee;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.value-button:hover {
+  cursor: pointer;
+  background-color: #94149f;
+}
+
+form #decrease {
+  margin-right: -4px;
+  border-radius: 8px 0 0 8px;
+}
+
+form #increase {
+  margin-left: -4px;
+  border-radius: 0 8px 8px 0;
+}
+
+form #input-wrap {
+  margin: -4px;
+  padding: 0px;
+}
+
+input#number {
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: -4px;
+  width: 100px;
+  height: 40px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+ .Neon {
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #494949;
+    position: relative;
+    
+
+}
+.Neon * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.Neon-input-dragDrop {
+    display: block;
+    width: 343px;
+    margin: 0 auto 25px auto;
+    padding: 25px;
+    color: #8d9499;
+    color: #97A1A8;
+    background: #fff;
+    border: 2px dashed #C8CBCE;
+    text-align: center;
+    -webkit-transition: box-shadow 0.3s, border-color 0.3s;
+    -moz-transition: box-shadow 0.3s, border-color 0.3s;
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+.Neon-input-dragDrop .Neon-input-icon {
+    font-size: 48px;
+    margin-top: -10px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.Neon-input-text h3 {
+    margin: 0;
+    font-size: 18px;
+}
+.Neon-input-text span {
+    font-size: 12px;
+}
+.Neon-input-choose-btn.blue {
+    color: #008BFF;
+    border: 1px solid #008BFF;
+}
+.Neon-input-choose-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: bold;
+    color: #8d9496;
+    border-radius: 3px;
+    border: 1px solid #c6c6c6;
+    vertical-align: middle;
+    background-color: #fff;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.05);
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}  
+.tab {
+  overflow: hidden;
+  border: 2px solid #ccc;
+  background-color: #f1f1f1;
+}
+.tab a:hover {
+    background-color: #94149f;
+    padding: 5px 5px;
+}
+
+/* Create an active/current tablink class */
+.tab a.active {
+    background-color: #94149f;
+}
+.tabcontent {
+  display: none;
+  padding: 6px 6px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+#sz {
+            accent-color: #792099;
+        }
+ body{
+    font-family: 'Poppins', sans-serif; 
+}
+
+#form{
+box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+    width:550px;
+    margin:20vh auto 0 auto;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    padding:30px;
+}
+
+h1{
+    text-align: center;
+    color:#792099;
+}
+
+#form button{
+    background-color: #792099;
+    color:white;
+    border: 1px solid #792099;
+    border-radius: 5px;
+    padding:10px;
+    margin:10px 0px;
+    cursor:pointer;
+    font-size:20px;
+    width:100%;
+}
+
+.input-group{
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-group input{
+    border-radius: 5px;
+    font-size:20px;
+    margin-top:5px;
+    padding:10px;
+    border:1px solid rgb(34,193,195) ;
+}
+
+.input-group input:focus{
+    outline:0;
+}
+
+.input-group .error{
+    color:rgb(242, 18, 18);
+    font-size:16px;
+    margin-top: 5px;
+}
+
+.input-group.success input{
+    border-color: #0cc477;
+}
+
+.input-group.error input{
+    border-color:rgb(206, 67, 67);
+}
+.tab {
+  overflow: hidden;
+  border: 2px solid #ccc;
+  background-color: #f1f1f1;
+}
+.tab a:hover {
+    background-color: #94149f;
+    padding: 5px 5px;
+}
+
+/* Create an active/current tablink class */
+.tab a.active {
+    background-color: #94149f;
+}
+.tabcontent {
+  display: none;
+  padding: 6px 6px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+</style>
+<div>
+</div>

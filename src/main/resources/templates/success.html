@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org"> 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<head>
+
+<meta charset="ISO-8859-1">
+<title>Success</title>
+</head>
+<body>
+<header>
+<div class="tab">
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: purple">
+			<div>
+			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
+			<a href="index.html" class="navbar-brand">Log Out</a>
+			</div>
+		</nav></div>
+	</header>
+<div>
+<label>
+<p>Registration Successfully!.. Please Check Your Email</p>
+<p th:text="${user.email}"></p>
+</label>
+</div>
+<style>
+ .tab {
+  overflow: hidden;
+  border: 2px solid #ccc;
+  background-color: #f1f1f1;
+}
+.tab a:hover {
+    background-color: #94149f;
+    padding: 5px 5px;
+}
+
+/* Create an active/current tablink class */
+.tab a.active {
+    background-color: #94149f;
+}
+.tabcontent {
+  display: none;
+  padding: 6px 6px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+
+</body>
+</html>
