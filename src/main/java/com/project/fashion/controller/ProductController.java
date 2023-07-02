@@ -49,6 +49,7 @@ public class ProductController {
 		product.setImage(file);
 		product.setGender(gender);
 		int number=productDao.saveProductDetails(product);
+		
 		if(number==1)
 			return "list";
 		else

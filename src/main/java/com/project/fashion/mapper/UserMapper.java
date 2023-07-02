@@ -21,7 +21,6 @@ public class UserMapper implements RowMapper<User>{
 		register.setEmail(email);
 		register.setPassword(password);
 		register.setMobile(mobile);
-		System.out.println(name+email+mobile);
 		return register;
 	}
 	

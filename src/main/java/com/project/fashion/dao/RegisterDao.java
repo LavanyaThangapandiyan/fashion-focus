@@ -24,8 +24,6 @@ public class RegisterDao {
 		String mobile = user.getMobile();
 		boolean contains = getUser.contains(userEmail);
 		boolean mobilecont = getUser.contains(mobile);
-		System.out.println(mobilecont);
-		System.out.println(contains);
 		if (contains == true) {
 			System.out.println(" Email Already Exist");
 			return 2;
@@ -36,7 +34,6 @@ public class RegisterDao {
 
 		else {
 			String insert = "insert into register(name,email,password,phone_number,gender)values(?,?,?,?,?)";
-			System.out.println(user.getName());
 			boolean name = valid.nameValidation(user.getName());
 			boolean email1 = valid.emailValidation(user.getEmail());
 			boolean password = valid.passwordValidation(user.getPassword());
@@ -62,7 +59,6 @@ public class RegisterDao {
 		String find="select password from register where email=?";
    	    User listUser=jdbcTemplate.queryForObject(find,new UserMapperSingle(),userEmail);
    	    String password = listUser.getPassword();
-		System.out.println(contains);			
 		if(check==true && password.equals(userPassword) )
 			return 2;
 		else if (contains == true && password.equals(userPassword) )
