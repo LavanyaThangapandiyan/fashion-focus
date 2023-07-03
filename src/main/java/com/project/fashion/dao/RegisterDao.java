@@ -3,6 +3,8 @@ package com.project.fashion.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +21,8 @@ public class RegisterDao {
 	JdbcTemplate jdbcTemplate;
 
 	//----Inserting User Details
-	public int saveDetails(User user) {
+	public int saveDetails(User user) 
+	{
 		List<User> userList = userList();
 		String getUser = userList.toString();
 		String userEmail = user.getEmail();
@@ -56,30 +59,26 @@ public class RegisterDao {
 		List<User> userList = userList();
 		String getUser = userList.toString();
 		String userEmail = user.getEmail();
-		boolean contains = getUser.contains(userEmail);
-		
-		boolean check = valid.adminEmailValidation(userEmail);
-
+		 boolean contains = getUser.contains(userEmail);
+		 String check = valid.adminEmailValidation(userEmail);
+        
 		String find = "select password from register where email=?";
 		User listUser = jdbcTemplate.queryForObject(find, new UserMapperSingle(), userEmail);
 		String password = listUser.getPassword();
-
 		// Stream Using Get the User Details
 		List<User> users = userList.stream().filter(userOne -> userOne.getEmail().equals(user.getEmail()))
+				.filter(Password -> Password.getPassword().equals(password))
 				.collect(Collectors.toList());
-		
 		for (User userModel : users) 
 		{
-			if (userModel != null)
+			if (userModel!= null&&check=="true")
 			{
-			String getPassword = userModel.getPassword();
-				if (check==true&&password.equals(getPassword))
 					return 2;
-				else if ( contains==true &&password.equals(getPassword))
-					  return 1;
 		    }
-		}		
-		return 0;
+			else 
+				return 1;			
+		}
+		return 0;	
 	}
 	
 	//---User List----
