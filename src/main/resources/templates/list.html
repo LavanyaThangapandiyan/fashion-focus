@@ -20,16 +20,15 @@
 			<a th:href="login.html" class="navbar-brand">Women</a>
 			<a th:href="login.html" class="navbar-brand">Kids</a>
 			<a th:href="@{/}" class="navbar-brand">Log Out</a>	
-            </nav>
-</div>		
+            </nav></div>		
 </header>
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a th:href="@{/product}">Add Products</a>
-  <a href="item.html">Products</a>
-  <a href="#">Our Customers</a>
-  <a href="#">ProductList</a>
-  <a href="#">Sales</a>
+  <a href="@{/item}">Products</a>
+  <a href="@{/customer}">Our Customers</a>
+  <a href="@{/productlist}">ProductList</a>
+  <a href="@{/sales}">Sales</a>
 </div>
 <!-- Use any element to open the sidenav -->
 

@@ -27,12 +27,34 @@ public class ProductController {
 		return "product";
 		
 	}
-	@GetMapping(path="/slick")
-	public String showHome()
-	{	
-		System.out.println("Start slick");
-		return "slick";
+	@GetMapping(path="/customer")
+	public String showCustomer()
+	{
+		return "customer";
+		
 	}
+	@GetMapping(path="/sales")
+	public String showSales()
+	{
+		return "sales";
+		
+	}
+	
+	@GetMapping(path="/productlist")
+	public String showProductList()
+	{
+		return "productlist";
+		
+	}
+	
+	
+	@GetMapping(path="/item")
+	public String showProduct()
+	{
+		return "item";
+		
+	}
+	
 	
 	@GetMapping(path="/product-submit")
 	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,

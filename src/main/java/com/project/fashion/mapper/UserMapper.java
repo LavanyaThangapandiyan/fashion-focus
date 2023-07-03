@@ -17,10 +17,12 @@ public class UserMapper implements RowMapper<User>{
 		String email=rs.getString("email");
 		String password=rs.getString("password");
 		String mobile=rs.getString("phone_number");
+		String gender=rs.getString("gender");
 		register.setName(name);
 		register.setEmail(email);
 		register.setPassword(password);
 		register.setMobile(mobile);
+		register.setGender(gender);
 		return register;
 	}
 	

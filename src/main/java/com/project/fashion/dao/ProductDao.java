@@ -15,10 +15,12 @@ Validation valid=new Validation();
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	
+	//----Insert Product Details
+	
 	public int saveProductDetails(Product product)
 	{
 		String insert="insert into product(name,price,type,size,quantity,fabric,gender,image)values(?,?,?,?,?,?,?,?)";
-		
 		boolean name=valid.nameValidation(product.getName());
 		boolean size=valid.nameValidation(product.getSize());
 		boolean fabric=valid.nameValidation(product.getFabric());
@@ -28,7 +30,6 @@ Validation valid=new Validation();
 					product.getFabric(),product.getGender(),product.getImage()};
 			int numberOfRows=jdbcTemplate.update(insert,details);
 			System.out.println("Inserted Rows : " + numberOfRows);
-			
 			
 			String update ="update item set quantity=? where type=?"; 
 			Object[] detailsUpdate = { product.getQuantity(),product.getType() };

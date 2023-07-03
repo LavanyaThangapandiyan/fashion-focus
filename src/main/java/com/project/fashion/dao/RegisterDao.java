@@ -1,6 +1,7 @@
 package com.project.fashion.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,10 +14,11 @@ import com.project.fashion.validation.Validation;
 
 @Repository
 public class RegisterDao {
-	Validation valid=new Validation();
+	Validation valid = new Validation();
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
+	//----Inserting User Details
 	public int saveDetails(User user) {
 		List<User> userList = userList();
 		String getUser = userList.toString();
@@ -39,7 +41,8 @@ public class RegisterDao {
 			boolean password = valid.passwordValidation(user.getPassword());
 			boolean phone = valid.phoneNumberValidation(user.getMobile());
 			if (name == true && email1 == true && phone == true && password == true) {
-				Object[] details = { user.getName(), user.getEmail(), user.getPassword(), user.getMobile() ,user.getGender()};
+				Object[] details = { user.getName(), user.getEmail(), user.getPassword(), user.getMobile(),
+						user.getGender() };
 				int numberOfRows = jdbcTemplate.update(insert, details);
 				System.out.println("Inserted Rows : " + numberOfRows);
 				return 1;
@@ -48,32 +51,43 @@ public class RegisterDao {
 		}
 		return 0;
 	}
-
+	// --------FindUser-----------
 	public int findUserDetails(User user) {
 		List<User> userList = userList();
 		String getUser = userList.toString();
 		String userEmail = user.getEmail();
-		String userPassword=user.getPassword();
 		boolean contains = getUser.contains(userEmail);
-		boolean check=valid.adminEmailValidation(userEmail);
-		String find="select password from register where email=?";
-   	    User listUser=jdbcTemplate.queryForObject(find,new UserMapperSingle(),userEmail);
-   	    String password = listUser.getPassword();
-		if(check==true && password.equals(userPassword) )
-			return 2;
-		else if (contains == true && password.equals(userPassword) )
-			return 1;
-		else
-			return 0;
+		
+		boolean check = valid.adminEmailValidation(userEmail);
 
+		String find = "select password from register where email=?";
+		User listUser = jdbcTemplate.queryForObject(find, new UserMapperSingle(), userEmail);
+		String password = listUser.getPassword();
+
+		// Stream Using Get the User Details
+		List<User> users = userList.stream().filter(userOne -> userOne.getEmail().equals(user.getEmail()))
+				.collect(Collectors.toList());
+		
+		for (User userModel : users) 
+		{
+			if (userModel != null)
+			{
+			String getPassword = userModel.getPassword();
+				if (check==true&&password.equals(getPassword))
+					return 2;
+				else if ( contains==true &&password.equals(getPassword))
+					  return 1;
+		    }
+		}		
+		return 0;
 	}
+	
+	//---User List----
 
 	public List<User> userList() {
 		String userList = "select name,email,password,phone_number,gender from register";
 		List<User> listUser = jdbcTemplate.query(userList, new UserMapper());
-		System.out.println(listUser);
 		return listUser;
 	}
-
 
 }
