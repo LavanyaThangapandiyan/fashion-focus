@@ -30,16 +30,7 @@ name varchar(20)not null unique key,
 quantity int(10)not null,
 `is_available` boolean default true
 );
-insert into category values(id,'Saree',10,1);
-insert into category values(id,'Kurti',10,1);
-insert into category values(id,'Kurta Sets',10,1);
-insert into category values(id,'Material',10,1);
-insert into category values(id,'Other Ethnic',10,1);
-insert into category values(id,'Men Top Wear',10,1);
-insert into category values(id,'Men Bottom wear',10,1);
-insert into category values(id,'Men Ethnic Wear',10,1);
-insert into category values(id,'kids',20,1);
-update category set is_active=1 where id=9;
+
 
 /* Create table  ------wish-list */
 create table wish_list(id int(10)not null auto_increment primary key,
