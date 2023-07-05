@@ -26,16 +26,13 @@
 
  <table class="table table-bordered" style="background-color:#fsfsfs">
     <thead style="background-color: purple">
-            </thead>
+        </thead>
             <tbody>
               <tr th:each="product, itemStat : *{products}">
                   <tr th:each="product : ${products}">
                   <td>
-                    <div class="row">
-                      <div class="column">
                   <div class="card">
-                  <img src="img_avatar.png" alt="Avatar" style="width:100%">
-                  <div class="container">
+                  <div class="container"> 
                     <h3><span th:text="${product.name}"> Name</h3>
                     <p class="price">Rs.<span th:text="${product.price}"> Price </span></p>
                             <p><span th:text="${product.type}"> Type </span></p>
@@ -45,8 +42,6 @@
                             <p><button>Add to Cart</button></p>
                   </div>
                   </div></td><br>
-                </div></div>
-             
 </tr></tr></tbody>
 </table>
 <style>
