@@ -71,8 +71,5 @@ Validation valid=new Validation();
 		List<Product> productList=jdbcTemplate.query(find, new ProductMapperAll());
 		return productList;
 		
-	}
-	
-	
-	
+	}	
 }

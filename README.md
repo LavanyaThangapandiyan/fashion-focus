@@ -33,11 +33,11 @@
 	
 <h4> 1.New User Panel :</h4>
 
-- [ ] Registration/Login
+- [X] Registration/Login
 	
 <h4> 2.Admin Panel : </h4>
 
-- [ ] Admin Login
+- [X] Admin Login
 - [ ] Manage Users
 - [ ] CRUD Operations of Product 	
 - [ ] Manage Product categories
@@ -46,7 +46,7 @@
 
 <h4> 3.User Panel :</h4>
 
-- [ ] Log in with login Id
+- [X] Log in with login Id
 - [ ] Product list & categorization
 - [ ] Product Details	
 - [ ] Advanced Search and Filter
