@@ -427,17 +427,3 @@ END;
 $$
 DELIMITER ;
 SELECT * FROM category_aud;
-
-
-
-
-  
-  
-  
-  
-  
-  
- 
-
-
-
