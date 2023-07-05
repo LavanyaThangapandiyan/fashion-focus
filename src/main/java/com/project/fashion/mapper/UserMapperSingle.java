@@ -14,8 +14,10 @@ public class UserMapperSingle implements RowMapper<User> {
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
 		User user=new User();
+		String email=rs.getString("email");
 		String password=rs.getString("password");
 		user.setPassword(password);
+		user.setEmail(email);
 		return user;
 	}
 

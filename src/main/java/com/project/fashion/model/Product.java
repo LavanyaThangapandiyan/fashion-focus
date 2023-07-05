@@ -6,7 +6,6 @@ public class Product {
 	public Product() {
 		super();
 	}
-	private int id;
 	private String name;
 	private int price;
 	private String type;
@@ -15,12 +14,7 @@ public class Product {
 	private String fabric;
 	private String image;
 	private String gender;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getName() {
 		return name;
 	}
@@ -69,10 +63,9 @@ public class Product {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Product(int id, String name, int price, String type, String size, int quantity, String fabric, String image,
+	public Product(String name, int price, String type, String size, int quantity, String fabric, String image,
 			String gender) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.type = type;
@@ -84,7 +77,7 @@ public class Product {
 	}
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", type=" + type + ", size=" + size
+		return "Product [ name=" + name + ", price=" + price + ", type=" + type + ", size=" + size
 				+ ", quantity=" + quantity + ", fabric=" + fabric + ", image=" + image + ", gender=" + gender + "]";
 	}
 	

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
-
 import com.project.fashion.mapper.UserMapper;
 import com.project.fashion.mapper.UserMapperSingle;
 import com.project.fashion.model.User;
@@ -22,7 +22,8 @@ public class RegisterDao {
 
 	//----Inserting User Details
 	public int saveDetails(User user) 
-	{
+	{	
+		
 		List<User> userList = userList();
 		String getUser = userList.toString();
 		String userEmail = user.getEmail();
@@ -37,14 +38,19 @@ public class RegisterDao {
 			return 3;
 		}
 
-		else {
-			String insert = "insert into register(name,email,password,phone_number,gender)values(?,?,?,?,?)";
+		else 
+		 {
+			String password = user.getPassword();
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			String encodedPassword = encoder.encode(password);
+
+			String insert = "insert into register(username,email,password,phone_number,gender)values(?,?,?,?,?)";
 			boolean name = valid.nameValidation(user.getName());
 			boolean email1 = valid.emailValidation(user.getEmail());
-			boolean password = valid.passwordValidation(user.getPassword());
+			boolean password1 = valid.passwordValidation(user.getPassword());
 			boolean phone = valid.phoneNumberValidation(user.getMobile());
-			if (name == true && email1 == true && phone == true && password == true) {
-				Object[] details = { user.getName(), user.getEmail(), user.getPassword(), user.getMobile(),
+			if (name == true && email1 == true && phone == true && password1 == true) {
+				Object[] details = { user.getName(), user.getEmail(), encodedPassword, user.getMobile(),
 						user.getGender() };
 				int numberOfRows = jdbcTemplate.update(insert, details);
 				System.out.println("Inserted Rows : " + numberOfRows);
@@ -55,27 +61,36 @@ public class RegisterDao {
 		return 0;
 	}
 	// --------FindUser-----------
-	public int findUserDetails(User user) {
-		List<User> userList = userList();
-		String getUser = userList.toString();
+	public int findUserDetails(User user)
+	{
+		
+		
+		//List<User> userList = userList();
+		//String getUser = userList.toString();
 		String userEmail = user.getEmail();
-		 boolean contains = getUser.contains(userEmail);
-		 String check = valid.adminEmailValidation(userEmail);
-        
-		String find = "select password from register where email=?";
-		User listUser = jdbcTemplate.queryForObject(find, new UserMapperSingle(), userEmail);
-		String password = listUser.getPassword();
+		String password = user.getPassword();
+		//boolean contains = getUser.contains(userEmail);
+		String check = valid.adminEmailValidation(userEmail);
+		
+		 
+		String find = "select password,email from register";
+		List<User> listUser = jdbcTemplate.query(find, new UserMapperSingle());
+		
 		// Stream Using Get the User Details
-		List<User> users = userList.stream().filter(userOne -> userOne.getEmail().equals(user.getEmail()))
-				.filter(Password -> Password.getPassword().equals(password))
+		
+		List<User> users = listUser.stream().filter(userOne -> userOne.getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
 		for (User userModel : users) 
 		{
-			if (userModel!= null&&check=="true")
+			String dbpass = userModel.getPassword();
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			boolean match = encoder.matches(password, dbpass);
+			
+			if (userModel!= null&&check=="true"&& match)
 			{
 					return 2;
 		    }
-			else 
+			else if(match)
 				return 1;			
 		}
 		return 0;	
@@ -84,9 +99,34 @@ public class RegisterDao {
 	//---User List----
 
 	public List<User> userList() {
-		String userList = "select name,email,password,phone_number,gender from register";
+		String userList = "select username,email,password,phone_number,gender from register";
 		List<User> listUser = jdbcTemplate.query(userList, new UserMapper());
 		return listUser;
 	}
+	
+	
+	//----Delete User Details
+	public int deleteUserDetails(User user)
+	{
+		String delete="update register set is_active=0 where email=?";
+		Object[] details= {user.getEmail()};
+		int numberOfRows=jdbcTemplate.update(delete,details);
+		System.out.println("Deleted Rows :" +numberOfRows);
+		return 1;	
+	}
+	
+	
+	//--Update user Password
+	public int updateUserPassword(User user)
+	{
+		String password = user.getPassword();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPassword = encoder.encode(password);
 
+		String updatePassword="update register set password=? where email=?";
+		Object[] details= {encodedPassword,user.getEmail()};
+		int numberOfRows=jdbcTemplate.update(updatePassword,details);
+		System.out.println("Update Password : "+numberOfRows);
+		return 1;
+	}
 }

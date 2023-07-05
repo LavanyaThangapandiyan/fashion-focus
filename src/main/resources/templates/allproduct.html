@@ -1,0 +1,138 @@
+<html xmlns:th="https://thymeleaf.org"> 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="css/tab.css"> 
+	 
+<head>
+<meta charset="ISO-8859-1">
+<title>Product List</title>
+</head>
+<body>
+<header>
+<div class="tab">
+    <nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: #740074">
+			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
+			<a th:href="@{/}" class="navbar-brand">Log Out</a>	
+            </nav>
+</div>		
+</header>
+<form id="form" action="#" th:action="@{/allproduct-submit}" th:object="${Product}" method="Get">
+  <button>Products</button>
+</form>
+<table class="table table-bordered" style="background-color: #fsfsfs">
+<thead style="background-color: purple">
+        <tr>
+            <th  style="color:white; font-size:14pt;"> Name </th>
+            <th  style="color:white; font-size:14pt;"> Price </th>
+            <th  style="color:white; font-size:14pt;"> Type </th>
+            <th style="color:white; font-size:14pt;"> Size </th>
+            <th style="color:white; font-size:14pt;"> Quantity </th>
+            <th style="color:white; font-size:14pt;"> Fabric </th>
+            <th style="color:white; font-size:14pt;"> Gender </th>
+            <th style="color:white; font-size:14pt;"> Image </th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product, itemStat : *{products}">
+        <tr th:each="product : ${products}">
+               <td><span th:text="${product.name}"> Name </span></td>
+               <td><span th:text="${product.price}"> Price </span></td>
+               <td><span th:text="${product.type}"> Type </span></td>
+               <td><span th:text="${product.size}"> Size </span></td>
+               <td><span th:text="${product.quantity}">Quantity </span></td>
+               <td><span th:text="${product.fabric}"> Fabric </span></td>
+               <td><span th:text="${product.gender}"> Gender </span></td>
+               <td><span th:text="${product.image}"> Image </span></td>
+        </tr>
+    </tbody>
+</table>
+<style>
+.quantity {
+  text-align: center;
+  width: 250px;
+  margin: 10px;
+  align: center;
+ 
+}
+
+.value-button {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 11px 0;
+  background: #eee;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.value-button:hover {
+  cursor: pointer;
+  background-color: #94149f;
+}
+
+form #decrease {
+  margin-right: -4px;
+  border-radius: 8px 0 0 8px;
+}
+
+form #increase {
+  margin-left: -4px;
+  border-radius: 0 8px 8px 0;
+}
+
+form #input-wrap {
+  margin: -4px;
+  padding: 0px;
+}
+
+input#number {
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: -4px;
+  width: 100px;
+  height: 40px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+th,td 
+{
+    text-align: center; 
+    vertical-align: middle;
+}
+</style>
+<script>
+ function increaseValue() {
+  var value = parseInt(document.getElementById('number').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  document.getElementById('number').value = value;
+}
+
+function decreaseValue() {
+  var value = parseInt(document.getElementById('number').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value < 1 ? value = 1 : '';
+  value--;
+  document.getElementById('number').value = value;
+}
+</script>
+</body>
+</html>

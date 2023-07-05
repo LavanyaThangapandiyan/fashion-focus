@@ -13,7 +13,7 @@ public class UserMapper implements RowMapper<User>{
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
 		User register=new User();
-		String name=rs.getString("name");
+		String name=rs.getString("username");
 		String email=rs.getString("email");
 		String password=rs.getString("password");
 		String mobile=rs.getString("phone_number");

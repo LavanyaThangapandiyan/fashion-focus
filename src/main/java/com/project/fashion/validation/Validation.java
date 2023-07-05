@@ -15,15 +15,15 @@ public class Validation {
 		else
 		return false;
 	}
-	public boolean adminEmailValidation(String email)
+	public String adminEmailValidation(String email)
 	{
 		Pattern p=Pattern.compile("^(.+)@(fashion)(.+)$");
 		Matcher m=p.matcher(email);
 		boolean mail=m.matches();
 		if(mail)
-			return true;
+			return "true";
 			else
-				return false;
+				return "false";
 		
 	}
 	

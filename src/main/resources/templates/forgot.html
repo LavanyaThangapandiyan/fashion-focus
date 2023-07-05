@@ -6,16 +6,13 @@
 	href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
 	rel="stylesheet" type="text/css" />
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" >
-<link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
-    <title>Register</title>
+    <title>Forgot Password</title>
 </head>
 <body>
 <header>
@@ -25,17 +22,11 @@
 			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
 			<a th:href="@{/}" class="navbar-brand">Home</a>
 			</div>
-		</nav>
-	</header>
+	     </nav>
+</header>
     <div class="container">
-        <form id="form" action="register" th:action="@{/register-submit}" th:object="${user}" method="GET">
-            <h1>Welcome</h1>
-			<p>Please set up your account</p>
-            <div class="input-group">
-                <label for="username"><b>Username</b></label>
-                <input type="text" id="username" pattern="^[a-zA-Z]+$" placeholder="Enter Name" name="username">
-                <div class="error"></div>
-            </div>
+        <form id="form" action="#" th:action="@{/forgot-submit}" th:object="${user}" method="GET">
+			<p><b>Reset your Password</b></p>
             <div class="input-group">
                 <label for="email"><b>Email</b></label>
                 <input type="text" id="email" placeholder="Enter Email" name="email" >
@@ -43,29 +34,18 @@
             </div>
             <div class="input-group">
                 <label for="password"><b>Password</b></label>
-                <input type="password" id="password" placeholder="Enter Password" name="password">
+                <input type="password" id="password" placeholder="Enter New Password" name="password">
                 <div class="error"></div>
             </div>
             <div class="input-group">
                 <label for="cpassword"><b>Confirm Password</b></label>
-                <input type="password" id="cpassword" placeholder="Re Enter Password"  name="cpassword">
+                <input type="password" id="cpassword" placeholder="Re Enter Password">
                 <div class="error"></div>
-            </div>
-            <div class="input-group">
-                <label for="mobile"><b>Mobile Number</b></label>
-                <input type="tel"  pattern="^(0|91)?[6-9][0-9]{9}$" id="cpassword" placeholder="Enter Mobile Number" name="mobile" required>
-                <div class="error"></div>
-               
-            </div>
-            <div ><span></span>
-                <label for=><b>Gender</b></label><br>
-                <input type="radio" value="male" id="male" name="gender" required>       Male <br>
-                <input type="radio" value="female" id="male" name="gender" required>       Female
-            </div>
-            <button type="submit" onclick = "clearText()">Register</button>
+            </div>   
+            <button type="submit">Reset</button>
             <br>
             <button type="submit">
-				<a th:href="@{/register}">Cancel</a>
+				<a th:href="@{/forgot}">Cancel</a>
 			</button>
         </form>
     </div>
@@ -73,44 +53,29 @@
  let output = document.getElementById('output'); 
  function clearText(event) 
  {
-     // access input field
-     let cusername=document.getElementById('#username');
-     let cemail=document.getElementById('#email');
-     let cmobile=document.getElementById('#mobile');
-  // clear the input field.
-     cusername.value="";
+     // access input field 
+     let cemail=document.getElementById('#email'); 
+  // clear the input fields
      cemail.value="";
-     cmobile.value="";
      output.innerHTML += "Form submitted successfully! <br>";
  }
 
 const form = document.querySelector('#form')
-const username = document.querySelector('#username');
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
 const cpassword = document.querySelector('#cpassword');
 
-form.addEventListener('submit',(e)=>{
-    
+form.addEventListener('submit',(e)=>{  
     if(!validateInputs()){
         e.preventDefault();
     }
 })
 
 function validateInputs(){
-    const usernameVal = username.value.trim()
     const emailVal = email.value.trim();
     const passwordVal = password.value.trim();
     const cpasswordVal = cpassword.value.trim();
     let success = true
-
-    if(usernameVal===''){
-        success=false;
-        setError(username,'Username is required')
-    }
-    else{
-        setSuccess(username)
-    }
 
     if(emailVal===''){
         success = false;
@@ -148,13 +113,6 @@ function validateInputs(){
     else{
         setSuccess(cpassword)
     }
-    if(usernameVal===''){
-        success=false;
-        setError(username,'Username is required')
-    }
-    else{
-        setSuccess(username)
-    }
     return success;
 
 }
@@ -176,9 +134,6 @@ function setSuccess(element){
     inputGroup.classList.add('success')
     inputGroup.classList.remove('error')
 }
-
-
-
 const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -196,7 +151,7 @@ const validateEmail = (email) => {
 }
 
 #form{
-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+ box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
   padding: 20px;
     width:550px;
     margin:20vh auto 0 auto;
