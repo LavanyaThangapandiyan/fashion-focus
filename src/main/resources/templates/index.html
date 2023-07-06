@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html xmlns:th="https://thymeleaf.org"> 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
 <head>
+
 <meta charset="ISO-8859-1">
 <title>Home</title>
 </head>
@@ -19,22 +20,26 @@
           <div class="">
           <a th:href="@{/login}" class="navbar-brand"><i class="fa fa-fw fa-user"></i> Login</a>
         </div>
-           <form class="search-bar">
-    <input type="search" name="search" pattern=".*\S.*" required>
-    <button class="search-btn" type="submit">
-      <span>Search</span>
-    </button>
-  </form>
-
-        </nav></div>
+        </nav>
+        </div>
+        
     <div class="tab">
         <button class="tablinks" onclick="openCity(event, 'ethnic')">Women Ethnic</button>
         <button class="tablinks" onclick="openCity(event, 'western')">Women Western</button>
         <button class="tablinks" onclick="openCity(event, 'men')">Men</button>
         <button class="tablinks" onclick="openCity(event, 'kids')">Kids</button>
     </div>
-    </div></div></header>
+    <form id="formsearch" action="#" class="search-bar">
+        <input type="search" name="search" pattern=".*\S.*" required>
+        <button class="search-btn" type="submit">
+        <span>Search</span>
+        </button>
+     </form>
+    </div>
+    </div>
+    </header>
       <!-- Tab content -->
+      
       <div id="ethnic" class="tabcontent">
         <h4 style="color:purple;">All Women Ethnic</h4>
         <table >
@@ -184,7 +189,21 @@
     Shopping.
   </h4></div>
 	</div>
- <style>
+<style> 
+  input {
+	color: #171717;
+}
+  button, input {
+	font: 1em Hind, sans-serif;
+	line-height: 1.5em;
+}
+.search-bar {
+	display: flex;
+}
+
+  #formsearch{
+    float: right;
+  }
  * {
 	border: 0;
 	box-sizing: border-box;
@@ -209,7 +228,7 @@
 .search-bar,
 .search-bar input:focus,
 .search-bar input:valid  {
-	width: 100%;
+	width: 80%;
 }
 .search-bar input:focus,
 .search-bar input:not(:focus) + .search-btn:focus {
@@ -285,7 +304,7 @@
 /* Active state */
 .search-bar input:focus + .search-btn,
 .search-bar input:valid + .search-btn {
-	background: #2762f3;
+	background:#740074;
 	border-radius: 0 0.375em 0.375em 0;
 	transform: scale(1);
 }
@@ -298,7 +317,7 @@
 .search-bar input:focus + .search-btn:hover,
 .search-bar input:valid + .search-btn:hover,
 .search-bar input:valid:not(:focus) + .search-btn:focus {
-	background: #0c48db;
+	background:#740074;
 }
 .search-bar input:focus + .search-btn:active,
 .search-bar input:valid + .search-btn:active {
@@ -324,12 +343,45 @@
 		background: #f1f1f1;
 	}
 }
+@media screen and (prefers-color-scheme: dark) {
+	body, input {
+		color: #f1f1f1;
+	}
+	body {
+		background: #171717;
+	}
+	.search-bar input {
+		box-shadow: 0 0 0 0.4em #f1f1f1 inset;
+	}
+	.search-bar input:focus,
+	.search-bar input:valid {
+		background: #3d3d3d;
+		box-shadow: 0 0 0 0.1em #3d3d3d inset;
+	}
+	.search-btn {
+		background: #f1f1f1;
+	}
+}
 
- 
- 
- 
- 
- 
+@media screen and (prefers-color-scheme: dark) {
+	body, input {
+		color: #f1f1f1;
+	}
+	body {
+		background: #171717;
+	}
+	.search-bar input {
+		box-shadow: 0 0 0 0.4em #f1f1f1 inset;
+	}
+	.search-bar input:focus,
+	.search-bar input:valid {
+		background: #3d3d3d;
+		box-shadow: 0 0 0 0.1em #3d3d3d inset;
+	}
+	.search-btn {
+		background: #f1f1f1;
+	}
+}
       .right{
         float: right;
       }

@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.project.fashion.dao.RegisterDao;
+import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.model.User;
 import com.project.fashion.validation.Validation;
 
 @Controller
-public class RegisterController {
+public class UserController {
 	Validation valid = new Validation();
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	RegisterDao registerdao;
+	UserDao userdao;
 
 	User user = new User();
 
@@ -53,7 +53,7 @@ public class RegisterController {
 		System.out.println("Start Forgot Password");
 		user.setEmail(email);
 		user.setPassword(password);
-		int number = registerdao.updateUserPassword(user);
+		int number = userdao.updateUserPassword(user);
 		if (number == 1)
 			return "login";
 		else
@@ -68,7 +68,7 @@ public class RegisterController {
 			@ModelAttribute User user, Model model, HttpSession session) {
 		user.setEmail(email);
 		user.setPassword(password);
-		int number = registerdao.findUserDetails(user);
+		int number = userdao.findUserDetails(user);
 		if (number == 2)
 			return "list";
 		else if (number == 1)
@@ -94,7 +94,7 @@ public class RegisterController {
 		user.setPassword(password);
 		user.setMobile(mobile);
 		user.setGender(gender);
-		int number = registerdao.saveDetails(user);
+		int number = userdao.saveDetails(user);
 		if (number == 1)
 			return "login";
 		else if (number == 2)
@@ -107,7 +107,7 @@ public class RegisterController {
 
 	@GetMapping("userlist")
 	public String getAllUser(Model model) {
-		List<User> users = registerdao.userList();
+		List<User> users = userdao.userList();
 		model.addAttribute("userlist", users);
 		return "list.jsp";
 	}

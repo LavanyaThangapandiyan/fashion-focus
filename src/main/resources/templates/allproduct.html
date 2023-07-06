@@ -33,6 +33,7 @@
             <th style="color:white; font-size:14pt;"> Fabric </th>
             <th style="color:white; font-size:14pt;"> Gender </th>
             <th style="color:white; font-size:14pt;"> Image </th>
+            <th style="color:white; font-size:14pt;"> Actions </th>
         </tr>
     </thead>
     <tbody>
@@ -46,8 +47,15 @@
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                <td><span th:text="${product.gender}"> Gender </span></td>
                <td><span th:text="${product.image}"> Image </span></td>
+               <td> <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+                        <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
+                    </td>
         </tr>
     </tbody>
+    
+    
+    
+    
 </table>
 <style>
 .quantity {

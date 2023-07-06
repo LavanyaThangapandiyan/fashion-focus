@@ -6,12 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.fashion.dao.ProductDao;
+import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
-
-
 
 @Controller
 public class ProductController {
@@ -87,8 +89,65 @@ public class ProductController {
 			return "list";
 		else
 		return "product";
+	}
+	
+	
+	//--Display List of Category
+	@GetMapping("/category")
+	public String viewCategoryPage(Model model)
+	{
+		model.addAttribute("listCategory",productDao.categoryList());
+		model.addAttribute("unActiveList",productDao.unActiveCategoryList());
+		return "category";
+	}
+	
+	@GetMapping("/showNewCategoryForm")
+	public String showNewCategoryForm(Model model)
+	{
+		// create model attribute to bind form data
+		Category category=new Category();
+		model.addAttribute("category",category);
+		return "/new_category";
+	}
+	
+	@PostMapping("/saveCategory")
+	public String saveCategory(@ModelAttribute("category") Category category)
+	{
+		//save category to database
+		productDao.saveCategoryDetails(category);
+		return "redirect:category";
+	}
+	@GetMapping("/showFormForUpdate/{id}")
+	public String showFormForUpdate(@PathVariable(value="id")int id,Model model)
+	{
+		Category category=productDao.findCategoryById(id);
+		model.addAttribute("category",category);
+		return "update";	
+	}
+	@GetMapping(path="/update-submit")
+	public String updateProductName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
+	{
+		Category category=new Category();
+		category.setId(id);
+		category.setCategoryName(name);
+		productDao.updateCategoryName(id, name);
+		return "redirect:/category";	
+	}
+	
+	@GetMapping("/deleteCategory/{id}")
+	public String deleteCategory(@PathVariable(value="id")int id)
+	{
+		 // call delete Category method 
+		this.productDao.deleteCategoryDetails(id);
+		return "redirect:/category";
 		
 	}
 	
-
+	@GetMapping("/activeCategory{id}")
+	public String activeCategory(@PathVariable(value="id")int id)
+	{
+		this.productDao.activeCategoryDetails(id);
+		return "redirect:/category";
+		
+	}
 }

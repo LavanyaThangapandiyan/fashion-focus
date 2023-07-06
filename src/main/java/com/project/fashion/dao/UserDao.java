@@ -3,7 +3,6 @@ package com.project.fashion.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +14,7 @@ import com.project.fashion.model.User;
 import com.project.fashion.validation.Validation;
 
 @Repository
-public class RegisterDao {
+public class UserDao {
 	Validation valid = new Validation();
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -63,21 +62,11 @@ public class RegisterDao {
 	// --------FindUser-----------
 	public int findUserDetails(User user)
 	{
-		
-		
-		//List<User> userList = userList();
-		//String getUser = userList.toString();
 		String userEmail = user.getEmail();
 		String password = user.getPassword();
-		//boolean contains = getUser.contains(userEmail);
 		String check = valid.adminEmailValidation(userEmail);
-		
-		 
 		String find = "select password,email from register";
 		List<User> listUser = jdbcTemplate.query(find, new UserMapperSingle());
-		
-		// Stream Using Get the User Details
-		
 		List<User> users = listUser.stream().filter(userOne -> userOne.getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
 		for (User userModel : users) 
