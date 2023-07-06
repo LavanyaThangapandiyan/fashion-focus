@@ -93,7 +93,7 @@ Validation valid=new Validation();
 		List<Category> listCategory=jdbcTemplate.query(categoryList, new CategoryMapper());
 		return listCategory;
 	}
-	//---- Active Category List---------
+	//----Un Active Category List---------
 		public List<Category> unActiveCategoryList()
 		{
 			String categoryList ="select id,category_name,is_available from category where is_available='Not Available'";
