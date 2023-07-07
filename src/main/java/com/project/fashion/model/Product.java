@@ -14,7 +14,14 @@ public class Product {
 	private String fabric;
 	private String image;
 	private String gender;
+	private String available;
 	
+	public String getAvailable() {
+		return available;
+	}
+	public void setAvailable(String available) {
+		this.available = available;
+	}
 	public String getName() {
 		return name;
 	}
@@ -63,8 +70,9 @@ public class Product {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
 	public Product(String name, int price, String type, String size, int quantity, String fabric, String image,
-			String gender) {
+			String gender, String available) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -74,11 +82,13 @@ public class Product {
 		this.fabric = fabric;
 		this.image = image;
 		this.gender = gender;
+		this.available = available;
 	}
 	@Override
 	public String toString() {
-		return "Product [ name=" + name + ", price=" + price + ", type=" + type + ", size=" + size
-				+ ", quantity=" + quantity + ", fabric=" + fabric + ", image=" + image + ", gender=" + gender + "]";
+		return "Product [name=" + name + ", price=" + price + ", type=" + type + ", size=" + size + ", quantity="
+				+ quantity + ", fabric=" + fabric + ", image=" + image + ", gender=" + gender + ", available="
+				+ available + "]";
 	}
 	
 	

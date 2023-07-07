@@ -83,18 +83,10 @@ function decreaseValue() {
 			<input type="text" id="name" pattern="^[a-zA-Z]+$" placeholder="Enter Product Name" name="name" required>
 		</div>
     <label for="cars">Choose a type:</label>
-        <select name="type" id="op">
-          <option name="Saree">Sarees</option>
-          <option name="Kurti">Kurtis</option>
-          <option name="Kurta sets" >Kurta sets</option>
-          <option name="Material" >Suits & Dress Material</option>
-          <option name="Other Ethnic" >Other Ethnic</option>
-          <option name="Men Top Wear" > Men Top Wear</option>
-          <option name="Men Bottom wear" > Men Bottom Wear</option>
-          <option name="Men Ethnic Wear" > Men Ethnic Wear</option>
-          <option name="kids" > Kids Dresses</option>
-
-        </select>
+    <select th:field="*{nameList }">
+    <option value="0">select option</option>
+    <option th:each="option : ${nameList}"  th:value="${nameList}" th:text="${nameList}"></option>
+     </select>
         </div>
 	 <div class="input-group">
 			<label for="email"><b>Price</b></label>

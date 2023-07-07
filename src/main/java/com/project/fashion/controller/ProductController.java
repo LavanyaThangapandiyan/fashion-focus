@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.project.fashion.dao.ProductDao;
+import com.project.fashion.dao.AdminDao;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 
@@ -21,13 +21,15 @@ public class ProductController {
 	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	ProductDao productDao;
+	AdminDao productDao;
 	
 	Product product=new Product();
+	Category category=new Category();
 	
 	@GetMapping(path="/product")
-	public String getRegisterForm()
+	public String getRegisterForm(Model model)
 	{
+	    model.addAttribute("nameList",productDao.getCategoryName());
 		return "product";
 		
 	}
@@ -43,26 +45,6 @@ public class ProductController {
 		return "sales";
 		
 	}
-	
-	@GetMapping("productlist-submit")
-	public String showAll(Model model) {
-	    model.addAttribute("products", productDao.productList());
-	    return "productlist";
-	}
-	
-	@GetMapping("allproduct-submit")
-	public String showAllProduct(Model model) {
-	    model.addAttribute("products", productDao.allProductList());
-	    return "allproduct";
-	}
-	
-	@GetMapping(path="/allproduct")
-	public String getProduct()
-	{
-		return "allproduct";
-		
-	}
-		
 	@GetMapping(path="/item")
 	public String showProduct()
 	{
@@ -70,7 +52,7 @@ public class ProductController {
 		
 	}	
 	@GetMapping(path="/product-submit")
-	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
+	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("nameList")String type,
 			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
 			,@RequestParam("file")String file)
 	{
@@ -101,11 +83,24 @@ public class ProductController {
 		return "category";
 	}
 	
+	@GetMapping("/allproduct")
+	public String viewProductPage(Model model)
+	{
+		model.addAttribute("products",productDao.allProductList());
+		return "allproduct";
+	}
+	
+	@GetMapping("/showNewProductForm")
+	public String showNewProductForm(Model model)
+	{
+		model.addAttribute("product",product);
+		return "new_product";
+	}
+
 	@GetMapping("/showNewCategoryForm")
 	public String showNewCategoryForm(Model model)
 	{
 		// create model attribute to bind form data
-		Category category=new Category();
 		model.addAttribute("category",category);
 		return "/new_category";
 	}
@@ -127,7 +122,6 @@ public class ProductController {
 	@GetMapping(path="/update-submit")
 	public String updateProductName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
 	{
-		Category category=new Category();
 		category.setId(id);
 		category.setCategoryName(name);
 		productDao.updateCategoryName(id, name);
@@ -143,11 +137,12 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping("/activeCategory{id}")
+	@GetMapping("/activeCategory/{id}")
 	public String activeCategory(@PathVariable(value="id")int id)
 	{
 		this.productDao.activeCategoryDetails(id);
-		return "redirect:/category";
-		
+		return "redirect:/category";	
 	}
+	
+	
 }

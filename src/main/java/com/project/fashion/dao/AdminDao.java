@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.project.fashion.mapper.CategoryMapper;
 import com.project.fashion.mapper.CategoryMapperSingle;
+import com.project.fashion.mapper.CategoryNameMapper;
 import com.project.fashion.mapper.ProductMapper;
 import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.model.Category;
@@ -13,22 +14,23 @@ import com.project.fashion.model.Product;
 import com.project.fashion.validation.Validation;
 
 @Repository
-public class ProductDao {
+public class AdminDao {
 Validation valid=new Validation();
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	//----Insert Product Details
+	Product product=new Product();
 	
+	//----Insert Product Details
 	public int saveProductDetails(Product product)
 	{
-		String insert="insert into product(name,price,category,size,quantity,fabric,gender,image)values(?,?,?,?,?,?,?,?)";
+		String insert="insert into product(name,price,category,size,quantity,fabric,gender,image,is_available)values(?,?,?,?,?,?,?,?,?)";
 		boolean name=valid.nameValidation(product.getName());
 		boolean size=valid.nameValidation(product.getSize());
 		boolean fabric=valid.nameValidation(product.getFabric());
 		if(name==true&&size==true&&fabric==true)
 		{
 			Object[] details= {product.getName(),product.getPrice(),product.getType(),product.getSize(),product.getQuantity(),
-					product.getFabric(),product.getGender(),product.getImage()};
+					product.getFabric(),product.getGender(),product.getImage(),"Available"};
 			int numberOfRows=jdbcTemplate.update(insert,details);
 			System.out.println("Inserted Rows : " + numberOfRows);
 			return 1;
@@ -93,14 +95,19 @@ Validation valid=new Validation();
 		List<Category> listCategory=jdbcTemplate.query(categoryList, new CategoryMapper());
 		return listCategory;
 	}
-	//---- Active Category List---------
+	//---- Un Active Category List---------
 		public List<Category> unActiveCategoryList()
 		{
 			String categoryList ="select id,category_name,is_available from category where is_available='Not Available'";
 			List<Category> listCategory=jdbcTemplate.query(categoryList, new CategoryMapper());
 			return listCategory;
 		}
-	
+		public List<Category> getCategoryName()
+		{
+			String getCategoryName="select category_name from category where is_available='Available'";
+			List<Category> getCategoryNameList=jdbcTemplate.query(getCategoryName, new CategoryNameMapper());
+			return getCategoryNameList;	
+		}
 	//--Category Updated---
 	public void updateCategoryName(int id,String name)
 	{
@@ -117,7 +124,6 @@ Validation valid=new Validation();
 		Category listCategory=jdbcTemplate.queryForObject(find, new CategoryMapperSingle(),id);
 		return listCategory;	
 	}
-	
 	//--Delete category Details---
 	public int deleteCategoryDetails(int id)
 	{
@@ -127,13 +133,23 @@ Validation valid=new Validation();
 		System.out.println("Deleted Rows :"+deleteRows);
 		return 1;	
 	}	
-	//---Active Category ---
+	//---Update Un Active to Active Category ---
 	public int activeCategoryDetails(int id)
 	{
 		String active="update category set is_available=? where id=?";
 		Object[] details= {"Available",id};
 		int activeRows=jdbcTemplate.update(active,details);
 		System.out.println("Activated Product : "+activeRows);
+		return 1;
+	}
+	
+	//Active and Un Active Product
+	public int activeAndUnActiveProduct(int id)
+	{
+		String changeStatus="update product set is_available=? where id=?";
+		Object[] details= {product.getAvailable(),id};
+		int rows=jdbcTemplate.update(changeStatus,details);
+		System.out.println("status updated : "+rows);
 		return 1;
 	}
 }

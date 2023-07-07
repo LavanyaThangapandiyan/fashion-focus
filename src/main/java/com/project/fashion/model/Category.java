@@ -32,9 +32,16 @@ public class Category {
 		this.categoryName = categoryName;
 		this.availability = availability;
 	}
+	
+	
+	
+	public Category(String categoryName) {
+		super();
+		this.categoryName = categoryName;
+	}
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", categoryName=" + categoryName + ", availability=" + availability + "]";
+		return categoryName;
 	}
 
 	
