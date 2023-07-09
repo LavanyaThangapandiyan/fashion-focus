@@ -19,7 +19,8 @@
             </nav>
 </div>		
 </header>
- <a th:href="@{/showNewProductForm}" class="btn btn-primary btn-sm mb-3"> Add Category </a>
+ <a th:href="@{/product}" class="btn btn-primary btn-sm mb-3"> Add Product </a>
+ 
 <table class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
         <tr>
@@ -28,11 +29,12 @@
             <th  style="color:white; font-size:14pt;"> Type </th>
             <th style="color:white; font-size:14pt;"> Size </th>
             <th style="color:white; font-size:14pt;"> Quantity </th>
-            <th style="color:white; font-size:14pt;"> Fabric </th>
+            <th style="color:white; font-size:14pt;"> Fabric </th
+             <th style="color:white; font-size:14pt;"> Gender </th>
             <th style="color:white; font-size:14pt;"> Actions </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody> 
     <tr th:each="product, itemStat : *{products}">
         <tr th:each="product : ${products}">
                <td><span th:text="${product.name}"> Name </span></td>
@@ -41,8 +43,9 @@
                <td><span th:text="${product.size}"> Size </span></td>
                <td><span th:text="${product.quantity}">Quantity </span></td>
                <td><span th:text="${product.fabric}"> Fabric </span></td>
-               <td> <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-                        <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
+                <td><span th:text="${product.gender}"> Gender </span></td>
+               <td> <a th:href="@{/updateProduct/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+               <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
                     </td>
         </tr>
     </tbody>   

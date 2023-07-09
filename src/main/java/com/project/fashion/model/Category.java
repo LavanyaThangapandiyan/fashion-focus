@@ -1,7 +1,6 @@
 package com.project.fashion.model;
 
 public class Category {
-	
 	private int id;
 	private String categoryName;
 	private String availability;

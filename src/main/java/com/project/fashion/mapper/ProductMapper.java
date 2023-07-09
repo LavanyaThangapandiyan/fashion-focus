@@ -14,6 +14,7 @@ public class ProductMapper implements RowMapper<Product> {
 	public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
 		Product product=new Product();
+		int id=rs.getInt("id");
 		String name=rs.getString("name");
 		int price=rs.getInt("price");
 		String type=rs.getString("category");
@@ -21,6 +22,7 @@ public class ProductMapper implements RowMapper<Product> {
 		String fabric=rs.getString("fabric");
 		String gender=rs.getString("gender");
 		String image=rs.getString("image");
+		product.setId(id);
 		product.setName(name);
 		product.setPrice(price);
 		product.setType(type);

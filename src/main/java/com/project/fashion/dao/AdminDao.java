@@ -9,6 +9,7 @@ import com.project.fashion.mapper.CategoryMapperSingle;
 import com.project.fashion.mapper.CategoryNameMapper;
 import com.project.fashion.mapper.ProductMapper;
 import com.project.fashion.mapper.ProductMapperAll;
+import com.project.fashion.mapper.SingleProductMapper;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 import com.project.fashion.validation.Validation;
@@ -41,29 +42,48 @@ Validation valid=new Validation();
 	}
 	
     //----Update Product Details-----
-	public int updateProductDetails(Product product)
+	public void updateProductDetails(int id,String name,int price,String size,int quantity,String fabric,String gender)
 	{	
-		String update="update product set name=?,price=?,category=?,size=?,quantity=?,fabric=?,gender=? where id=?";
-		Object[] details= {product.getName(),product.getPrice(),product.getType(),product.getSize(),product.getQuantity(),product.getFabric(),product.getGender()};
+		String update="update product set name=?,price=?,size=?,quantity=?,fabric=?,gender=? where id=?";
+		Object[] details= {name,price,size,quantity,fabric,gender,id};
 		int numberOfRows=jdbcTemplate.update(update,details);
 		System.out.println("Updated rows : " + numberOfRows);
-		return 1;	
 	}
 	
 	//-----product List ----
 	public List<Product> productList()
 	{
-		String find="select name,price,category,size,fabric,gender,image from product";
+		String find="select id,name,price,category,size,fabric,gender,image from product";
 		List<Product> productList=jdbcTemplate.query(find, new ProductMapper());
 		return productList;
 	}
 	//Get Product List
 	public List<Product> allProductList()
 	{
-		String find="select name,price,category,size,quantity,fabric,gender,image from product";
+		String find="select id,name,price,category,size,quantity,fabric,gender,image from product";
 		List<Product> productList=jdbcTemplate.query(find, new ProductMapperAll());
 		return productList;
 	}
+	
+	//--Get Product Details Using Product ID---
+	public Product getProductById(int productId)
+	{
+		String find="select id,name,price,category,size,quantity,fabric,gender from product where id=?";
+		Product getDetails=jdbcTemplate.queryForObject(find, new SingleProductMapper(),productId);
+		return getDetails;
+	}
+	
+	//--Delete Product---
+	public int deleteProduct(int id)
+	{
+		String delete="update product set is_available=? where id=?";
+		Object[] details= {"Not Available",id};
+		int update = jdbcTemplate.update(delete,details);
+		System.out.println("Delete Product : "+update);
+		return update;
+	}
+	
+	
 	//------save category details----
 	public int saveCategoryDetails(Category category)
 	{	

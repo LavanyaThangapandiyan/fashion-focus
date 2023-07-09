@@ -31,13 +31,11 @@ public class ProductController {
 	{
 	    model.addAttribute("nameList",productDao.getCategoryName());
 		return "product";
-		
 	}
 	@GetMapping(path="/customer")
 	public String showCustomer()
 	{
 		return "customer";
-		
 	}
 	@GetMapping(path="/sales")
 	public String showSales()
@@ -52,9 +50,9 @@ public class ProductController {
 		
 	}	
 	@GetMapping(path="/product-submit")
-	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("nameList")String type,
+	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
 			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
-			,@RequestParam("file")String file)
+			,@RequestParam("file")String file,@ModelAttribute("Product") Product product)
 	{
 		System.out.println("Start Product Inserted ");
 		product.setName(name);
@@ -68,11 +66,10 @@ public class ProductController {
 		int number=productDao.saveProductDetails(product);
 		
 		if(number==1)
-			return "list";
+			return "redirect:/allproduct";
 		else
 		return "product";
 	}
-	
 	
 	//--Display List of Category
 	@GetMapping("/category")
@@ -119,6 +116,16 @@ public class ProductController {
 		model.addAttribute("category",category);
 		return "update";	
 	}
+	
+	@GetMapping("/updateProduct/{id}")
+	public String showFormProductUpdate(@PathVariable(value="id")int id,Model model)
+	{
+	    Product product=productDao.getProductById(id);
+		model.addAttribute("product", product);
+		return "update_product";
+	}
+	
+	
 	@GetMapping(path="/update-submit")
 	public String updateProductName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
 	{
@@ -128,13 +135,35 @@ public class ProductController {
 		return "redirect:/category";	
 	}
 	
+	@GetMapping(path="/update_product-submit")
+	public String updateProduct(@RequestParam("name")String name,@RequestParam("price")int price,
+			@RequestParam("type")String type,@RequestParam("size")String size,@RequestParam("quantity")int quantity,
+			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id)
+	{
+		product.setId(id);
+		product.setName(name);
+		product.setPrice(price);
+		product.setType(type);
+		product.setSize(size);
+		product.setQuantity(quantity);
+		product.setFabric(fabric);
+		product.setGender(gender);
+		productDao.updateProductDetails(id, name, price, size, quantity, fabric, gender);
+		return "redirect:/allproduct";
+	}
+	
 	@GetMapping("/deleteCategory/{id}")
 	public String deleteCategory(@PathVariable(value="id")int id)
 	{
 		 // call delete Category method 
 		this.productDao.deleteCategoryDetails(id);
 		return "redirect:/category";
-		
+	}
+	@GetMapping("/deleteProduct/{id}")
+	public String unActiveProduct(@PathVariable(value="id")int id)
+	{
+		this.productDao.deleteProduct(id);
+		return "redirect:/allproduct";
 	}
 	
 	@GetMapping("/activeCategory/{id}")
@@ -143,6 +172,5 @@ public class ProductController {
 		this.productDao.activeCategoryDetails(id);
 		return "redirect:/category";	
 	}
-	
 	
 }
