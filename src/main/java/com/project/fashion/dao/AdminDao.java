@@ -60,7 +60,15 @@ Validation valid=new Validation();
 	//Get Product List
 	public List<Product> allProductList()
 	{
-		String find="select id,name,price,category,size,quantity,fabric,gender,image from product";
+		String find="select id,name,price,category,size,quantity,fabric,gender,image from product where is_available='Available'";
+		List<Product> productList=jdbcTemplate.query(find, new ProductMapperAll());
+		return productList;
+	}
+	
+	//Get Unactive Product List
+	public List<Product> unActiveProductList()
+	{
+		String find="select id,name,price,category,size,quantity,fabric,gender,image from product where is_available='Not Available'";
 		List<Product> productList=jdbcTemplate.query(find, new ProductMapperAll());
 		return productList;
 	}
@@ -81,6 +89,16 @@ Validation valid=new Validation();
 		int update = jdbcTemplate.update(delete,details);
 		System.out.println("Delete Product : "+update);
 		return update;
+	}
+	//---Active Product By Id---
+	public int activeProduct(int id)
+	{
+		String active="update product set is_available=? where id=?";
+		Object[] details= {"Available",id};
+		int update=jdbcTemplate.update(active,details);
+		System.out.println("Active Product : "+update);
+		return update;
+		
 	}
 	
 	

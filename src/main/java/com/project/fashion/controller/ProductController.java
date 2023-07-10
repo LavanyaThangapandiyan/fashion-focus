@@ -84,7 +84,8 @@ public class ProductController {
 	public String viewProductPage(Model model)
 	{
 		model.addAttribute("products",productDao.allProductList());
-		return "allproduct";
+		model.addAttribute("unActiveproducts",productDao.unActiveProductList());
+		return "/allproduct";
 	}
 	
 	@GetMapping("/showNewProductForm")
@@ -149,7 +150,7 @@ public class ProductController {
 		product.setFabric(fabric);
 		product.setGender(gender);
 		productDao.updateProductDetails(id, name, price, size, quantity, fabric, gender);
-		return "redirect:/allproduct";
+		return "redirect:allproduct";
 	}
 	
 	@GetMapping("/deleteCategory/{id}")
@@ -159,6 +160,14 @@ public class ProductController {
 		this.productDao.deleteCategoryDetails(id);
 		return "redirect:/category";
 	}
+	
+	@GetMapping("/activeProduct/{id}")
+	public String activeProduct(@PathVariable(value="id")int id)
+	{
+		this.productDao.activeProduct(id);
+		return "redirect:/allproduct";
+	}
+	
 	@GetMapping("/deleteProduct/{id}")
 	public String unActiveProduct(@PathVariable(value="id")int id)
 	{

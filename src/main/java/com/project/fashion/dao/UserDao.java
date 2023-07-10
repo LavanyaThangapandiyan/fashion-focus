@@ -121,7 +121,7 @@ public class UserDao {
 	
 	//-------------------Payment CRUD--------------------
 	//---Save Payment Details---
-		public int saveDetails(Payment payment)
+		public int savePaymentDetails(Payment payment)
 		{
 			String insert="insert into payment(order_id,amount,payment_type,Date)values(?,?,?,?)";
 			Object[] details= {payment.getOrderId(),payment.getAmount(),payment.getPaymentType(),payment.getDate()};
@@ -160,7 +160,7 @@ public class UserDao {
 		}
 		
 		//----Cancel Order Details-----
-		public int cancelOrder(Order order)
+		public int cancelOrder(int id)
 		{
 			String cancel="update orders set is_available=? where id=?";
 			Object[] details= {order.getStatus()};
@@ -248,32 +248,32 @@ public class UserDao {
 			return 1;
 	    }
 	    //----Active and Un active cart details---
-	    public int activeAndUnActiveDetails(Cart cart)
+	    public void activeAndUnActiveDetails(int id)
 	    {
+	    	Cart cart=new Cart();
 	    	String statusUpdate="update cart set is_available=? where id=?";
-	    	Object[] details= {cart.getStatus(),cart.getId()};
+	    	Object[] details= {cart.getStatus(),id};
 	    	int update = jdbcTemplate.update(statusUpdate,details);
 	    	System.out.println("Update status Cart : "+update);
-			return 1;
 	    }
 	    
 	    ///----update Size----
-	    public int updateProductSize(int cartId)
+	    public Cart updateProductSize(int cartId)
 	    {
 	    	String updateSize="update cart set size=? where id=? ";
 	    	Object[] details= {cart.getSize(),cartId};
 	    	int update = jdbcTemplate.update(updateSize,details);
 	    	System.out.println("Update Product Size :"+update);
-			return 1;
+			return cart;
 	    }
 	    
 	    //-----update quantity----
-	    public int updateProductquantity(int cartId)
+	    public Cart updateProductquantity(int cartId)
 	    {
 	    	String updatequantity="update cart set quantity=? where id=?";
 	    	Object[] details= {cart.getQuantity(),cartId};
 	    	int update = jdbcTemplate.update(updatequantity,details);
 	    	System.out.println("Update Quantity : "+update);
-			return 1;
+			return cart;
 	    }
 }

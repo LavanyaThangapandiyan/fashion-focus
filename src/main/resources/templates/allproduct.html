@@ -24,14 +24,14 @@
 <table class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
         <tr>
-            <th  style="color:white; font-size:14pt;"> Name </th>
-            <th  style="color:white; font-size:14pt;"> Price </th>
-            <th  style="color:white; font-size:14pt;"> Type </th>
-            <th style="color:white; font-size:14pt;"> Size </th>
-            <th style="color:white; font-size:14pt;"> Quantity </th>
-            <th style="color:white; font-size:14pt;"> Fabric </th
+             <th style="color:white; font-size:14pt;"> Name </th>
+             <th style="color:white; font-size:14pt;"> Price </th>
+             <th style="color:white; font-size:14pt;"> Type </th>
+             <th style="color:white; font-size:14pt;"> Size </th>
+             <th style="color:white; font-size:14pt;"> Quantity </th>
+             <th style="color:white; font-size:14pt;"> Fabric </th>
              <th style="color:white; font-size:14pt;"> Gender </th>
-            <th style="color:white; font-size:14pt;"> Actions </th>
+             <th style="color:white; font-size:14pt;"> Actions </th>
         </tr>
     </thead>
     <tbody> 
@@ -41,11 +41,42 @@
                <td><span th:text="${product.price}"> Price </span></td>
                <td><span th:text="${product.type}"> Type </span></td>
                <td><span th:text="${product.size}"> Size </span></td>
-               <td><span th:text="${product.quantity}">Quantity </span></td>
+               <td><span th:text="${product.quantity}">Quantity</span></td>
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                 <td><span th:text="${product.gender}"> Gender </span></td>
                <td> <a th:href="@{/updateProduct/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
                <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
+                    </td>
+        </tr>
+    </tbody>   
+</table>
+
+ <br><br>
+<table class="table table-bordered" style="background-color: #fsfsfs">
+<thead style="background-color: purple">
+        <tr>
+             <th style="color:white; font-size:14pt;"> Name </th>
+             <th style="color:white; font-size:14pt;"> Price </th>
+             <th style="color:white; font-size:14pt;"> Type </th>
+             <th style="color:white; font-size:14pt;"> Size </th>
+             <th style="color:white; font-size:14pt;"> Quantity </th>
+             <th style="color:white; font-size:14pt;"> Fabric </th>
+             <th style="color:white; font-size:14pt;"> Gender </th>
+             <th style="color:white; font-size:14pt;"> Actions </th>
+        </tr>
+    </thead>
+    <tbody> 
+    <tr th:each="product, itemStat : *{unActiveproducts}">
+        <tr th:each="product : ${unActiveproducts}">
+               <td><span th:text="${product.name}"> Name </span></td>
+               <td><span th:text="${product.price}"> Price </span></td>
+               <td><span th:text="${product.type}"> Type </span></td>
+               <td><span th:text="${product.size}"> Size </span></td>
+               <td><span th:text="${product.quantity}">Quantity</span></td>
+               <td><span th:text="${product.fabric}"> Fabric </span></td>
+                <td><span th:text="${product.gender}"> Gender </span></td>
+               <td> <a th:href="@{/updateProduct/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+               <a th:href="@{/activeProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Active</a>
                     </td>
         </tr>
     </tbody>   
@@ -58,7 +89,6 @@
   align: center;
  
 }
-
 .value-button {
   display: inline-block;
   border: 1px solid #ddd;
