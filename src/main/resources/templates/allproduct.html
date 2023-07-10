@@ -45,7 +45,7 @@
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                 <td><span th:text="${product.gender}"> Gender </span></td>
                <td> <a th:href="@{/updateProduct/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-               <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
+               <a th:href="@{/delete-product/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
                     </td>
         </tr>
     </tbody>   
@@ -75,8 +75,8 @@
                <td><span th:text="${product.quantity}">Quantity</span></td>
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                 <td><span th:text="${product.gender}"> Gender </span></td>
-               <td> <a th:href="@{/updateProduct/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-               <a th:href="@{/activeProduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Active</a>
+               <td> <a th:href="@{/update-product/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+               <a th:href="@{/active-product/{id}(id=${product.id})}" class="btn btn-danger">Click to Active</a>
                     </td>
         </tr>
     </tbody>   

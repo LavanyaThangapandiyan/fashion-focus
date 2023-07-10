@@ -88,14 +88,7 @@ public class ProductController {
 		return "/allproduct";
 	}
 	
-	@GetMapping("/showNewProductForm")
-	public String showNewProductForm(Model model)
-	{
-		model.addAttribute("product",product);
-		return "new_product";
-	}
-
-	@GetMapping("/showNewCategoryForm")
+	@GetMapping("/new-category-form")
 	public String showNewCategoryForm(Model model)
 	{
 		// create model attribute to bind form data
@@ -103,22 +96,22 @@ public class ProductController {
 		return "/new_category";
 	}
 	
-	@PostMapping("/saveCategory")
+	@PostMapping("/save-category")
 	public String saveCategory(@ModelAttribute("category") Category category)
 	{
 		//save category to database
 		productDao.saveCategoryDetails(category);
 		return "redirect:category";
 	}
-	@GetMapping("/showFormForUpdate/{id}")
-	public String showFormForUpdate(@PathVariable(value="id")int id,Model model)
+	@GetMapping("/show-form-for-update/{id}")
+	public String showFormForCategoryUpdate(@PathVariable(value="id")int id,Model model)
 	{
 		Category category=productDao.findCategoryById(id);
 		model.addAttribute("category",category);
 		return "update";	
 	}
 	
-	@GetMapping("/updateProduct/{id}")
+	@GetMapping("/update-product/{id}")
 	public String showFormProductUpdate(@PathVariable(value="id")int id,Model model)
 	{
 	    Product product=productDao.getProductById(id);
@@ -128,7 +121,7 @@ public class ProductController {
 	
 	
 	@GetMapping(path="/update-submit")
-	public String updateProductName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
+	public String updateCategoryName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
 	{
 		category.setId(id);
 		category.setCategoryName(name);
@@ -153,29 +146,29 @@ public class ProductController {
 		return "redirect:allproduct";
 	}
 	
-	@GetMapping("/deleteCategory/{id}")
-	public String deleteCategory(@PathVariable(value="id")int id)
+	@GetMapping("/delete-category/{id}")
+	public String deleteCategoryById(@PathVariable(value="id")int id)
 	{
 		 // call delete Category method 
 		this.productDao.deleteCategoryDetails(id);
 		return "redirect:/category";
 	}
 	
-	@GetMapping("/activeProduct/{id}")
+	@GetMapping("/active-product/{id}")
 	public String activeProduct(@PathVariable(value="id")int id)
 	{
 		this.productDao.activeProduct(id);
 		return "redirect:/allproduct";
 	}
 	
-	@GetMapping("/deleteProduct/{id}")
+	@GetMapping("/delete-product/{id}")
 	public String unActiveProduct(@PathVariable(value="id")int id)
 	{
 		this.productDao.deleteProduct(id);
 		return "redirect:/allproduct";
 	}
 	
-	@GetMapping("/activeCategory/{id}")
+	@GetMapping("/active-category/{id}")
 	public String activeCategory(@PathVariable(value="id")int id)
 	{
 		this.productDao.activeCategoryDetails(id);
