@@ -2,11 +2,14 @@ package com.project.fashion.dao;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
-
+import com.project.fashion.exception.ExistMailIdException;
+import com.project.fashion.exception.ExistMobileException;
+import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.mapper.OrderMapper;
 import com.project.fashion.mapper.PaymentMapper;
 import com.project.fashion.mapper.UserMapper;
@@ -17,16 +20,18 @@ import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
 import com.project.fashion.model.User;
 import com.project.fashion.model.WishList;
+import com.project.fashion.util.ConnectionUtil;
 import com.project.fashion.validation.Validation;
 
 @Repository
-public class UserDao {
+public class UserDao 
+{
+	Logger logger = LoggerFactory.getLogger(UserDao.class);
 	Validation valid = new Validation();
-	
-	JdbcTemplate jdbcTemplate=new JdbcTemplate();
+	JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();
 
 	//----Inserting User Details
-	public int saveDetails(User user) 
+	public int saveDetails(User user) throws ExistMailIdException, ExistMobileException 
 	{	
 		List<User> userList = userList();
 		String getUser = userList.toString();
@@ -34,12 +39,13 @@ public class UserDao {
 		String mobile = user.getMobile();
 		boolean contains = getUser.contains(userEmail);
 		boolean mobilecont = getUser.contains(mobile);
-		if (contains == true) {
-			System.out.println(" Email Already Exist");
-			return 2;
-		} else if (mobilecont == true) {
-			System.out.println(" Mobile Number Already Exist");
-			return 3;}
+		if (contains == true) 
+		{
+			throw new ExistMailIdException("Exist Email Exception");
+		} else if (mobilecont == true)
+		{
+			  throw new ExistMobileException("Exist Mobile Number Exception");
+		}
 
 		else 
 		 {
@@ -52,19 +58,22 @@ public class UserDao {
 			boolean email1 = valid.emailValidation(user.getEmail());
 			boolean password1 = valid.passwordValidation(user.getPassword());
 			boolean phone = valid.phoneNumberValidation(user.getMobile());
-			if (name == true && email1 == true && phone == true && password1 == true) {
-				Object[] details = { user.getName(), user.getEmail(), encodedPassword, user.getMobile(),
+			if (name == true && email1 == true && phone == true && password1 == true) 
+			{
+				String input=user.getName();
+				String userName=input.substring(0,1).toUpperCase()+input.substring(1);
+				Object[] details = { userName, user.getEmail(), encodedPassword, user.getMobile(),
 						user.getGender() };
 				int numberOfRows = jdbcTemplate.update(insert, details);
-				System.out.println("Inserted Rows : " + numberOfRows);
+				logger.info("Inserted Rows : " + numberOfRows); 
 				return 1;
 			} else
-				System.out.println("Invalid Data");
+			logger.error("Invalid Data");
 		}
 		return 0;
 	}
 	// --------FindUser-----------
-	public int findUserDetails(User user)
+	public int findUserDetails(User user) throws InvalidEmailException
 	{
 		String userEmail = user.getEmail();
 		String password = user.getPassword();
@@ -84,12 +93,14 @@ public class UserDao {
 					return 2;
 		    }
 			else if(match)
+				throw new InvalidEmailException("Invalid Details");
 				return 1;			
 		}
 		return 0;	
 	}
 	//---User List----
-	public List<User> userList() {
+	public List<User> userList() 
+	{
 		String userList = "select username,email,password,phone_number,gender from admin_user";
 		List<User> listUser = jdbcTemplate.query(userList, new UserMapper());
 		return listUser;
@@ -100,21 +111,29 @@ public class UserDao {
 		String delete="update admin_user set is_active=0 where email=?";
 		Object[] details= {user.getEmail()};
 		int numberOfRows=jdbcTemplate.update(delete,details);
-		System.out.println("Deleted Rows :" +numberOfRows);
+		logger.info("Deleted Rows :" +numberOfRows);
 		return 1;	
 	}
 	//--Update user Password
-	public int updateUserPassword(User user)
+	public int updateUserPassword(User user) throws InvalidEmailException
 	{
 		String password = user.getPassword();
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
-
+		List<User> userList = userList();
+		String getUser = userList.toString();
+		String userEmail = user.getEmail();
+		boolean contains = getUser.contains(userEmail);
+		if(contains==true)
+		{
 		String updatePassword="update admin_user set password=? where email=?";
 		Object[] details= {encodedPassword,user.getEmail()};
 		int numberOfRows=jdbcTemplate.update(updatePassword,details);
-		System.out.println("Update Password : "+numberOfRows);
+        logger.info("Update Password : "+numberOfRows);
 		return 1;
+		}
+		else
+			throw new InvalidEmailException("Invalid Email ID");
 	}
 	
 	//-------------------Payment CRUD--------------------
@@ -124,7 +143,7 @@ public class UserDao {
 			String insert="insert into payment(order_id,amount,payment_type,Date)values(?,?,?,?)";
 			Object[] details= {payment.getOrderId(),payment.getAmount(),payment.getPaymentType(),payment.getDate()};
 			int numberOfRows=jdbcTemplate.update(insert,details);
-			System.out.println(numberOfRows);
+			logger.info("Payment Inserted Rows : "+numberOfRows);
 			return 1;
 		}
 		
@@ -153,7 +172,18 @@ public class UserDao {
 			String insert="insert into orders(customer_id,product_id,product_name,price,size,category,quantity,is_available)values(?,?,?,?,?,?,?)";
 			Object[] details= {order.getCustomerId(),order.getProductId(),order.getPrice(),order.getSize(),order.getCategory(),order.getQuantity(),order.getStatus()};
 			int insertRows=jdbcTemplate.update(insert,details);
-			System.out.println("Inserted Order : "+insertRows);
+			logger.info("Inserted Order : "+insertRows);
+			List<Order> orderList= getOrdersList();
+			String getOrder=orderList.toString();
+			String productName=order.getProductName();
+			boolean contains=getOrder.contains(productName);
+			if(contains==true)
+			{
+			   String update="update orders set quantity=? where product_name=?";
+			   Object[]details1= {order.getQuantity(),order.getProductName()};
+			  int updateRows=jdbcTemplate.update(update,details1);
+			  logger.info("Quantity Updated : "+updateRows);
+			}
 			return 1;
 		}
 		
@@ -163,7 +193,7 @@ public class UserDao {
 			String cancel="update orders set is_available=? where id=?";
 			Object[] details= {order.getStatus()};
 			int cancelRows=jdbcTemplate.update(cancel,details);
-			System.out.println("Cancel Order Rows: "+cancelRows);
+			logger.info("Cancel Order Rows: "+cancelRows);
 			return 1;
 		}
 		
@@ -173,7 +203,7 @@ public class UserDao {
 			String updateSize="update orders set size=? where id=?";
 			Object[] details= {order.getSize(),order.getOrderId()};
 			int updatedSize=jdbcTemplate.update(updateSize,details);
-			System.out.println("Updated Size :"+updatedSize);
+			logger.info("Updated Size :"+updatedSize);
 			return orderId;
 		}
 		
@@ -183,7 +213,7 @@ public class UserDao {
 			String updateQuantity="update orders set quantity=? where id=?";
 			Object[] details= {order.getQuantity(),order.getOrderId()};
 			int updatedQuantity=jdbcTemplate.update(updateQuantity,details);
-			System.out.println("Updated Quantity : "+updatedQuantity);
+			logger.info("Updated Quantity : "+updatedQuantity);
 			return OrderId;
 		}
 		
@@ -212,7 +242,7 @@ public class UserDao {
 			String insert="insert into wish_list(customer_id,product_id,product_name,price,size,category,is_available)values(?,?,?,?,?,?,?)";
 			Object[] details= {wish.getCustomerId(),wish.getProductId(),wish.getProductName(),wish.getPrice(),wish.getSize(),wish.getCategory(),wish.getStatus()};
 			int insertRow=jdbcTemplate.update(insert,details);
-			System.out.println("Insert Wish List : "+insertRow);
+			logger.info("Insert Wish List : "+insertRow);
 			return 1;
 		}
 		
@@ -230,7 +260,7 @@ public class UserDao {
 	    	String statusUpdate="update wish_list set is_available=? where id=?";
 	    	Object[] details= {wish.getStatus(),wishListId};
 	    	int rows=jdbcTemplate.update(statusUpdate,details);
-	    	System.out.println("Wish list status updated :"+rows);
+	    	logger.info("Wish list status updated :"+rows);
 			return 1;
 	    }
 	    
@@ -242,7 +272,7 @@ public class UserDao {
 	    	String insert="insert into cart(order_id,customer_id,product_id,product_name,price,size,product_type,quantity,amount,is_available)values(?,?,?,?,?,?,?,?,?,?)";
 	    	Object[] details= {cart.getOrderId(),cart.getCustomerId(),cart.getProductId(),cart.getProductName(),cart.getPrice(),cart.getSize(),cart.getProduct_type(),cart.getQuantity(),cart.getAmount(),cart.getStatus()};
 	    	int rows=jdbcTemplate.update(insert,details);
-	    	System.out.println("Insert Cart details : "+rows);
+	    	logger.info("Insert Cart details : "+rows);
 			return 1;
 	    }
 	    //----Active and In active cart details---
@@ -252,7 +282,7 @@ public class UserDao {
 	    	String statusUpdate="update cart set is_available=? where id=?";
 	    	Object[] details= {cart.getStatus(),id};
 	    	int update = jdbcTemplate.update(statusUpdate,details);
-	    	System.out.println("Update status Cart : "+update);
+	    	logger.info("Update status Cart : "+update);
 	    }
 	    
 	    ///----update Size----
@@ -261,7 +291,7 @@ public class UserDao {
 	    	String updateSize="update cart set size=? where id=? ";
 	    	Object[] details= {cart.getSize(),cartId};
 	    	int update = jdbcTemplate.update(updateSize,details);
-	    	System.out.println("Update Product Size :"+update);
+	    	logger.info("Update Product Size :"+update);
 			return cart;
 	    }
 	    
@@ -271,9 +301,7 @@ public class UserDao {
 	    	String updatequantity="update cart set quantity=? where id=?";
 	    	Object[] details= {cart.getQuantity(),cartId};
 	    	int update = jdbcTemplate.update(updatequantity,details);
-	    	System.out.println("Update Quantity : "+update);
+	    	logger.info("Update Quantity : "+update);
 			return cart;
 	    }
-		
-		
 }

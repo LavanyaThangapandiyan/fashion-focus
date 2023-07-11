@@ -10,7 +10,7 @@
         <hr>
         <h2>Save Category</h2>
 
-        <form th:action="@{/savecategory}" th:object="${category}" method="POST">
+        <form  th:action="@{/savesubmit}" th:object="${category}" method="POST">
 
             <input type="text" th:field="*{categoryName}" placeholder="Enter Category Name" class="form-control mb-4 col-4" required>
 

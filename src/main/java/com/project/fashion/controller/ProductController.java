@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.fashion.dao.AdminDao;
+import com.project.fashion.exception.ExistCategoryException;
+import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 
@@ -45,10 +47,10 @@ public class ProductController
 		return "item";
 		
 	}	
-	@GetMapping(path="/productsubmit")
+	@PostMapping(path="/productsubmit")
 	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
 			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
-			,@RequestParam("file")String file,@ModelAttribute("Product") Product product)
+			,@RequestParam("file")String file,@ModelAttribute("Product") Product product) throws ExistProductException
 	{
 		System.out.println("Start Product Inserted ");
 		product.setName(name);
@@ -84,8 +86,8 @@ public class ProductController
 		return "/new_category";
 	}
 	
-	@PostMapping("/savecategory")
-	public String saveCategory(@ModelAttribute("category") Category category)
+	@PostMapping("/savesubmit")
+	public String saveCategory(@ModelAttribute("category") Category category,Model model) throws ExistCategoryException
 	{
 		//save category to database
 		productDao.saveCategoryDetails(category);
@@ -99,7 +101,7 @@ public class ProductController
 		return "update";	
 	}
 	
-	@GetMapping(path="/updatesubmit")
+	@PostMapping(path="/updatesubmit")
 	public String updateCategoryName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
 	{
 		category.setId(id);
@@ -124,7 +126,7 @@ public class ProductController
 	@GetMapping(path="/updateproduct")
 	public String updateProduct(@RequestParam("name")String name,@RequestParam("price")int price,
 			@RequestParam("type")String type,@RequestParam("size")String size,@RequestParam("quantity")int quantity,
-			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id)
+			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id) throws ExistProductException
 	{
 		product.setId(id);
 		product.setName(name);

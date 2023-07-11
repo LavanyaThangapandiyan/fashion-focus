@@ -3,19 +3,20 @@ package com.project.fashion.controller;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
+import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.model.Cart;
 import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
@@ -54,8 +55,7 @@ public class UserController {
 	}
 
 	@GetMapping("forgotpassword")
-	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password) {
-		System.out.println("Start Forgot Password");
+	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.updateUserPassword(user);
@@ -68,9 +68,9 @@ public class UserController {
 
 	// method to get register form details
 
-	@GetMapping(path = "/loginsubmit")
+	@PostMapping(path = "/loginsubmit")
 	public String submitUserRegisterForm(@RequestParam("email") String email, @RequestParam("password") String password,
-			@ModelAttribute User user, Model model, HttpSession session) {
+			@ModelAttribute User user, Model model) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.findUserDetails(user);
@@ -89,7 +89,7 @@ public class UserController {
 
 	}
 
-	@GetMapping(path = "/register-submit")
+	@PostMapping(path = "/register-submit")
 	public String saveUserDetails(@RequestParam("username") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("mobile") String mobile,
 			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException {
@@ -103,10 +103,6 @@ public class UserController {
 		int number = userdao.saveDetails(user);
 		if (number == 1)
 			return "login";
-		else if (number == 2)
-			throw new ExistMailIdException("Exist Email Exception");
-		else if (number == 3)
-			throw new ExistMobileException("Exist Mobile Number Exception");
 		else
 			return "register";
 	}

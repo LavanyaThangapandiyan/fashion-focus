@@ -14,9 +14,12 @@
 <div class="tab">
     <nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: #740074">
-			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
-			<a th:href="@{/}" class="navbar-brand">Log Out</a>	
+			<a href="" class="navbar-brand">Fashion Focus Boutique</a></nav>
+			<div class="topnav-right">
+			<a th:href="@{/}" class="navbar-brand">Log Out</a>
+			</div>	
             </nav>
+  </div>
 </div>		
 </header>
  <a th:href="@{/product}" class="btn btn-primary btn-sm mb-3"> Add Product </a>
@@ -45,7 +48,7 @@
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                 <td><span th:text="${product.gender}"> Gender </span></td>
                <td> <a th:href="@{/update/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-               <a th:href="@{/deleteproduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
+               <a th:href="@{/deleteproduct/{id}(id=${product.id})}" class="btn btn-danger">Click to In Active</a>
                     </td>
         </tr>
     </tbody>   
@@ -148,6 +151,11 @@ th,td
     text-align: center; 
     vertical-align: middle;
 }
+
+.topnav-right {
+  float: right;
+}
+
 </style>
 <script>
  function increaseValue() {
