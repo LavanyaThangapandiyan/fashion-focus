@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,6 @@ import com.project.fashion.validation.Validation;
 public class UserController {
 	Validation valid = new Validation();
     
-	JdbcTemplate jdbcTemplate=new JdbcTemplate();
 	
 	AdminDao productDao=new AdminDao();
 	UserDao userdao=new UserDao();

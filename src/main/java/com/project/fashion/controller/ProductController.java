@@ -1,7 +1,6 @@
 package com.project.fashion.controller;
 
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ import com.project.fashion.model.Product;
 @Controller
 public class ProductController
 {   
-	JdbcTemplate jdbcTemplate=new JdbcTemplate();
 	
 	AdminDao productDao=new AdminDao();
 	
