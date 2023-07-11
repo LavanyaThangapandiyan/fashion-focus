@@ -9,7 +9,7 @@
     <div class="container">
         <hr>
         <h2>Update Product</h2>
-        <form  th:action="@{/update_product-submit}" th:object="${product}" method="GET">
+        <form  th:action="@{/updateproduct}" th:object="${product}" method="GET">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}" />

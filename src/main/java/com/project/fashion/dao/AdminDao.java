@@ -1,13 +1,12 @@
 package com.project.fashion.dao;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.project.fashion.mapper.CategoryMapper;
 import com.project.fashion.mapper.CategoryMapperSingle;
 import com.project.fashion.mapper.CategoryNameMapper;
-import com.project.fashion.mapper.ProductMapper;
 import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.mapper.SingleProductMapper;
 import com.project.fashion.model.Category;
@@ -17,8 +16,8 @@ import com.project.fashion.validation.Validation;
 @Repository
 public class AdminDao {
 Validation valid=new Validation();
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+    
+    JdbcTemplate jdbcTemplate=new JdbcTemplate();
 	Product product=new Product();
 	
 	//----Insert Product Details
@@ -50,13 +49,6 @@ Validation valid=new Validation();
 		System.out.println("Updated rows : " + numberOfRows);
 	}
 	
-	//-----product List ----
-	public List<Product> productList()
-	{
-		String find="select id,name,price,category,size,fabric,gender,image from product";
-		List<Product> productList=jdbcTemplate.query(find, new ProductMapper());
-		return productList;
-	}
 	//Get Product List
 	public List<Product> allProductList()
 	{

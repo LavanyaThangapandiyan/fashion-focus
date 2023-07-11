@@ -3,8 +3,6 @@ package com.project.fashion.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -24,8 +22,8 @@ import com.project.fashion.validation.Validation;
 @Repository
 public class UserDao {
 	Validation valid = new Validation();
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+	
+	JdbcTemplate jdbcTemplate=new JdbcTemplate();
 
 	//----Inserting User Details
 	public int saveDetails(User user) 
@@ -49,7 +47,7 @@ public class UserDao {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			String encodedPassword = encoder.encode(password);
 
-			String insert = "insert into register(username,email,password,phone_number,gender)values(?,?,?,?,?)";
+			String insert = "insert into admin_user(username,email,password,phone_number,gender)values(?,?,?,?,?)";
 			boolean name = valid.nameValidation(user.getName());
 			boolean email1 = valid.emailValidation(user.getEmail());
 			boolean password1 = valid.passwordValidation(user.getPassword());
@@ -71,7 +69,7 @@ public class UserDao {
 		String userEmail = user.getEmail();
 		String password = user.getPassword();
 		String check = valid.adminEmailValidation(userEmail);
-		String find = "select password,email from register";
+		String find = "select password,email from admin_user";
 		List<User> listUser = jdbcTemplate.query(find, new UserMapperSingle());
 		List<User> users = listUser.stream().filter(userOne -> userOne.getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
@@ -92,14 +90,14 @@ public class UserDao {
 	}
 	//---User List----
 	public List<User> userList() {
-		String userList = "select username,email,password,phone_number,gender from register";
+		String userList = "select username,email,password,phone_number,gender from admin_user";
 		List<User> listUser = jdbcTemplate.query(userList, new UserMapper());
 		return listUser;
 	}
 	//----Delete User Details
 	public int deleteUserDetails(User user)
 	{
-		String delete="update register set is_active=0 where email=?";
+		String delete="update admin_user set is_active=0 where email=?";
 		Object[] details= {user.getEmail()};
 		int numberOfRows=jdbcTemplate.update(delete,details);
 		System.out.println("Deleted Rows :" +numberOfRows);
@@ -112,7 +110,7 @@ public class UserDao {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
 
-		String updatePassword="update register set password=? where email=?";
+		String updatePassword="update admin_user set password=? where email=?";
 		Object[] details= {encodedPassword,user.getEmail()};
 		int numberOfRows=jdbcTemplate.update(updatePassword,details);
 		System.out.println("Update Password : "+numberOfRows);
@@ -226,8 +224,8 @@ public class UserDao {
 			return getWishList;
 		}
        
-		//---Active and Un active in wish List---
-	    public int activeAndUnActiveWishList(int wishListId)
+		//---Active and In active in wish List---
+	    public int activeAndInActiveWishList(int wishListId)
 	    {
 	    	String statusUpdate="update wish_list set is_available=? where id=?";
 	    	Object[] details= {wish.getStatus(),wishListId};
@@ -247,8 +245,8 @@ public class UserDao {
 	    	System.out.println("Insert Cart details : "+rows);
 			return 1;
 	    }
-	    //----Active and Un active cart details---
-	    public void activeAndUnActiveDetails(int id)
+	    //----Active and In active cart details---
+	    public void activeAndInActiveCart(int id)
 	    {
 	    	Cart cart=new Cart();
 	    	String statusUpdate="update cart set is_available=? where id=?";
@@ -276,4 +274,6 @@ public class UserDao {
 	    	System.out.println("Update Quantity : "+update);
 			return cart;
 	    }
+		
+		
 }

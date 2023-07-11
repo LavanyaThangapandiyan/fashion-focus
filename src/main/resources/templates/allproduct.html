@@ -35,8 +35,8 @@
         </tr>
     </thead>
     <tbody> 
-    <tr th:each="product, itemStat : *{products}">
-        <tr th:each="product : ${products}">
+    <tr th:each="product, itemStat : *{allproduct}">
+        <tr th:each="product : ${allproduct}">
                <td><span th:text="${product.name}"> Name </span></td>
                <td><span th:text="${product.price}"> Price </span></td>
                <td><span th:text="${product.type}"> Type </span></td>
@@ -44,8 +44,8 @@
                <td><span th:text="${product.quantity}">Quantity</span></td>
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                 <td><span th:text="${product.gender}"> Gender </span></td>
-               <td> <a th:href="@{/updateProduct/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-               <a th:href="@{/delete-product/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
+               <td> <a th:href="@{/update/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+               <a th:href="@{/deleteproduct/{id}(id=${product.id})}" class="btn btn-danger">Click to Un Active</a>
                     </td>
         </tr>
     </tbody>   
@@ -66,8 +66,8 @@
         </tr>
     </thead>
     <tbody> 
-    <tr th:each="product, itemStat : *{unActiveproducts}">
-        <tr th:each="product : ${unActiveproducts}">
+    <tr th:each="product, itemStat : *{inActiveproducts}">
+        <tr th:each="product : ${inActiveproducts}">
                <td><span th:text="${product.name}"> Name </span></td>
                <td><span th:text="${product.price}"> Price </span></td>
                <td><span th:text="${product.type}"> Type </span></td>
@@ -75,8 +75,8 @@
                <td><span th:text="${product.quantity}">Quantity</span></td>
                <td><span th:text="${product.fabric}"> Fabric </span></td>
                 <td><span th:text="${product.gender}"> Gender </span></td>
-               <td> <a th:href="@{/update-product/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-               <a th:href="@{/active-product/{id}(id=${product.id})}" class="btn btn-danger">Click to Active</a>
+               <td> <a th:href="@{/update/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+               <a th:href="@{/active/{id}(id=${product.id})}" class="btn btn-danger">Click to Active</a>
                     </td>
         </tr>
     </tbody>   

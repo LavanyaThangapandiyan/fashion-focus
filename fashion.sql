@@ -1,7 +1,6 @@
 use fashion;
-
-/* Create table  ------Register */
-create table register
+/* Create table  ------Admin_User */
+create table admin_user
 (id int(10)not null auto_increment primary key,
 username text(20)not null,
 email varchar(20)unique key,
@@ -19,51 +18,59 @@ quantity int(10)not null,
 fabric varchar(10)not null,
 gender varchar(10)not null,
 image blob not null,
-`is_available` boolean default true,
-foreign key(category)references category(name)
+is_available varchar(20) DEFAULT 'Available',
+foreign key(category)references category(category_name)
 );
+alter table category 
+rename COLUMN Category_name To category_name;
 
 /* Create table  ------Category */
 create table category(
 id int(10)not null auto_increment primary key,
-name varchar(20)not null unique key,
-quantity int(10)not null,
-`is_available` boolean default true
+category_name varchar(20)not null unique key,
+is_available varchar(20) DEFAULT 'Available'
 );
-insert into category values(id,'Saree',10,1);
-insert into category values(id,'Kurti',10,1);
-insert into category values(id,'Kurta Sets',10,1);
-insert into category values(id,'Material',10,1);
-insert into category values(id,'Other Ethnic',10,1);
-insert into category values(id,'Men Top Wear',10,1);
-insert into category values(id,'Men Bottom wear',10,1);
-insert into category values(id,'Men Ethnic Wear',10,1);
-insert into category values(id,'kids',20,1);
-update category set is_active=1 where id=9;
 
+insert into category values(id,'Saree','Available');
+insert into category values(id,'Kurti','Available');
+insert into category values(id,'Kurta Sets','Available');
+insert into category values(id,'Material','Available');
+insert into category values(id,'Other Ethnic','Available');
+insert into category values(id,'Men Top Wear','Available');
+insert into category values(id,'Men Bottom wear','Available');
+insert into category values(id,'Men Ethnic Wear','Available');
+insert into category values(id,'kidz',"Available");
+insert into category values(id,'Women Bottom wear',"Available");
+insert into category (category_name,is_available)values('Western','Available');
+update category set is_active=1 where id=9;
+select * from category;
 /* Create table  ------wish-list */
 create table wish_list(id int(10)not null auto_increment primary key,
 customer_id int(20)not null,
 product_id int(20)not null,
+product_name varchar(30)not null,
 price int(20)not null,
 size varchar(20)not null,
 category varchar(20)not null,
-`status` boolean default true,
-foreign key(customer_id)references register(id),
-foreign key(product_id)references product(id)
+is_available varchar(20) DEFAULT "Available",
+foreign key(customer_id)references admin_user(id),
+foreign key(product_id)references product(id),
+foreign key(product_name)references product(name)
  );
  
 /* Create table  ------orders */
 create table orders(id int(10)not null auto_increment primary key,
 customer_id int(20)not null,
 product_id int(20)not null,
+product_name varchar(30)not null,
 price int(20)not null,
 size varchar(20)not null,
 category varchar(10)not null,
 quantity int(20)not null,
-`is_available` boolean default true,
-foreign key(customer_id)references register(id),
-foreign key(product_id)references product(id)
+is_available varchar(20) DEFAULT "Available",
+foreign key(customer_id)references admin_user(id),
+foreign key(product_id)references product(id),
+foreign key(product_name)references product(name)
  );
  
  /* Create table  ------Payment */
@@ -82,20 +89,22 @@ foreign key(product_id)references product(id)
     order_id int(20)not null,
     customer_id int(20)not null,
     product_id int(20)not null,
+    product_name varchar(30)not null,
     price int(20)not null,
     size varchar(20)not null,
     product_type varchar(20)not null,
     quantity int(10)not null,
     total_amount int(10)not null,
-    status boolean default true,
-    foreign key(customer_id)references register(id),
+   is_available varchar(20) DEFAULT "Available",
+    foreign key(customer_id)references admin_user(id),
 	foreign key(order_id)references orders(id),
-    foreign key(product_id)references product(id)
+    foreign key(product_id)references product(id),
+    foreign key(product_name)references product(name)
    );
    
 select id ,username ,email ,
 phone_number ,gender ,`is_active`
-from register;
+from admin_user;
 
 select id,name,price,category,size,
 quantity,fabric,gender,image,`is_available`
@@ -103,24 +112,25 @@ from product;
 
 select id,order_id,customer_id ,
 product_id ,price,size,product_type,
-quantity,total_amount,status from cart;
+quantity,total_amount,is_available from cart;
     
 select id,customer_id,product_id,price,
-size,category,`status`  from wish_list;
+size,category,is_available  from wish_list;
   
 select id,customer_id,product_id,
 price,size,category,quantity,
-`is_active` from orders;
+is_available from orders;
 
 select id,order_id,
   amount,payment_type,
   Date from payment;
   
-select id,name,
-quantity,is_available from category;
+select id,category_name,
+is_available from category;
       
   drop table register;
   drop table cart;
+  drop table category;
   drop table product;
   drop table wish_list;
   drop table orders;
@@ -130,8 +140,8 @@ quantity,is_available from category;
   use fashion;
 /*Audit Table ----Register----*/
 DELIMITER $$
-CREATE TRIGGER register_insert
-BEFORE INSERT ON register
+CREATE TRIGGER admin_user_insert
+BEFORE INSERT ON admin_user
 FOR EACH ROW
 BEGIN
    IF NEW.id < 0 THEN
@@ -141,32 +151,32 @@ END;
 $$
 DELIMITER ;
 
-CREATE TABLE register_aud(
+CREATE TABLE admin_user_aud(
 `id` INT NOT NULL,
 `action` VARCHAR(10) NOT NULL,
 `aud_timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 DELIMITER $$
-CREATE TRIGGER register_audit_insert
-AFTER INSERT ON register
+CREATE TRIGGER admin_user_audit_insert
+AFTER INSERT ON admin_user
 FOR EACH ROW
 BEGIN
-INSERT INTO register_aud(id, `action`, aud_timestamp)
+INSERT INTO admin_user_aud(id, `action`, aud_timestamp)
 VALUES ( NEW.id, 'INSERT', NOW());
 END;
 $$
 DELIMITER ;
 DELIMITER $$
 
-CREATE TRIGGER register_audit_delete
-AFTER UPDATE ON register
+CREATE TRIGGER admin_user_audit_delete
+AFTER UPDATE ON admin_user
 FOR EACH ROW
 BEGIN
 IF NEW.is_active = 0 THEN  -- If is_active is set to 0, consider it as a DELETE operation
-INSERT INTO register(id, `action`, aud_timestamp)
+INSERT INTO admin_user(id, `action`, aud_timestamp)
 VALUES ( OLD.id, 'DELETE', NOW());
 ELSE
-INSERT INTO register_aud( id, `action`, aud_timestamp)
+INSERT INTO admin_user_aud( id, `action`, aud_timestamp)
 VALUES (NEW.id,'UPDATE', NOW());
 END IF;
 END;
@@ -175,7 +185,7 @@ DELIMITER ;
 
 drop table register_aud;
 drop table product_aud;
-SELECT * FROM register_aud;
+SELECT * FROM admin_user_aud;
 SELECT * FROM product_aud;
 /*--------------------------------------------------------------------------------------------------*/
 /*Audit Table ----Product----*/
@@ -212,7 +222,7 @@ CREATE TRIGGER product_audit_delete
 AFTER UPDATE ON product
 FOR EACH ROW
 BEGIN
-IF NEW.is_available = 0 THEN  -- If is_active is set to 0, consider it as a DELETE operation
+IF NEW.is_available = 'Not Available' THEN  -- If is_active is set to 0, consider it as a DELETE operation
 INSERT INTO product_aud(id, `action`, aud_timestamp)
 VALUES ( OLD.id, 'DELETE', NOW());
 ELSE
@@ -258,7 +268,7 @@ CREATE TRIGGER wish_list_audit_delete
 AFTER UPDATE ON wish_list
 FOR EACH ROW
 BEGIN
-IF NEW.status = 0 THEN  -- If is_active is set to 0, consider it as a DELETE operation
+IF NEW.is_available = 'Not Available' THEN  -- If is_active is set to 0, consider it as a DELETE operation
 INSERT INTO wish_list_aud(id, `action`, aud_timestamp)
 VALUES ( OLD.id, 'DELETE', NOW());
 ELSE
@@ -334,7 +344,7 @@ CREATE TRIGGER orders_audit_delete
 AFTER UPDATE ON orders
 FOR EACH ROW
 BEGIN
-IF NEW.is_available = 0 THEN  -- If is_active is set to 0, consider it as a DELETE operation
+IF NEW.is_available = 'Not Available' THEN  -- If is_active is set to 0, consider it as a DELETE operation
 INSERT INTO orders_aud(id, `action`, aud_timestamp)
 VALUES ( OLD.id, 'DELETE', NOW());
 ELSE
@@ -380,7 +390,7 @@ CREATE TRIGGER cart_audit_delete
 AFTER UPDATE ON cart
 FOR EACH ROW
 BEGIN
-IF NEW.status = 0 THEN  -- If is_active is set to 0, consider it as a DELETE operation
+IF NEW.is_available = 'Not Available' THEN  -- If is_active is set to 0, consider it as a DELETE operation
 INSERT INTO cart_aud(id, `action`, aud_timestamp)
 VALUES ( OLD.id, 'DELETE', NOW());
 ELSE
@@ -392,10 +402,10 @@ $$
 DELIMITER ;
 SELECT * FROM cart_aud;
 /*----------------------------------------------------------------------------------------------------*/
-/*Audit Table ----Orders----*/
+/*Audit Table ----Category----*/
 DELIMITER $$
 CREATE TRIGGER category_insert
-BEFORE INSERT ON category
+BEFORE INSERT ON cart
 FOR EACH ROW
 BEGIN
    IF NEW.id < 0 THEN
@@ -425,7 +435,7 @@ CREATE TRIGGER category_audit_delete
 AFTER UPDATE ON category
 FOR EACH ROW
 BEGIN
-IF NEW.is_available = 0 THEN  -- If is_active is set to 0, consider it as a DELETE operation
+IF NEW.is_available = 'Not Available' THEN  -- If is_active is set to 0, consider it as a DELETE operation
 INSERT INTO category_aud(id, `action`, aud_timestamp)
 VALUES ( OLD.id, 'DELETE', NOW());
 ELSE
@@ -436,17 +446,3 @@ END;
 $$
 DELIMITER ;
 SELECT * FROM category_aud;
-
-
-
-
-  
-  
-  
-  
-  
-  
- 
-
-
-

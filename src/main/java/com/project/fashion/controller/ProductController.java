@@ -1,7 +1,6 @@
 package com.project.fashion.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +15,11 @@ import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 
 @Controller
-public class ProductController {
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+public class ProductController
+{   
+	JdbcTemplate jdbcTemplate=new JdbcTemplate();
 	
-	@Autowired
-	AdminDao productDao;
+	AdminDao productDao=new AdminDao();
 	
 	Product product=new Product();
 	Category category=new Category();
@@ -49,7 +47,7 @@ public class ProductController {
 		return "item";
 		
 	}	
-	@GetMapping(path="/product-submit")
+	@GetMapping(path="/productsubmit")
 	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
 			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
 			,@RequestParam("file")String file,@ModelAttribute("Product") Product product)
@@ -79,16 +77,8 @@ public class ProductController {
 		model.addAttribute("unActiveList",productDao.unActiveCategoryList());
 		return "category";
 	}
-	
-	@GetMapping("/allproduct")
-	public String viewProductPage(Model model)
-	{
-		model.addAttribute("products",productDao.allProductList());
-		model.addAttribute("unActiveproducts",productDao.unActiveProductList());
-		return "/allproduct";
-	}
-	
-	@GetMapping("/new-category-form")
+
+	@GetMapping("/newcategory")
 	public String showNewCategoryForm(Model model)
 	{
 		// create model attribute to bind form data
@@ -96,14 +86,14 @@ public class ProductController {
 		return "/new_category";
 	}
 	
-	@PostMapping("/save-category")
+	@PostMapping("/savecategory")
 	public String saveCategory(@ModelAttribute("category") Category category)
 	{
 		//save category to database
 		productDao.saveCategoryDetails(category);
 		return "redirect:category";
 	}
-	@GetMapping("/show-form-for-update/{id}")
+	@GetMapping("/updatecategory/{id}")
 	public String showFormForCategoryUpdate(@PathVariable(value="id")int id,Model model)
 	{
 		Category category=productDao.findCategoryById(id);
@@ -111,16 +101,7 @@ public class ProductController {
 		return "update";	
 	}
 	
-	@GetMapping("/update-product/{id}")
-	public String showFormProductUpdate(@PathVariable(value="id")int id,Model model)
-	{
-	    Product product=productDao.getProductById(id);
-		model.addAttribute("product", product);
-		return "update_product";
-	}
-	
-	
-	@GetMapping(path="/update-submit")
+	@GetMapping(path="/updatesubmit")
 	public String updateCategoryName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
 	{
 		category.setId(id);
@@ -128,8 +109,21 @@ public class ProductController {
 		productDao.updateCategoryName(id, name);
 		return "redirect:/category";	
 	}
-	
-	@GetMapping(path="/update_product-submit")
+	@GetMapping("/allproduct")
+	public String viewProductPage(Model model)
+	{
+		model.addAttribute("allproduct",productDao.allProductList());
+		model.addAttribute("inActiveproducts",productDao.unActiveProductList());
+		return "/allproduct";
+	}
+	@GetMapping("/update/{id}")
+	public String showFormProductUpdate(@PathVariable(value="id")int id,Model model)
+	{
+	    Product product=productDao.getProductById(id);
+		model.addAttribute("product", product);
+		return "/update_product";
+	}
+	@GetMapping(path="/updateproduct")
 	public String updateProduct(@RequestParam("name")String name,@RequestParam("price")int price,
 			@RequestParam("type")String type,@RequestParam("size")String size,@RequestParam("quantity")int quantity,
 			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id)
@@ -145,30 +139,29 @@ public class ProductController {
 		productDao.updateProductDetails(id, name, price, size, quantity, fabric, gender);
 		return "redirect:allproduct";
 	}
-	
-	@GetMapping("/delete-category/{id}")
-	public String deleteCategoryById(@PathVariable(value="id")int id)
-	{
-		 // call delete Category method 
-		this.productDao.deleteCategoryDetails(id);
-		return "redirect:/category";
-	}
-	
-	@GetMapping("/active-product/{id}")
+	@GetMapping("/active/{id}")
 	public String activeProduct(@PathVariable(value="id")int id)
 	{
 		this.productDao.activeProduct(id);
 		return "redirect:/allproduct";
 	}
 	
-	@GetMapping("/delete-product/{id}")
+	@GetMapping("/deleteproduct/{id}")
 	public String unActiveProduct(@PathVariable(value="id")int id)
 	{
 		this.productDao.deleteProduct(id);
 		return "redirect:/allproduct";
 	}
 	
-	@GetMapping("/active-category/{id}")
+	
+	@GetMapping("/deletecategory/{id}")
+	public String deleteCategoryById(@PathVariable(value="id")int id)
+	{
+		 // call delete Category method 
+		this.productDao.deleteCategoryDetails(id);
+		return "redirect:/category";
+	}
+	@GetMapping("/activecategory/{id}")
 	public String activeCategory(@PathVariable(value="id")int id)
 	{
 		this.productDao.activeCategoryDetails(id);

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,15 +28,12 @@ import com.project.fashion.validation.Validation;
 @Controller
 public class UserController {
 	Validation valid = new Validation();
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-   
-	Product product=new Product();
-	@Autowired
-	AdminDao productDao;
-	@Autowired
-	UserDao userdao;
     
+	JdbcTemplate jdbcTemplate=new JdbcTemplate();
+	
+	AdminDao productDao=new AdminDao();
+	UserDao userdao=new UserDao();
+    Product product=new Product();
 	User user=new User();
 
 	@GetMapping("/")
@@ -59,7 +55,7 @@ public class UserController {
 		return "forgot";
 	}
 
-	@GetMapping("forgot-submit")
+	@GetMapping("forgotpassword")
 	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password) {
 		System.out.println("Start Forgot Password");
 		user.setEmail(email);
@@ -74,7 +70,7 @@ public class UserController {
 
 	// method to get register form details
 
-	@GetMapping(path = "/login-submit")
+	@GetMapping(path = "/loginsubmit")
 	public String submitUserRegisterForm(@RequestParam("email") String email, @RequestParam("password") String password,
 			@ModelAttribute User user, Model model, HttpSession session) {
 		user.setEmail(email);
@@ -124,28 +120,28 @@ public class UserController {
 		return "list.jsp";
 	}
 	
-	@GetMapping(path="/productlist-submit")
+	@GetMapping(path="/productlist")
 	public String viewProductList(Model model)
 	{
 	     model.addAttribute("productCard",productDao.allProductList());
-		 return "/productlist";
+		 return "productlist";
 	}
 	
 	
-   @GetMapping(path="/product-card-submit")
-     public String saveCartDetails(@RequestParam("name")String name,@RequestParam("price")int price,
-    		 @RequestParam("type")String type,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender)
+   @GetMapping(path="/addcart/{id}")
+     public String saveCartDetails(@PathVariable(value="id")int id,@PathVariable(value="name")String name,@PathVariable(value="price")int price,@PathVariable(value="type")String type,
+    		 @PathVariable(value="size")String size,@PathVariable(value="fabric")String fabric,@PathVariable(value="gender")String gender,@PathVariable("quantity")int quantity)
      {
 	    Cart cart=new Cart();
 	    cart.setProductName(name);
 	    cart.setPrice(price);
 	    cart.setProduct_type(type);
-	    cart.setQuantity(quantity);
+	    cart.setQuantity(price);
 	    userdao.saveCartDetails(cart);
 		return "/productlist";
      }
    
-   @GetMapping(path="/update-size/{id}")
+   @GetMapping(path="/updatesize/{id}")
    public String updateSize(@PathVariable(value="id")int id,Model model)
    {
 	  Cart carts=userdao.updateProductSize(id);
@@ -153,7 +149,7 @@ public class UserController {
 	   return "cart";
    }
    
-   @GetMapping(path="/update-quantity/{id}")
+   @GetMapping(path="/updatequantity/{id}")
    public String updateQuantity(@PathVariable(value="id")int id,Model model)
    {
 	   Cart carts=userdao.updateProductquantity(id);
@@ -161,14 +157,14 @@ public class UserController {
 	    return "cart";
    }
   
-   @GetMapping(path="/active-un-active/{id}")
-   public String activeAndUnactiveCart(@PathVariable(value="id")int id)
+   @GetMapping(path="/activeinactive/{id}")
+   public String activeAndInactiveCart(@PathVariable(value="id")int id)
    {
-	   userdao.activeAndUnActiveDetails(id);
+	userdao.activeAndInActiveCart(id);
 	return "cart";
    }
    
-   @GetMapping(path="wish_list")
+   @GetMapping(path="wishlist")
    public String saveWishList(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("size")String size,@RequestParam("category")String category)
    {
 	   
@@ -181,10 +177,10 @@ public class UserController {
 	   return "/productlist";
    }
    
-   @GetMapping(path="/activeUnactive/{id}")
-   public String activeAndUnActiveWishList(@PathVariable(value="id")int id)
+   @GetMapping(path="/activeInactive/{id}")
+   public String activeAndInActiveWishList(@PathVariable(value="id")int id)
    {
-	userdao.activeAndUnActiveWishList(id);
+	userdao.activeAndInActiveWishList(id);
 	return "wish_list";
    }
    
@@ -200,7 +196,7 @@ public class UserController {
 	return "order";
    }
    
-   @GetMapping(path="/cancel-order/{id}")
+   @GetMapping(path="/cancelorder/{id}")
    public String cancelOrder(@PathVariable(value="id")int id)
    {
 	userdao.cancelOrder(id);

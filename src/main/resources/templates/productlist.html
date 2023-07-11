@@ -24,33 +24,29 @@
         </button>
      </form>
 </div>	
-
-<form id="form" action="#" th:action="@{/productlist-submit}" th:object="${products}" method="Get">
+<form id="form"  th:action="@{/productlist}" th:object="${product}" method="Get">
 <button type="submit">Products</button>
 </form>
-<form id="form" action="#" th:action="@{/productCard-submit}" th:object="${products}" method="Get">
 <table class="table table-bordered" style="background-color:#fsfsfs">
    <thead style="background-color: purple">
         </thead>
             <tbody>
-              <tr th:each="products, itemStat : *{productCard}">
-               <tr th:each="products : ${productCard}">
+              <tr th:each="product, itemStat : *{productCard}">
+               <tr th:each="product : ${productCard}">
                   <td>
                   <div class="card">
                   <div class="container"> 
-                    <h3><span th:text="${products.name}"> Name</h3>
-                    <p class="price">Rs.<span th:text="${products.price}"> Price </span></p>
-                            <p>Type : <span th:text="${products.type}"> Type </span></p>
-                            <p>Size : <span th:text="${products.size}"> Size </span></p>
-                            <p>Fabric : <span th:text="${products.fabric}"> Fabric </span></p>
-                            <p>Gender : <span th:text="${products.gender}"> Gender </span></p>
-                    <p><button type="submit" th:href="@{/addCart/{id}(id=${product.id})(name=${product.name})(price=${product.price})
-                    (type=${product.type})(id=${product.id})}" class="btn btn-primary">Add to Cart</button></p>
+                    <h3><span th:text="${product.name}"> Name</h3>
+                    <p class="price">Rs.<span th:text="${product.price}"> Price </span></p>
+                            <p>Type : <span th:text="${product.type}"> Type </span></p>
+                            <p>Size : <span th:text="${product.size}"> Size </span></p>
+                            <p>Fabric : <span th:text="${product.fabric}"> Fabric </span></p>
+                            <p>Gender : <span th:text="${product.gender}"> Gender </span></p>
+                    <p><button type="submit" th:href="@{/addCart/{id}(id=${product.id})}" class="btn btn-primary">Add to Cart</button></p>
                   </div>
     </div></td><br>
 </tr></tbody>
 </table>
-</form>
  
 <style>
  input {
