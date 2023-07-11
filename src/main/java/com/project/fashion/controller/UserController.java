@@ -122,15 +122,18 @@ public class UserController {
 	}
 	
 	
-   @GetMapping(path="/addcart/{id}")
-     public String saveCartDetails(@PathVariable(value="id")int id,@PathVariable(value="name")String name,@PathVariable(value="price")int price,@PathVariable(value="type")String type,
-    		 @PathVariable(value="size")String size,@PathVariable(value="fabric")String fabric,@PathVariable(value="gender")String gender,@PathVariable("quantity")int quantity)
+   @GetMapping(path="/addcart")
+     public String saveCartDetails(@RequestParam("id")int id,@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
+    		 @RequestParam("size")String size,@RequestParam("fabric")String fabric,@RequestParam("gender")String gender)
      {
 	    Cart cart=new Cart();
+	    cart.setProductId(id);
 	    cart.setProductName(name);
 	    cart.setPrice(price);
 	    cart.setProduct_type(type);
-	    cart.setQuantity(price);
+	    cart.setSize(size);
+	    cart.setFabric(fabric);
+	    cart.setGender(gender);
 	    userdao.saveCartDetails(cart);
 		return "/productlist";
      }

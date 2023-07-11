@@ -16,6 +16,7 @@ import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.mapper.SingleProductMapper;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
+import com.project.fashion.model.User;
 import com.project.fashion.util.ConnectionUtil;
 import com.project.fashion.validation.Validation;
 
@@ -33,12 +34,15 @@ public class AdminDao {
 	// ----Insert Product Details
 	public int saveProductDetails(Product product) throws ExistProductException
 	{
-		List<Product> productList = allProductList();
-		String getProduct = productList.toString();
-		String getName = product.getName();
+		
+		List<Product> productList=allProductList();
+		String getProduct=productList.toString();
+		String getName=product.getName();
 		boolean contains=getProduct.contains(getName);
+		System.out.println("Product Contains : "+contains);
 		if (contains == true)
 		{
+			System.out.println("Start save Product");
 		    throw new ExistProductException("Product Already Exist");
 		}
 		else
@@ -114,7 +118,6 @@ public class AdminDao {
 		return update;
 
 	}
-
 	// ------save category details----
 	public void saveCategoryDetails(Category category) throws ExistCategoryException 
 	{
@@ -123,10 +126,13 @@ public class AdminDao {
 		String getName = category.getCategoryName();
 		boolean name = valid.nameValidation(getName);
 		boolean contains = getCategory.contains(getName);
-		if (contains == true)
+		
+		System.out.println("Category contains "+contains);
+		if (contains==true)
 		{
 		    throw new ExistCategoryException("Category Already Exist");
-		} else if (name == true) {
+		} else if (name == true)
+		{
 			String input=category.getCategoryName();
 			String categoryName=input.substring(0,1).toUpperCase()+input.substring(1);
 			String save = "insert into category(category_name,is_available)values(?,?)";

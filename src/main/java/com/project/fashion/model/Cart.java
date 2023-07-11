@@ -9,11 +9,15 @@ public class Cart {
 	private int price;
 	private String size;
 	private String product_type;
+	private String fabric;
+	private String gender;
 	private int quantity;
 	private int amount;
 	private int status;
+	
+	
 	public Cart(int id, int orderId, int customerId, int productId, String productName, int price, String size,
-			String product_type, int quantity, int amount, int status) {
+			String product_type, String fabric, String gender, int quantity, int amount, int status) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
@@ -23,9 +27,23 @@ public class Cart {
 		this.price = price;
 		this.size = size;
 		this.product_type = product_type;
+		this.fabric = fabric;
+		this.gender = gender;
 		this.quantity = quantity;
 		this.amount = amount;
 		this.status = status;
+	}
+	public String getFabric() {
+		return fabric;
+	}
+	public void setFabric(String fabric) {
+		this.fabric = fabric;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public int getId() {
 		return id;
@@ -100,7 +118,8 @@ public class Cart {
 	public String toString() {
 		return "Cart [id=" + id + ", orderId=" + orderId + ", customerId=" + customerId + ", productId=" + productId
 				+ ", productName=" + productName + ", price=" + price + ", size=" + size + ", product_type="
-				+ product_type + ", quantity=" + quantity + ", amount=" + amount + ", status=" + status + "]";
+				+ product_type + ", fabric=" + fabric + ", gender=" + gender + ", quantity=" + quantity + ", amount="
+				+ amount + ", status=" + status + "]";
 	}
 	
 

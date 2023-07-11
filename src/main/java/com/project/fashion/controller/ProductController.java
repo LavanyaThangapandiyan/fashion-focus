@@ -52,7 +52,6 @@ public class ProductController
 			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
 			,@RequestParam("file")String file,@ModelAttribute("Product") Product product) throws ExistProductException
 	{
-		System.out.println("Start Product Inserted ");
 		product.setName(name);
 		product.setPrice(price);
 		product.setType(type);

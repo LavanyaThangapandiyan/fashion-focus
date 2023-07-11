@@ -87,16 +87,15 @@ public class UserDao
 			String dbpass = userModel.getPassword();
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			boolean match = encoder.matches(password, dbpass);
-			
 			if (userModel!= null&&check=="true"&& match)
 			{
 					return 2;
 		    }
-			else if(match)
-				throw new InvalidEmailException("Invalid Details");
-				return 1;			
+			else if(match)	{
+			return 1;
+			}
 		}
-		return 0;	
+		throw new InvalidEmailException("Invalid Email Exception");
 	}
 	//---User List----
 	public List<User> userList() 
@@ -269,7 +268,7 @@ public class UserDao
          Cart cart=new Cart();
 	    public int saveCartDetails(Cart cart)
 	    {
-	    	String insert="insert into cart(order_id,customer_id,product_id,product_name,price,size,product_type,quantity,amount,is_available)values(?,?,?,?,?,?,?,?,?,?)";
+	    	String insert="insert into cart(customer_id,product_id,product_name,price,size,product_type,quantity,is_available)values(?,?,?,?,?,?,?,?,?,?)";
 	    	Object[] details= {cart.getOrderId(),cart.getCustomerId(),cart.getProductId(),cart.getProductName(),cart.getPrice(),cart.getSize(),cart.getProduct_type(),cart.getQuantity(),cart.getAmount(),cart.getStatus()};
 	    	int rows=jdbcTemplate.update(insert,details);
 	    	logger.info("Insert Cart details : "+rows);
