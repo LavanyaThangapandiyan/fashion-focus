@@ -22,32 +22,34 @@
         </button>
      </form>
 </div>	
+ 
 <form id="form"  th:action="@{/productlist}" th:object="${product}" method="Get">
 <button type="submit">Products</button>
 </form>
 
-<form id="form"  th:action="@{/addcart}" method="POST">
+ <p th:text="${session.userName}">Welcome </p>
 <table class="table table-bordered" style="background-color:#fsfsfs">
    <thead style="background-color: purple">
         </thead>
             <tbody>
-              <tr th:each="product, itemStat : *{productCard}">
-               <tr th:each="product : ${productCard}">
+              <tr th:each="product, itemStat : *{card}">
+               <tr th:each="product : ${card}">
                   <td>
                   <div class="card">
                   <div class="container"> 
                    <!-- Add hidden form field to handle update -->
-                          <h3><span th:text="${product.name}"> Name</h3>
-                    <p class="price">Rs.<span th:text="${product.price}"> Price </span></p>
-                            <p>Type : <span th:text="${product.type}"> Type </span></p>
-                            <p>Size : <span th:text="${product.size}"> Size </span></p>
-                            <p>Fabric : <span th:text="${product.fabric}"> Fabric </span></p>
-                            <p>Gender : <span th:text="${product.gender}"> Gender </span></p>
-                    <p><button type="submit"  class="btn btn-primary">Add to Cart</button></p>
+                          <h3><span th:text="${product.name}" > Name</h3>
+                    <p class="price">Rs.<span th:text="${product.price}" > Price </span></p>
+                            <p>Type : <span th:text="${product.type}" > Type </span></p>
+                            <p>Size : <span th:text="${product.size}" > Size </span></p>
+                            <p>Fabric : <span th:text="${product.fabric}" > Fabric </span></p>
+                            <p>Gender : <span th:text="${product.gender}" > Gender </span></p>
+                            <p hidden th:text="${session.userId}" ></p>
+                    <p><button type="submit"  class="btn btn-primary"  th:field="${product.name}" ,th:field="${product.price}">Add to Cart</button></p>
                   </div>
     </div></td><br>
 </tr></tbody>
-</table></form>
+</table>
 <style>
  input {
 	color: #171717;

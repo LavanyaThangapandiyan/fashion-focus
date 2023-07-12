@@ -2,8 +2,7 @@ package com.project.fashion.controller;
 
 import java.util.Date;
 import java.util.List;
-
-
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,14 +11,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
+import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
-import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.model.Cart;
+import com.project.fashion.model.Category;
 import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
 import com.project.fashion.model.Product;
@@ -72,23 +71,28 @@ public class UserController {
 
 	@PostMapping(path = "/loginsubmit")
 	public String submitUserRegisterForm(@RequestParam("email") String email, @RequestParam("password") String password,
-			@ModelAttribute User user, Model model) throws InvalidEmailException {
+			@ModelAttribute User user, Model model ,HttpSession session) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
+		int userId = userdao.findIdByEmail(email);
+		String userName = userdao.findNameByEmail(email);
 		int number = userdao.findUserDetails(user);
 		if (number == 2)
 			return "list";
 		else if (number == 1)
-			return "/productlist";
+		{	
+			session.setAttribute("userId", userId);
+			session.setAttribute("userName", userName);
+		    return "/productlist";
+		}
 		else
 			return "";
 	}
-	
 	//-----Handling Invalid Email Exception-----
 	@ExceptionHandler(InvalidEmailException.class)
 	public String invalidException(InvalidEmailException email ,Model model)
 	{
-		model.addAttribute("invalid","Invalid login or password. Please try again. ");
+		model.addAttribute("invalid","Invalid login or password. Please try again.");
 		return "login";
 	}
 
@@ -122,7 +126,6 @@ public class UserController {
 		return "register";
 	}
 	
-	
 	//---Handling Exist Mobile Number Exception----
 	public String existMobileNumberException(ExistMobileException existMobile,Model model)
 	{
@@ -140,23 +143,13 @@ public class UserController {
 	@GetMapping(path="/productlist")
 	public String viewProductList(Model model)
 	{
-	     model.addAttribute("productCard",productDao.allProductList());
+	     model.addAttribute("card",productDao.allProductList());
 		 return "productlist";
 	}
 	
-	
    @PostMapping(path="/addcart")
-     public String saveCartDetails(@RequestParam("id")int id,@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
-    		 @RequestParam("size")String size,@RequestParam("fabric")String fabric,@RequestParam("gender")String gender)
+     public String saveCartDetails(@ModelAttribute("cart")Cart cart,Model model)
      {
-	    Cart cart=new Cart();
-	    cart.setProductId(id);
-	    cart.setProductName(name);
-	    cart.setPrice(price);
-	    cart.setProduct_type(type);
-	    cart.setSize(size);
-	    cart.setFabric(fabric);
-	    cart.setGender(gender);
 	    userdao.saveCartDetails(cart);
 		return "/productlist";
      }

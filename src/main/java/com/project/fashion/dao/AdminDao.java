@@ -16,7 +16,6 @@ import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.mapper.SingleProductMapper;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
-import com.project.fashion.model.User;
 import com.project.fashion.util.ConnectionUtil;
 import com.project.fashion.validation.Validation;
 
@@ -116,6 +115,7 @@ public class AdminDao {
 		return update;
 
 	}
+	
 	// ------save category details----
 	public void saveCategoryDetails(Category category) throws ExistCategoryException 
 	{

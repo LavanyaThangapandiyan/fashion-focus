@@ -129,11 +129,30 @@ public class UserDao
 		String updatePassword="update admin_user set password=? where email=?";
 		Object[] details= {encodedPassword,user.getEmail()};
 		int numberOfRows=jdbcTemplate.update(updatePassword,details);
-        logger.info("Update Password : "+numberOfRows);
+        logger.info("Update Password : "+numberOfRows);        
 		return 1;
 		}
 		else
 			throw new InvalidEmailException("Invalid Email ID");
+	}
+	
+	//----Find User ID By Email----- 
+	public int findIdByEmail(String email)
+	{
+		    String find="select id,username,email,password,phone_number,gender from admin_user where email=email";
+	         List<User> query = jdbcTemplate.query(find, new UserMapper());
+	        User details = query.get(1);
+	        int id = details.getId();
+		 return id ;     
+	}
+	//---Find User Name By Email----
+	public String findNameByEmail(String email)
+	{
+		    String find="select id,username,email,password,phone_number,gender from admin_user where email=email";
+	         List<User> query = jdbcTemplate.query(find, new UserMapper());
+	         User details = query.get(1);
+	        String name = details.getName();
+		 return name ;     
 	}
 	
 	//-------------------Payment CRUD--------------------

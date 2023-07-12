@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
@@ -19,9 +18,7 @@ import com.project.fashion.model.Product;
 @Controller
 public class ProductController
 {   
-	
 	AdminDao productDao=new AdminDao();
-	
 	Product product=new Product();
 	Category category=new Category();
 	
