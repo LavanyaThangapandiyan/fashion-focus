@@ -70,6 +70,10 @@ function decreaseValue() {
 		<h1>Welcome</h1>
 		<p><b>Please set up product details</b></p>
     <div>
+    <p id="error" th:text="${existproduct}"></p>
+    <span id="replace_target"></span>
+   </div>
+    <div>
       <label for="cars"><b>Choose a gender type : </b></label>
       <select name="gender" id="op">
         <option name="men">Men</option>
@@ -124,6 +128,11 @@ function decreaseValue() {
 	</form>
 </div>
 <style>
+ #error {
+    text-align: center;
+  color:red;
+  text-indent: 30px;
+}  
   .sidenav {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
@@ -262,7 +271,7 @@ input[type=number]::-webkit-outer-spin-button {
    box-shadow: 0 20px 10px 0 rgba(0, 0, 0, 0.2);
     padding: 20px;
     height: 900px;
-    width:650px;
+    width:670px;
     margin:20vh auto 0 auto;
     background-color: whitesmoke;
     border-radius: 5px;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
+import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.model.Cart;
 import com.project.fashion.model.Order;
@@ -79,21 +81,26 @@ public class UserController {
 		else if (number == 1)
 			return "/productlist";
 		else
-			return "login";
-
+			return "";
+	}
+	
+	//-----Handling Invalid Email Exception-----
+	@ExceptionHandler(InvalidEmailException.class)
+	public String invalidException(InvalidEmailException email ,Model model)
+	{
+		model.addAttribute("invalid","Invalid login or password. Please try again. ");
+		return "login";
 	}
 
 	@GetMapping(path = "/register")
 	public String getRegisterForm() {
 		return "register";
-
 	}
-
 	@PostMapping(path = "/register-submit")
 	public String saveUserDetails(@RequestParam("username") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("mobile") String mobile,
-			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException {
-		System.out.println("Start Register");
+			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException 
+	{
 		User user=new User();
 		user.setName(name);
 		user.setEmail(email);
@@ -103,8 +110,24 @@ public class UserController {
 		int number = userdao.saveDetails(user);
 		if (number == 1)
 			return "login";
-		else
+		else 
 			return "register";
+	}
+	
+	//---Handling Exist Mail ID Exception ----
+	@ExceptionHandler(ExistMailIdException.class)
+	public String existMailException(ExistMailIdException exist,Model model)
+	{
+		model.addAttribute("existMail","Email Id Already Exist.");
+		return "register";
+	}
+	
+	
+	//---Handling Exist Mobile Number Exception----
+	public String existMobileNumberException(ExistMobileException existMobile,Model model)
+	{
+		model.addAttribute("existMobile","Mobile Number Already Exist.");
+		return "register";
 	}
 
 	@GetMapping("userlist")
@@ -122,7 +145,7 @@ public class UserController {
 	}
 	
 	
-   @GetMapping(path="/addcart")
+   @PostMapping(path="/addcart")
      public String saveCartDetails(@RequestParam("id")int id,@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
     		 @RequestParam("size")String size,@RequestParam("fabric")String fabric,@RequestParam("gender")String gender)
      {
@@ -211,6 +234,4 @@ public class UserController {
 	userdao.savePaymentDetails(pay);
 	return "/payment";
    }
-   
-
 }

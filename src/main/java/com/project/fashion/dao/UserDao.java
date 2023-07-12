@@ -42,6 +42,7 @@ public class UserDao
 		if (contains == true) 
 		{
 			throw new ExistMailIdException("Exist Email Exception");
+			
 		} else if (mobilecont == true)
 		{
 			  throw new ExistMobileException("Exist Mobile Number Exception");

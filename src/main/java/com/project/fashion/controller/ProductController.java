@@ -3,6 +3,7 @@ package com.project.fashion.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,13 +40,11 @@ public class ProductController
 	public String showSales()
 	{
 		return "sales";
-		
 	}
 	@GetMapping(path="/item")
 	public String showProduct()
 	{
 		return "item";
-		
 	}	
 	@PostMapping(path="/productsubmit")
 	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
@@ -61,12 +60,19 @@ public class ProductController
 		product.setGender(gender);
 		product.setImage(file);
 		int number=productDao.saveProductDetails(product);
-		
 		if(number==1)
 			return "redirect:/allproduct";
 		else
 		return "product";
 	}
+	
+	//---Handling Exist Product Exception ----
+	        @ExceptionHandler(ExistProductException.class)
+			public String existProductException(ExistProductException exception,Model model)
+			{
+				model.addAttribute("existproduct","Product Already Exist");
+				return "product";
+			}
 	
 	//--Display List of Category
 	@GetMapping("/category")
@@ -92,6 +98,16 @@ public class ProductController
 		productDao.saveCategoryDetails(category);
 		return "redirect:category";
 	}
+	
+	//----Handling Exist Category Exception ----
+	@ExceptionHandler(ExistCategoryException.class)
+	public String existCategoryException(ExistCategoryException exception,Model model)
+	{
+		model.addAttribute("existcategory","Category Already Exist.");
+		return "new_category";
+		
+	}
+	
 	@GetMapping("/updatecategory/{id}")
 	public String showFormForCategoryUpdate(@PathVariable(value="id")int id,Model model)
 	{
@@ -125,7 +141,7 @@ public class ProductController
 	@GetMapping(path="/updateproduct")
 	public String updateProduct(@RequestParam("name")String name,@RequestParam("price")int price,
 			@RequestParam("type")String type,@RequestParam("size")String size,@RequestParam("quantity")int quantity,
-			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id) throws ExistProductException
+			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id)
 	{
 		product.setId(id);
 		product.setName(name);
@@ -138,7 +154,8 @@ public class ProductController
 		productDao.updateProductDetails(id, name, price, size, quantity, fabric, gender);
 		return "redirect:allproduct";
 	}
-	@GetMapping("/active/{id}")
+	
+     @GetMapping("/active/{id}")
 	public String activeProduct(@PathVariable(value="id")int id)
 	{
 		this.productDao.activeProduct(id);

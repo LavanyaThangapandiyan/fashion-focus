@@ -30,7 +30,15 @@
     <div class="container">
         <form id="form" action="register" th:action="@{/register-submit}" th:object="${user}" method="POST">
             <h1>Welcome</h1>
-			<p>Please set up your account</p>
+			<p><b>Please set up your account</b></p>
+		  <div>
+          <p id="error" th:text="${existMail}"></p>
+          <span id="replace_target"></span>
+          </div>
+          <div>
+          <p id="error2" th:text="${existMobile}"></p>
+          <span id="replace_target"></span>
+          </div>
             <div class="input-group">
                 <label for="username"><b>Username</b></label>
                 <input type="text" id="username" pattern="^[a-zA-Z]+$" placeholder="Enter Name" name="username">
@@ -188,6 +196,17 @@ const validateEmail = (email) => {
   };
     </script>
 <style>
+#error {
+    text-align: center;
+  color:red;
+  text-indent: 30px;
+}
+#error2 {
+    text-align: center;
+  color:red;
+  text-indent: 30px;
+}
+
      #male {
             accent-color: #792099;
         }

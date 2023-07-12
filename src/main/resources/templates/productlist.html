@@ -3,7 +3,6 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	 
 <head>
 <meta charset="ISO-8859-1">
 <title>Product List</title>
@@ -38,19 +37,17 @@
                   <div class="card">
                   <div class="container"> 
                    <!-- Add hidden form field to handle update -->
-                   <input type="hidden" th:field="*{id}" />
-                    <h3><span th:text="${product.name}"> Name</h3>
+                          <h3><span th:text="${product.name}"> Name</h3>
                     <p class="price">Rs.<span th:text="${product.price}"> Price </span></p>
                             <p>Type : <span th:text="${product.type}"> Type </span></p>
                             <p>Size : <span th:text="${product.size}"> Size </span></p>
                             <p>Fabric : <span th:text="${product.fabric}"> Fabric </span></p>
                             <p>Gender : <span th:text="${product.gender}"> Gender </span></p>
-                    <p><button type="submit" th:href="@{} class="btn btn-primary">Add to Cart</button></p>
+                    <p><button type="submit"  class="btn btn-primary">Add to Cart</button></p>
                   </div>
     </div></td><br>
 </tr></tbody>
-</table>
-</form> 
+</table></form>
 <style>
  input {
 	color: #171717;

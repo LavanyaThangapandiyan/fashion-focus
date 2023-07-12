@@ -9,6 +9,11 @@
     <div class="container">
         <hr>
         <h2>Update Product</h2>
+        <div>
+        <p id="error" th:text="${existProduct}"></p>
+        <span id="replace_target"></span>
+       </div>
+        
         <form  th:action="@{/updateproduct}" th:object="${product}" method="GET">
 
             <!-- Add hidden form field to handle update -->
@@ -26,5 +31,12 @@
         <hr>
         <a th:href="@{/allproduct}"> Back to Product List</a>
     </div>
+    <style>
+    #error {
+    text-align: center;
+  color:red;
+  text-indent: 30px;
+}  
+    </style>
 </body>
 </html>

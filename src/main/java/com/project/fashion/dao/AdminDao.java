@@ -39,10 +39,8 @@ public class AdminDao {
 		String getProduct=productList.toString();
 		String getName=product.getName();
 		boolean contains=getProduct.contains(getName);
-		System.out.println("Product Contains : "+contains);
-		if (contains == true)
+	     if (contains == true)
 		{
-			System.out.println("Start save Product");
 		    throw new ExistProductException("Product Already Exist");
 		}
 		else

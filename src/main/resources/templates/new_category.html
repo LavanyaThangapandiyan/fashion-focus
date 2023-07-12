@@ -8,10 +8,12 @@
 <body>
     <div class="container">
         <hr>
-        <h2>Save Category</h2>
-
-        <form  th:action="@{/savesubmit}" th:object="${category}" method="POST">
-
+     <h2>Save Category</h2>
+    <div>
+    <p id="error" th:text="${existcategory}"></p>
+    <span id="replace_target"></span>
+   </div>
+    <form  th:action="@{/savesubmit}" th:object="${category}" method="POST">
             <input type="text" th:field="*{categoryName}" placeholder="Enter Category Name" class="form-control mb-4 col-4" required>
 
             <button type="submit" class="btn btn-info col-2"> Save Category</button>
@@ -19,5 +21,12 @@
         <hr>
         <a th:href="@{/category}"> Back to Category List</a>
     </div>
+    <style>
+   #error {
+  text-align: center;
+  color:red;
+  text-indent: 30px;
+}  
+    </style>
 </body>
 </html>

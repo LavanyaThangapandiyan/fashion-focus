@@ -26,9 +26,13 @@
 	</header>
 	<div class="container">
 	<form id="form" action="#" th:action="@{/loginsubmit}" th:object="${user}" method="POST">
-      <!-- class named "container" is assigned to div -->
+      <!-- class named "container" is assigned to div -->    
 	  <div class="input-group">
        <h1>Welcome</h1>
+     <div>
+    <p id="error" th:text="${invalid}"></p>
+    <span id="replace_target"></span>
+   </div>
        <br>
 	   <div class="input-group">
 		<label for="username"><b>Email</b></label>
@@ -107,7 +111,11 @@ function setSuccess(element){
 	}
 	</script>
 <style>
-        
+ #error {
+    text-align: center;
+  color:red;
+  text-indent: 30px;
+}    
 body{
     font-family: 'Poppins', sans-serif; 
 }

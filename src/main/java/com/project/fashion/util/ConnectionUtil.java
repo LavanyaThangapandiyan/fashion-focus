@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ConnectionUtil {
 
-	public static DataSource getDataSource() {
-
+	public static DataSource getDataSource()
+	{
 		BasicDataSource ds = new BasicDataSource();
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/fashion");
