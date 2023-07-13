@@ -1,10 +1,7 @@
 <html xmlns:th="https://thymeleaf.org"> 
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	 <link rel="stylesheet" href="css/tab.css"> 
-	 
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">	 
+	 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css">
 <head>
 <meta charset="ISO-8859-1">
 <title>Product List</title>
@@ -24,9 +21,10 @@
 </header>
  <a th:href="@{/product}" class="btn btn-primary btn-sm mb-3"> Add Product </a>
  
-<table class="table table-bordered" style="background-color: #fsfsfs">
+<table id="example" class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
         <tr>
+             <th style="color:white; font-size:14pt;">image</th>
              <th style="color:white; font-size:14pt;"> Name </th>
              <th style="color:white; font-size:14pt;"> Price </th>
              <th style="color:white; font-size:14pt;"> Type </th>
@@ -35,11 +33,17 @@
              <th style="color:white; font-size:14pt;"> Fabric </th>
              <th style="color:white; font-size:14pt;"> Gender </th>
              <th style="color:white; font-size:14pt;"> Actions </th>
+            
         </tr>
     </thead>
     <tbody> 
     <tr th:each="product, itemStat : *{allproduct}">
         <tr th:each="product : ${allproduct}">
+              <td>
+              
+              
+			  <img alt="" th:src="'data:images/jpg;base64,' + ${product.image}"
+							style="width: 100px;"></td>				
                <td><span th:text="${product.name}"> Name </span></td>
                <td><span th:text="${product.price}"> Price </span></td>
                <td><span th:text="${product.type}"> Type </span></td>
@@ -53,7 +57,14 @@
         </tr>
     </tbody>   
 </table>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#example').DataTable();
+	} );
+	</script>
  <br><br>
 <table class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">

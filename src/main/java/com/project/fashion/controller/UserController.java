@@ -74,14 +74,14 @@ public class UserController {
 			@ModelAttribute User user, Model model ,HttpSession session) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
-		int userId = userdao.findIdByEmail(email);
-		String userName = userdao.findNameByEmail(email);
 		int number = userdao.findUserDetails(user);
 		if (number == 2)
 			return "list";
 		else if (number == 1)
 		{	
+			int userId = userdao.findIdByEmail(email);
 			session.setAttribute("userId", userId);
+			String userName = userdao.findNameByEmail(email);
 			session.setAttribute("userName", userName);
 		    return "/productlist";
 		}

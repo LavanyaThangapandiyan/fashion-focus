@@ -21,7 +21,7 @@ public class ProductMapperAll implements RowMapper<Product> {
 		int quantity=rs.getInt("quantity");
 		String fabric=rs.getString("fabric");
 		String gender=rs.getString("gender");
-		String image=rs.getString("image");
+	    byte[] image=rs.getBytes("image");
 		product.setId(id);
 		product.setName(name);
 		product.setPrice(price);

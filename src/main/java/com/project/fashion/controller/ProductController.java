@@ -1,6 +1,9 @@
 package com.project.fashion.controller;
 
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
@@ -44,10 +48,11 @@ public class ProductController
 		return "item";
 	}	
 	@PostMapping(path="/productsubmit")
-	public String saveProduct(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
+	public String saveProduct(@RequestParam("images")MultipartFile images ,@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
 			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
-			,@RequestParam("file")String file,@ModelAttribute("Product") Product product) throws ExistProductException
+			,@ModelAttribute("Product") Product product) throws ExistProductException, IOException
 	{
+		String path ="C:\\Users\\lavacon290\\eclipse-workspace\\FashionFocus\\src\\main\\resources\\static\\images\\";
 		product.setName(name);
 		product.setPrice(price);
 		product.setType(type);
@@ -55,12 +60,17 @@ public class ProductController
 		product.setQuantity(quantity);
 		product.setFabric(fabric);
 		product.setGender(gender);
-		product.setImage(file);
+		String fileName = images.getOriginalFilename();
+		try(FileInputStream files = new FileInputStream(path + fileName);)
+		{
+		byte[] images1 = files.readAllBytes();
+		product.setImage(images1);
 		int number=productDao.saveProductDetails(product);
 		if(number==1)
 			return "redirect:/allproduct";
 		else
 		return "product";
+		}
 	}
 	
 	//---Handling Exist Product Exception ----

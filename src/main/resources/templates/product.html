@@ -66,7 +66,7 @@ function decreaseValue() {
 }
 </script>
 <div class="container">
-	<form id="form" action="product" th:action="@{/productsubmit}" th:object="${product}" method="POST">
+	<form id="form" action="product" th:action="@{/productsubmit}" th:object="${product}" method="POST" enctype="multipart/form-data">
 		<h1>Welcome</h1>
 		<p><b>Please set up product details</b></p>
     <div>
@@ -118,12 +118,11 @@ function decreaseValue() {
         <input type="number" id="number" name="quantity" value="0" />
         <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value"><b>+</b></div>
     </div><br>
-    <label for="type"><b>Upload Image</b></label>
-    <input type="file" id="photo" name="file" accept=".jpg,.jpeg,.png" required><br>
-		<button type="submit">Submit</button>
+       <label for="type"><b>Upload Image</b></label>
+           <input type="file" class="form-control" placeholder="" name="images" id="photo" required="required">
 		<br>
-		<button type="submit">
-			<a th:href="@{/}">Cancel</a>
+		<button type="submit">Submit</button>
+		<button type="submit"><a th:href="@{/}">Cancel</a>
 		</button>
 	</form>
 </div>
@@ -271,7 +270,7 @@ input[type=number]::-webkit-outer-spin-button {
    box-shadow: 0 20px 10px 0 rgba(0, 0, 0, 0.2);
     padding: 20px;
     height: 900px;
-    width:670px;
+    width:680px;
     margin:20vh auto 0 auto;
     background-color: whitesmoke;
     border-radius: 5px;
