@@ -1,12 +1,10 @@
 package com.project.fashion.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Base64;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,6 +51,7 @@ public class ProductController {
 			@RequestParam("quantity") int quantity, @RequestParam("gender") String gender,
 			@RequestParam("fabric") String fabric, @ModelAttribute("Product") Product product)
 	  throws ExistProductException, IOException {
+		
 	    product.setName(name);
 		product.setPrice(price);
 		product.setType(type);

@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
-import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.model.Cart;
-import com.project.fashion.model.Category;
 import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
 import com.project.fashion.model.Product;
@@ -80,7 +78,11 @@ public class UserController {
 		else if (number == 1)
 		{	
 			List<User> userDetails = userdao.userDetails(email, session);
-			
+			int userId = userdao.findIdByEmail(email);
+			session.setAttribute("userId",userId );
+			String nameByEmail = userdao.findNameByEmail(email);
+			session.setAttribute("userName", nameByEmail);
+			session.setAttribute("userDetails", userDetails);
 		    return "/productlist";
 		}
 		else
@@ -144,16 +146,18 @@ public class UserController {
 	     model.addAttribute("card",productDao.allProductList());
 		 return "productlist";
 	}
-	
-   @PostMapping(path="/addcart")
-     public String saveCartDetails(@ModelAttribute("cart")Cart cart,Model model)
+   @GetMapping(path="/addcart")
+     public String saveCartDetails(@RequestParam("userId")int userId,@RequestParam("id")int id,
+    		 @RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
+    		 @RequestParam("quantity")int quantity,
+    		 @RequestParam("size")String size)
      {
-	    userdao.saveCartDetails(cart);
+	   userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
 		return "/productlist";
      }
    
    @GetMapping(path="/updatesize/{id}")
-   public String updateSize(@PathVariable(value="id")int id,Model model)
+   public String updateSize(@PathVariable(value="id")int id,@RequestParam("quantity")int quantity,Model model)
    {
 	  Cart carts=userdao.updateProductSize(id);
 	  model.addAttribute("cart",carts);

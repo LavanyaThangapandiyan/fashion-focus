@@ -21,6 +21,7 @@ import com.project.fashion.mapper.WishListMapper;
 import com.project.fashion.model.Cart;
 import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
+import com.project.fashion.model.Product;
 import com.project.fashion.model.User;
 import com.project.fashion.model.WishList;
 import com.project.fashion.util.ConnectionUtil;
@@ -301,14 +302,17 @@ public class UserDao
 	    //----Cart CRUD----
 	    //----save Cart details--
          Cart cart=new Cart();
-	    public int saveCartDetails(Cart cart)
+	    public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size )
 	    {
-	    	String insert="insert into cart(customer_id,product_id,product_name,price,size,product_type,quantity,is_available)values(?,?,?,?,?,?,?,?,?,?)";
-	    	Object[] details= {cart.getOrderId(),cart.getCustomerId(),cart.getProductId(),cart.getProductName(),cart.getPrice(),cart.getSize(),cart.getProduct_type(),cart.getQuantity(),cart.getAmount(),cart.getStatus()};
+	    	String insert="insert into cart(customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?)";
+            int amount=price;
+	    	int totalAmount=amount*quantity;
+	    	Object[] details= {userId,id,name,price,size,type,quantity,totalAmount,"Available"};
 	    	int rows=jdbcTemplate.update(insert,details);
 	    	logger.info("Insert Cart details : "+rows);
 			return 1;
 	    }
+	    
 	    //----Active and In active cart details---
 	    public void activeAndInActiveCart(int id)
 	    {
@@ -338,4 +342,5 @@ public class UserDao
 	    	logger.info("Update Quantity : "+update);
 			return cart;
 	    }
+		
 }
