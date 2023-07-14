@@ -1,6 +1,8 @@
 package com.project.fashion.model;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
 
 public class Product {
 
@@ -14,7 +16,9 @@ public class Product {
 	private String size;
 	private int quantity;
 	private String fabric;
-	private byte[] image;
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String image;
 	private String gender;
 	private String available;
 	
@@ -66,11 +70,11 @@ public class Product {
 	public void setFabric(String fabric) {
 		this.fabric = fabric;
 	}
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
-	public void setImage(byte[] images) {
-		this.image = images;
+	public void setImage(String fileName) {
+		this.image = fileName;
 	}
 	public String getGender() {
 		return gender;
@@ -78,7 +82,7 @@ public class Product {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Product(int id, String name, int price, String type, String size, int quantity, String fabric, byte[] image,
+	public Product(int id, String name, int price, String type, String size, int quantity, String fabric, String image,
 			String gender, String available) {
 		super();
 		this.id = id;

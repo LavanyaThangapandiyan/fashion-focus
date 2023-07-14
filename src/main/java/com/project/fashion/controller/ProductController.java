@@ -1,11 +1,12 @@
 package com.project.fashion.controller;
 
-
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,136 +21,125 @@ import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 
 @Controller
-public class ProductController
-{   
-	AdminDao productDao=new AdminDao();
-	Product product=new Product();
-	Category category=new Category();
-	
-	@GetMapping(path="/product")
-	public String getRegisterForm(Model model)
-	{
-	    model.addAttribute("nameList",productDao.getCategoryName());
+public class ProductController {
+	AdminDao productDao = new AdminDao();
+	Product product = new Product();
+	Category category = new Category();
+
+	@GetMapping(path = "/product")
+	public String getRegisterForm(Model model) {
+		model.addAttribute("nameList", productDao.getCategoryName());
 		return "product";
 	}
-	@GetMapping(path="/customer")
-	public String showCustomer()
-	{
+
+	@GetMapping(path = "/customer")
+	public String showCustomer() {
 		return "customer";
 	}
-	@GetMapping(path="/sales")
-	public String showSales()
-	{
+
+	@GetMapping(path = "/sales")
+	public String showSales() {
 		return "sales";
 	}
-	@GetMapping(path="/item")
-	public String showProduct()
-	{
+
+	@GetMapping(path = "/item")
+	public String showProduct() {
 		return "item";
-	}	
-	@PostMapping(path="/productsubmit")
-	public String saveProduct(@RequestParam("images")MultipartFile images ,@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("category")String type,
-			@RequestParam("size")String size,@RequestParam("quantity")int quantity,@RequestParam("gender")String gender,@RequestParam("fabric")String fabric
-			,@ModelAttribute("Product") Product product) throws ExistProductException, IOException
-	{
-		String path ="C:\\Users\\lavacon290\\eclipse-workspace\\FashionFocus\\src\\main\\resources\\static\\images\\";
-		product.setName(name);
+	}
+
+	@PostMapping(path = "/productsubmit")
+	public String saveProduct(@RequestParam("images") MultipartFile images, @RequestParam("name") String name,
+			@RequestParam("price") int price, @RequestParam("category") String type, @RequestParam("size") String size,
+			@RequestParam("quantity") int quantity, @RequestParam("gender") String gender,
+			@RequestParam("fabric") String fabric, @ModelAttribute("Product") Product product)
+	  throws ExistProductException, IOException {
+	    product.setName(name);
 		product.setPrice(price);
 		product.setType(type);
 		product.setSize(size);
 		product.setQuantity(quantity);
 		product.setFabric(fabric);
 		product.setGender(gender);
-		String fileName = images.getOriginalFilename();
-		try(FileInputStream files = new FileInputStream(path + fileName);)
-		{
-		byte[] images1 = files.readAllBytes();
-		product.setImage(images1);
-		int number=productDao.saveProductDetails(product);
-		if(number==1)
-			return "redirect:/allproduct";
-		else
-		return "product";
-		}
+	    product.setImage(Base64.getEncoder().encodeToString(images.getBytes()));
+			int number = productDao.saveProductDetails(product);
+			if (number == 1)
+				return "redirect:/allproduct";
+			else
+				return "product";		
 	}
-	
-	//---Handling Exist Product Exception ----
-	        @ExceptionHandler(ExistProductException.class)
-			public String existProductException(ExistProductException exception,Model model)
-			{
-				model.addAttribute("existproduct","Product Already Exist");
-				return "product";
-			}
-	
-	//--Display List of Category
+
+	// ---Handling Exist Product Exception ----
+	@ExceptionHandler(ExistProductException.class)
+	public String existProductException(ExistProductException exception, Model model) {
+		model.addAttribute("existproduct", "Product Already Exist");
+		return "product";
+	}
+
+	// --Display List of Category
 	@GetMapping("/category")
-	public String viewCategoryPage(Model model)
-	{
-		model.addAttribute("listCategory",productDao.categoryList());
-		model.addAttribute("unActiveList",productDao.unActiveCategoryList());
+	public String viewCategoryPage(Model model) {
+		model.addAttribute("listCategory", productDao.categoryList());
+		model.addAttribute("unActiveList", productDao.unActiveCategoryList());
 		return "category";
 	}
 
 	@GetMapping("/newcategory")
-	public String showNewCategoryForm(Model model)
-	{
+	public String showNewCategoryForm(Model model) {
 		// create model attribute to bind form data
-		model.addAttribute("category",category);
+		model.addAttribute("category", category);
 		return "/new_category";
 	}
-	
+
 	@PostMapping("/savesubmit")
-	public String saveCategory(@ModelAttribute("category") Category category,Model model) throws ExistCategoryException
-	{
-		//save category to database
+	public String saveCategory(@ModelAttribute("category") Category category, Model model)
+			throws ExistCategoryException {
+		// save category to database
 		productDao.saveCategoryDetails(category);
 		return "redirect:category";
 	}
-	
-	//----Handling Exist Category Exception ----
+
+	// ----Handling Exist Category Exception ----
 	@ExceptionHandler(ExistCategoryException.class)
-	public String existCategoryException(ExistCategoryException exception,Model model)
-	{
-		model.addAttribute("existcategory","Category Already Exist.");
+	public String existCategoryException(ExistCategoryException exception, Model model) {
+		model.addAttribute("existcategory", "Category Already Exist.");
 		return "new_category";
-		
+
 	}
-	
+
 	@GetMapping("/updatecategory/{id}")
-	public String showFormForCategoryUpdate(@PathVariable(value="id")int id,Model model)
-	{
-		Category category=productDao.findCategoryById(id);
-		model.addAttribute("category",category);
-		return "update";	
+	public String showFormForCategoryUpdate(@PathVariable(value = "id") int id, Model model) {
+		Category category = productDao.findCategoryById(id);
+		model.addAttribute("category", category);
+		return "update";
 	}
-	
-	@PostMapping(path="/updatesubmit")
-	public String updateCategoryName(@RequestParam("categoryName")String name,@RequestParam("id")int id)
-	{
+
+	@PostMapping(path = "/updatesubmit")
+	public String updateCategoryName(@RequestParam("categoryName") String name, @RequestParam("id") int id) {
 		category.setId(id);
 		category.setCategoryName(name);
 		productDao.updateCategoryName(id, name);
-		return "redirect:/category";	
+		return "redirect:/category";
 	}
+
 	@GetMapping("/allproduct")
-	public String viewProductPage(Model model)
-	{
-		model.addAttribute("allproduct",productDao.allProductList());
-		model.addAttribute("inActiveproducts",productDao.unActiveProductList());
+	public String viewProductPage(Model model) {
+		model.addAttribute("allproduct", productDao.allProductList());
+		model.addAttribute("inActiveproducts", productDao.unActiveProductList());
 		return "/allproduct";
 	}
+
 	@GetMapping("/update/{id}")
-	public String showFormProductUpdate(@PathVariable(value="id")int id,Model model)
-	{
-	    Product product=productDao.getProductById(id);
+	public String showFormProductUpdate(@PathVariable(value = "id") int id, Model model) {
+		Product product = productDao.getProductById(id);
 		model.addAttribute("product", product);
 		return "/update_product";
 	}
-	@GetMapping(path="/updateproduct")
-	public String updateProduct(@RequestParam("name")String name,@RequestParam("price")int price,
-			@RequestParam("type")String type,@RequestParam("size")String size,@RequestParam("quantity")int quantity,
-			@RequestParam("fabric")String fabric,@RequestParam("gender")String gender,@RequestParam("id")int id)
-	{
+
+	@GetMapping(path = "/updateproduct")
+	public String updateProduct(@RequestParam("name") String name, @RequestParam("price") int price,
+			@RequestParam("type") String type, @RequestParam("size") String size,
+			@RequestParam("quantity") int quantity, @RequestParam("fabric") String fabric,
+			@RequestParam("gender") String gender, @RequestParam("id") int id) {
 		product.setId(id);
 		product.setName(name);
 		product.setPrice(price);
@@ -161,34 +151,30 @@ public class ProductController
 		productDao.updateProductDetails(id, name, price, size, quantity, fabric, gender);
 		return "redirect:allproduct";
 	}
-	
-     @GetMapping("/active/{id}")
-	public String activeProduct(@PathVariable(value="id")int id)
-	{
+
+	@GetMapping("/active/{id}")
+	public String activeProduct(@PathVariable(value = "id") int id) {
 		this.productDao.activeProduct(id);
 		return "redirect:/allproduct";
 	}
-	
+
 	@GetMapping("/deleteproduct/{id}")
-	public String unActiveProduct(@PathVariable(value="id")int id)
-	{
+	public String unActiveProduct(@PathVariable(value = "id") int id) {
 		this.productDao.deleteProduct(id);
 		return "redirect:/allproduct";
 	}
-	
-	
+
 	@GetMapping("/deletecategory/{id}")
-	public String deleteCategoryById(@PathVariable(value="id")int id)
-	{
-		 // call delete Category method 
+	public String deleteCategoryById(@PathVariable(value = "id") int id) {
+		// call delete Category method
 		this.productDao.deleteCategoryDetails(id);
 		return "redirect:/category";
 	}
+
 	@GetMapping("/activecategory/{id}")
-	public String activeCategory(@PathVariable(value="id")int id)
-	{
+	public String activeCategory(@PathVariable(value = "id") int id) {
 		this.productDao.activeCategoryDetails(id);
-		return "redirect:/category";	
+		return "redirect:/category";
 	}
-	
+
 }

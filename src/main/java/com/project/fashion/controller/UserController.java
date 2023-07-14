@@ -79,10 +79,8 @@ public class UserController {
 			return "list";
 		else if (number == 1)
 		{	
-			int userId = userdao.findIdByEmail(email);
-			session.setAttribute("userId", userId);
-			String userName = userdao.findNameByEmail(email);
-			session.setAttribute("userName", userName);
+			List<User> userDetails = userdao.userDetails(email, session);
+			
 		    return "/productlist";
 		}
 		else

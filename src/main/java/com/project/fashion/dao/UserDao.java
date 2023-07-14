@@ -2,6 +2,9 @@ package com.project.fashion.dao;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -101,10 +104,22 @@ public class UserDao
 	//---User List----
 	public List<User> userList() 
 	{
-		String userList = "select username,email,password,phone_number,gender from admin_user";
+		String userList = "select id,username,email,password,phone_number,gender from admin_user";
 		List<User> listUser = jdbcTemplate.query(userList, new UserMapper());
 		return listUser;
 	}
+	
+	//---User List----
+		public List<User> userDetails(String email,HttpSession session) 
+		{
+			String userList = "select id,username,email,password,phone_number,gender from admin_user where email=?";
+			List<User> listUser = jdbcTemplate.query(userList, new UserMapper(),email);
+			session.setAttribute("userList", listUser);
+			return listUser;
+		}
+	
+	
+	
 	//----Delete User Details
 	public int deleteUserDetails(User user)
 	{

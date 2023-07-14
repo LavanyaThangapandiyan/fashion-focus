@@ -33,15 +33,12 @@
              <th style="color:white; font-size:14pt;"> Fabric </th>
              <th style="color:white; font-size:14pt;"> Gender </th>
              <th style="color:white; font-size:14pt;"> Actions </th>
-            
         </tr>
     </thead>
     <tbody> 
     <tr th:each="product, itemStat : *{allproduct}">
         <tr th:each="product : ${allproduct}">
               <td>
-              
-              
 			  <img alt="" th:src="'data:images/jpg;base64,' + ${product.image}"
 							style="width: 100px;"></td>				
                <td><span th:text="${product.name}"> Name </span></td>
