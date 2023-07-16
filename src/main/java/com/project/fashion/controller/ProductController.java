@@ -50,7 +50,7 @@ public class ProductController {
 			@RequestParam("price") int price, @RequestParam("category") String type, @RequestParam("size") String size,
 			@RequestParam("quantity") int quantity, @RequestParam("gender") String gender,
 			@RequestParam("fabric") String fabric, @ModelAttribute("Product") Product product)
-	  throws ExistProductException, IOException {
+	  throws  IOException, ExistProductException {
 		
 	    product.setName(name);
 		product.setPrice(price);

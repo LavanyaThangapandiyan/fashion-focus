@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Product List</title>
+  <title>All Sarees</title>
 </head>
 <body>
   <script>
@@ -38,15 +38,15 @@
  </div>
   </header>
   <p th:text="${session.userName}"></p>
-  <form id="form" th:action="@{/productlist}" th:object="${product}" method="Get">
+  <form id="form" th:action="@{/jeggin}" th:object="${product}" method="Get">
     <button type="submit">Products</button>
   </form>
   <table class="table table-bordered" style="background-color:#fsfsfs">
   <thead style="background-color: purple">
     </thead>
     <tbody>
-      <tr th:each="product, itemStat : *{card}">
-      <tr th:each="product : ${card}">
+      <tr th:each="product, itemStat : *{jegginlist}">
+      <tr th:each="product : ${jegginlist}">
         <td>
           <body>
        <form  th:action="@{/addcart}" method="GET">

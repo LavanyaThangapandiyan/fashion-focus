@@ -13,8 +13,10 @@ import org.springframework.stereotype.Repository;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
+import com.project.fashion.mapper.CartMapper;
 import com.project.fashion.mapper.OrderMapper;
 import com.project.fashion.mapper.PaymentMapper;
+import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.mapper.UserMapper;
 import com.project.fashion.mapper.UserMapperSingle;
 import com.project.fashion.mapper.WishListMapper;
@@ -298,21 +300,20 @@ public class UserDao
 	    	logger.info("Wish list status updated :"+rows);
 			return 1;
 	    }
-	    
-	    //----Cart CRUD----
+	     //----Cart CRUD----
 	    //----save Cart details--
          Cart cart=new Cart();
-	    public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size )
+	    public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size)
 	    {
 	    	String insert="insert into cart(customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?)";
             int amount=price;
 	    	int totalAmount=amount*quantity;
 	    	Object[] details= {userId,id,name,price,size,type,quantity,totalAmount,"Available"};
 	    	int rows=jdbcTemplate.update(insert,details);
-	    	logger.info("Insert Cart details : "+rows);
-			return 1;
+	        logger.info("Insert Cart details : "+rows);
+			return 0;
 	    }
-	    
+	  
 	    //----Active and In active cart details---
 	    public void activeAndInActiveCart(int id)
 	    {
@@ -343,4 +344,19 @@ public class UserDao
 			return cart;
 	    }
 		
+	    //---Cart List
+	    public Cart cartList(int customerId)
+	    {
+	    	String getCartList=" select customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? ";
+	    	Cart queryForObject = jdbcTemplate.queryForObject(getCartList, new CartMapper(),customerId);
+			return queryForObject;
+	    }
+	    
+	    //---Filter--
+	    public List<Product> allProductList(String category) 
+	    {
+			String find = "select id,name,price,category,size,quantity,fabric,gender,image from product where is_available='Available' and category=?";
+			List<Product> productList = jdbcTemplate.query(find, new ProductMapperAll(),category);
+			return productList;
+		}	    
 }

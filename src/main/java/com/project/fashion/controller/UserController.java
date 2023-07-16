@@ -146,13 +146,14 @@ public class UserController {
 	     model.addAttribute("card",productDao.allProductList());
 		 return "productlist";
 	}
+	
    @GetMapping(path="/addcart")
      public String saveCartDetails(@RequestParam("userId")int userId,@RequestParam("id")int id,
     		 @RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
     		 @RequestParam("quantity")int quantity,
     		 @RequestParam("size")String size)
      {
-	   userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
+	    userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
 		return "/productlist";
      }
    

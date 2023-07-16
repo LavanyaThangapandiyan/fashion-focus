@@ -13,11 +13,11 @@ public class Cart {
 	private String gender;
 	private int quantity;
 	private int amount;
-	private int status;
+	private String status;
 	
 	
 	public Cart(int id, int orderId, int customerId, int productId, String productName, int price, String size,
-			String product_type, String fabric, String gender, int quantity, int amount, int status) {
+			String product_type, String fabric, String gender, int quantity, int amount, String status) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
@@ -105,10 +105,10 @@ public class Cart {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	public Cart() {

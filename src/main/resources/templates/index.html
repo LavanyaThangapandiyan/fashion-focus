@@ -7,7 +7,6 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
-
 <meta charset="ISO-8859-1">
 <title>Home</title>
 </head>
@@ -44,44 +43,34 @@
         <h4 style="color:purple;">All Women Ethnic</h4>
         <table >
           <thead >
-            <th >All Sarees</th>
+            <th>All Sarees</th>
             <th>Kurtis</th>
             <th>Kurta  Sets</th>
             <th>Suits & Dress Material</th>
-            <th>Other Ethnic</th>
-            </thead>
+           </thead>
             <tbody>
               <tr>
-                <td><a href="Sarees.html"> Sarees</a></td>
-                <td><a href="kurti.html">All Kurtis</a></td>
-                <td>All Kurta Sets</td>
-                <td>All Suits &Dress Material</td>
-                <td>Dupattas</td>                
+                <td><a th:href="@{/silksaree}">Silk Sarees</a></td>
+                <td><a th:href="@{/rayonkurti}">Rayon Kurtis</a></td>
+                <td><a th:href="@{/allkurtas}">All Kurta Sets</a></td>
+                <td><a th:href="@{/duppata}">Dupattas</a></td>                
               </tr>
               <tr>
-                <td>Silk Sarees</td>
-                <td>Anarkali Kurtis</td>
-                <td></td>
-                <td>Cotton Suits</td>
-                <td>Lehanga</td>
+               <td><a th:href="@{/cottonsaree}">Cotton Sarees</a></td>
+              <td><a th:href="@{/embroidery}">Embroidered Kurtis</a></td>
+                
+                <td><a th:href="@{/lehangas}">Lehanga</a></td>
               </tr>
               <tr>
-                <td>Cotton Sarees</td>
-                <td>Rayon Kurtis</td>
-                <td></td>
-                <td>Cotton Suits</td>
-                <td>Gown</td>
+                 <td><a th:href="@{/georgette}">Georgette Sarees</a></td>
+                <td><a th:href="@{/cottonkurti}">Cotton Kurtis</a></td>
+               
+                <td><a th:href="@{/gowns}">Gown</a></td>
               </tr>
+              
               <tr>
-                <td>Georgette Sarees</td>
-                <td>Embroidered Kurtis</td>
+                <td><a th:href="@{/chiffon}">Chiffon Sarees</a></td>
                 <td></td>
-                <td>Embroidered Suits</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Chiffon Sarees</td>
-                <td>Cotton Kurtis</td>
                 <td></td>
                 <td></td>
               </tr>
@@ -94,29 +83,27 @@
         <h4 style="color:purple;">All Women Western</h4>
         <table >
           <thead >
-            <th >Top Wear</th>
-            <th>Bottom Wear</th>
-            <th>Sleep wear</th>
+            <th>Top Wear</a></th>
+            <th>Bottom Wear</a></th>
+            <th>Sleep wear</a></th>
             </thead>
             <tbody>
               <tr>
-                <td>Tops</td>
-                <td>Jeans</td>
-                <td>Night Suits</td>
+                <td><a th:href="@{/tops}">Tops</a></td>
+                <td><a th:href="@{/jeans}">Jeans</a></td>
+                <td><a th:href="@{/night}">Night Suits</a></td>
               </tr>
               <tr>
-                <td>Dresses</td>
-                <td>Jeggins</td>
-                <td></td>
+                <td><a th:href="@{/jeggins}">Jeggins</a></td>
+                 <td><a th:href="@{/plazzos}">Plazzos</a></td>
+                  <td><a th:href="@{/shoets}">Shorts</a></td>
               </tr>
               <tr>
-                <td>Sweaters</td>
-                <td>Plazzos</td>
-                <td></td>
+                <td><a th:href="@{/sweaters}">Sweaters</a></td>
+               
               </tr>
               <tr>
-                <td>Jump Suits</td>
-                <td>Shorts</td>
+                <td><a th:href="@{/jump}">Jump Suits</a></td>
                 <td></td>
               </tr>
               </tbody></table></div>
@@ -124,25 +111,22 @@
       <div id="men" class="tabcontent">
         <table >
           <thead >
-            <th >Top Wear</th>
+            <th>Top Wear</th>
             <th>Bottom Wear</th>
-            <th>Ethnic Wear</th>
+            
             </thead>
             <tbody>
               <tr>
-                <td>All Top  Wear</td>
-                <td>Track pants</td>
-                <td>Men Kurtas</td>
+                <td><a th:href="@{/mtop}">All Top  Wear</a></td>
+                <td><a th:href="@{/mtrack}">Track pants</a></td>
               </tr>
               <tr>
-                <td>Tshirts</td>
-                <td>Jeans</td>
-                <td>Ethnic Jackets</td>
+                <td><a th:href="@{/tshirt}">Tshirts</a></td>
+                <td><a th:href="@{/mjeans}">Jeans</a></td>
               </tr>
               <tr>
-                <td>Shirts</td>
-                <td>Trousers</td>
-                <td></td>
+                <td><a th:href="@{/shirts}">Shirts</a></td>
+                <td><a th:href="@{/trousers}">Trousers</a></td>
               </tr>
             </tbody>
         </table>
@@ -150,24 +134,24 @@
       <div id="men" class="tabcontent">
         <table >
           <thead >
-            <th >Top Wear</th>
-            <th>Bottom Wear</th>
-            <th>Ethnic Wear</th>
+            <th ></th>
+            <th><a th:href="@{/bwear}">Bottom Wear</a></th>
+            <th><a th:href="@{/ewear}">Ethnic Wear</a></th>
             </thead>
             <tbody>
               <tr>
-                <td>All Top  Wear</td>
-                <td>Track pants</td>
-                <td>Men Kurtas</td>
+                <td><a th:href="@{/mtop}">All Top  Wear</a></td>
+                <td><a th:href="@{/track}">Track pants</a></td>
+                <td><a th:href="@{/mkurtas}">Men Kurtas</a></td>
               </tr>
               <tr>
-                <td>Tshirts</td>
-                <td>Jeans</td>
-                <td>Ethnic Jackets</td>
+                <td><a th:href="@{/tshirts}">Tshirts</a></td>
+                <td><a th:href="@{/jeans}">Jeans</a></td>
+                <td><a th:href="@{/jackets}">Ethnic Jackets</a></td>
               </tr>
               <tr>
-                <td>Shirts</td>
-                <td>Trousers</td>
+                <td><a th:href="@{/shirts}">Shirts</a></td>
+                <td><a th:href="@{/trousers}">Trousers</a></td>
                 <td></td>
               </tr>
             </tbody>
@@ -176,7 +160,7 @@
       <div id="kids" class="tabcontent">
         <table >
           <thead >
-            <th >All Dresses</th>
+            <th><a th:href="@{/kids}">All Dresses</a></th>
               </thead>
             </tbody>
         </table>

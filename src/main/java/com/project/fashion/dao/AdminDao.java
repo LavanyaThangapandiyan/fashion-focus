@@ -34,16 +34,6 @@ public class AdminDao {
 	public int saveProductDetails(Product product) throws ExistProductException
 	{
 		
-		List<Product> productList=allProductList();
-		String getProduct=productList.toString();
-		String getName=product.getName();
-		boolean contains=getProduct.contains(getName);
-	     if (contains == true)
-		{
-		    throw new ExistProductException("Product Already Exist");
-		}
-		else
-		{	
 		String insert = "insert into product(name,price,category,size,quantity,fabric,gender,image,is_available)values(?,?,?,?,?,?,?,?,?)";
 		String input=product.getName();
 		String productName=input.substring(0,1).toUpperCase()+input.substring(1);
@@ -60,7 +50,7 @@ public class AdminDao {
 			return 1;
 		} else
             logger.error("Invalid Product Details");
-		}
+		
 		return 0;
 	}
 
