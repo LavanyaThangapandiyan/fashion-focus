@@ -5,23 +5,6 @@
   <title>All Sarees</title>
 </head>
 <body>
-  <script>
-    function increaseValue() 
-    {
-      var value = parseInt(document.getElementById('number').value, 10);
-      value = isNaN(value) ? 1 : value;
-      value++;
-      document.getElementById('number').value = value;
-    }
-
-    function decreaseValue() {
-      var value = parseInt(document.getElementById('number').value, 10);
-      value = isNaN(value) ? 0 : value;
-      value < 1 ? value = 1 : '';
-      value--;
-      document.getElementById('number').value = value; }
-  </script>
-
   <header>
     <div class="tab">
       <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #740074">
@@ -38,15 +21,16 @@
  </div>
   </header>
   <p th:text="${session.userName}"></p>
-  <form id="form" th:action="@{/sweater}" th:object="${product}" method="Get">
+  
+  <form id="form" th:action="@{/wanted}" th:object="${product}" method="Get">
     <button type="submit">Products</button>
   </form>
   <table class="table table-bordered" style="background-color:#fsfsfs">
   <thead style="background-color: purple">
     </thead>
     <tbody>
-      <tr th:each="product, itemStat : *{SweatersList}">
-      <tr th:each="product : ${SweatersList}">
+      <tr th:each="product, itemStat : *{filterlist}">
+      <tr th:each="product : ${filterlist}">
         <td>
           <body>
        <form  th:action="@{/addcart}" method="GET">
@@ -79,15 +63,6 @@
                       <input type="checkbox" value="XXXl" id="sz" name="size"> XXXL
                       <input type="checkbox" value="ALL" id="sz" name="size"> ALL
                     </div>
-                    <label for="type"><b>Quantity</b></label>
-                    <div class="quantity">
-                      <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value"><b>-</b>
-                      </div>
-                      <input type="number" id="number" name="quantity" value="1" />
-                      <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value"><b>+</b>
-                      </div>
-                    </div>
-                    <button type="submit">Add to Cart</button>
                     </form></div>
                    
       </tr></tr></tbody>
@@ -95,7 +70,22 @@
   </div>
   </div>
 </div>
+ <script>
+    function increaseValue() 
+    {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 1 : value;
+      value++;
+      document.getElementById('number').value = value;
+    }
 
+    function decreaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? value = 1 : '';
+      value--;
+      document.getElementById('number').value = value; }
+  </script>
 
   <style>
  .main {

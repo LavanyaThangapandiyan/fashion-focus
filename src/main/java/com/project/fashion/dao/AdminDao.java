@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
+import com.project.fashion.interfaces.AdminInterface;
 import com.project.fashion.mapper.CategoryMapper;
 import com.project.fashion.mapper.CategoryMapperSingle;
 import com.project.fashion.mapper.CategoryNameMapper;
@@ -20,7 +21,7 @@ import com.project.fashion.util.ConnectionUtil;
 import com.project.fashion.validation.Validation;
 
 @Repository
-public class AdminDao {
+public class AdminDao implements AdminInterface {
 	
 	Logger logger = LoggerFactory.getLogger(AdminDao.class);
 	

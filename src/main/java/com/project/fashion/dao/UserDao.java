@@ -2,9 +2,7 @@ package com.project.fashion.dao;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
+import com.project.fashion.interfaces.UserInterface;
 import com.project.fashion.mapper.CartMapper;
 import com.project.fashion.mapper.OrderMapper;
 import com.project.fashion.mapper.PaymentMapper;
@@ -30,12 +29,11 @@ import com.project.fashion.util.ConnectionUtil;
 import com.project.fashion.validation.Validation;
 
 @Repository
-public class UserDao 
+public class UserDao  implements UserInterface
 {
 	Logger logger = LoggerFactory.getLogger(UserDao.class);
 	Validation valid = new Validation();
 	JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();
-
 	//----Inserting User Details
 	public int saveDetails(User user) throws ExistMailIdException, ExistMobileException 
 	{	
@@ -303,9 +301,9 @@ public class UserDao
 	    
 	    //----save Cart details--
         Cart cart=new Cart();
-	    public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size)
+        public int saveCartDetails(int userId,int id,String productName,int price,String type,int quantity,String size)
 	    {
-	    	UserDao user=new UserDao();
+        	UserDao user=new UserDao();
 	    	Cart getCartDetails = user.findCartDetailsUsingCustomerId(userId);
 	    	int quantity2 = getCartDetails.getQuantity();
 	    	int productId = getCartDetails.getProductId();
@@ -314,28 +312,26 @@ public class UserDao
 	    	if(productId==id)
 	    	{
 	    	int calculateCurrentAmount=addQuantity*amount2;
-	    	String update="update cart set quantity=?,total_amount=? where product_id=? and customer_id=?";
-	    	Object[] details= {addQuantity,calculateCurrentAmount,productId,userId};
+	    	String update="update cart set quantity=?,total_amount=? where product_id=?";
+	    	Object[] details= {addQuantity,calculateCurrentAmount,productId};
 	    	int update2 = jdbcTemplate.update(update,details);
 	    	logger.info("Updated Quantity : "+update2);
 	    	}
 	    	else {
-	    	String insert="insert into cart(customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?)";
-            int amount=price;
+        	int amount=price;
 	    	int totalAmount=amount*quantity;
-	    	Object[] details= {userId,id,name,price,size,type,quantity,totalAmount,"Available"};
-	    	int rows=jdbcTemplate.update(insert,details);
+	    	String inserts="insert into cart(customer_id ,product_id ,product_name ,price,size ,product_type ,quantity ,total_amount ,is_available )values(?,?,?,?,?,?,?,?,?)";
+	    	Object[] details= {userId,id,productName,price,size,type,quantity,totalAmount,"Available"};
+	    	int rows=jdbcTemplate.update(inserts,details);
 	        logger.info("Insert Cart details : "+rows);
 	    	}
 	    	return 0;
 	    }
-	    
 	    //---Finding Cart details Using Customer Id
 	    public Cart findCartDetailsUsingCustomerId(int userId)
 	    {
 	    	String findCart="select customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=?";
-             Cart cart2 = jdbcTemplate.queryForObject(findCart, new CartMapper(),userId );
-             System.out.println(cart2);
+             Cart cart2 = jdbcTemplate.queryForObject(findCart, new CartMapper(),userId);
 	    	return cart2 ;
 	    }
 	    

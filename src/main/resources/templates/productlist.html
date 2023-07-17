@@ -38,9 +38,6 @@
  </div>
   </header>
   <p th:text="${session.userName}"></p>
-  <form id="form" th:action="@{/productlist}" th:object="${product}" method="Get">
-    <button type="submit">Products</button>
-  </form>
   <table class="table table-bordered" style="background-color:#fsfsfs">
   <thead style="background-color: purple">
     </thead>
@@ -55,17 +52,16 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <img alt="" th:src="'data:images/jpg;base64,' + ${product.image}" style="width: 100%; height: 100%;">
-                 
                 </div>
                 <div class="flip-card-back">
-                   
                     <input hidden name="userId" th:value="${session.userId}">
                     <input hidden name="id" th:value="${product.id}">
-                    <p><input hidden name="name" id="name" th:value="${product.name}" readonly></p>
+                    <p><input hidden  name="productname"  th:value="${product.name}" readonly></p>
                     <p><input hidden name="price" id="price" th:value="${product.price}" readonly></p>
                     <p><input hidden  name="type" id="type" th:value="${product.type}" readonly></p>
                     <p><input hidden name="fabric" id="fabric" th:value="${product.fabric}" readonly></p>
-                   <h3>Name : <span th:text="${product.name}"> </h3>
+                    
+                    <h3>Name : <span th:text="${product.name}"></span> </h3>
                     <p class="price">Price Rs.<span th:text="${product.price}"></span></p>
                     <p>Type : <span th:text="${product.type}">  </span></p>
                     <p>Size : <span th:text="${product.size}">  </span></p>
@@ -89,6 +85,7 @@
                       <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value"><b>+</b>
                       </div>
                     </div>
+                    
                     <button type="submit">Add to Cart</button>
                    </div>
       </tr></tr></tbody>
@@ -97,8 +94,6 @@
   </div>
   </div>
 </div>
-
-
   <style>
  .main {
     height: 80vh;

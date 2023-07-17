@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
 <meta charset="ISO-8859-1">
-<title>Home</title>
+<title>Filter</title>
 </head>
 <body>
   <header>
@@ -50,27 +50,48 @@
            </thead>
             <tbody>
               <tr>
-                <td><a th:href="@{/silksaree}">Silk Sarees</a></td>
-                <td><a th:href="@{/rayonkurti}">Rayon Kurtis</a></td>
-                <td><a th:href="@{/allkurtas}">All Kurta Sets</a></td>
-                <td><a th:href="@{/duppata}">Dupattas</a></td>                
+              <form id="form" th:action="@{/silksaree}" th:object="${product}" method="Get">
+              <td> <button type="submit">Silk Sarees</button></td>
+              </form>
+              <form id="form" th:action="@{/rayonkurti}" th:object="${product}" method="Get">
+              <td> <button type="submit">Rayon Kurtis</button></td>
+              </form>
+              <form id="form" th:action="@{/allkurtas}" th:object="${product}" method="Get">
+              <td> <button type="submit">All Kurta Sets</button></td>
+              </form>
+              <form id="form" th:action="@{/duppata}" th:object="${product}" method="Get">
+              <td> <button type="submit">Dupattas</button></td>
+              </form>
               </tr>
               <tr>
-               <td><a th:href="@{/cottonsaree}">Cotton Sarees</a></td>
-              <td><a th:href="@{/embroidery}">Embroidered Kurtis</a></td>
-                
-                <td><a th:href="@{/lehangas}">Lehanga</a></td>
+              <form id="form" th:action="@{/cottonsaree}" th:object="${product}" method="Get">
+              <td> <button type="submit">Cotton Sarees</button></td>
+              </form>
+              <form id="form" th:action="@{/embroidery}" th:object="${product}" method="Get">
+              <td> <button type="submit">Embroidered Kurtis</button></td>
+              </form>
+               <form id="form" th:action="@{/lehanga}" th:object="${product}" method="Get">
+              <td> <button type="submit">Lehanga</button></td>
+              </form>
               </tr>
               <tr>
-                 <td><a th:href="@{/georgette}">Georgette Sarees</a></td>
-                <td><a th:href="@{/cottonkurti}">Cotton Kurtis</a></td>
-               
-                <td><a th:href="@{/gowns}">Gown</a></td>
+              <form id="form" th:action="@{/georgette}" th:object="${product}" method="Get">
+              <td> <button type="submit">Georgette Sarees</button></td>
+              </form>
+              <form id="form" th:action="@{/cottonkurti}" th:object="${product}" method="Get">
+              <td> <button type="submit">Cotton Kurtis</button></td>
+              </form>
+               <form id="form" th:action="@{/gowns}" th:object="${product}" method="Get">
+              <td> <button type="submit">Gown</button></td>
+              </form>
               </tr>
-              
               <tr>
-                <td><a th:href="@{/chiffon}">Chiffon Sarees</a></td>
-                <td></td>
+              <form id="form" th:action="@{/filter}" th:object="${product}" method="Get">
+              <td> <button type="submit">Chiffon Sarees</button></td>
+              </form>
+                <form id="form" th:action="@{/anarkali}" th:object="${product}" method="Get">
+              <td> <button type="submit">Anarkali kurti</button></td>
+              </form>
                 <td></td>
                 <td></td>
               </tr>
@@ -89,21 +110,37 @@
             </thead>
             <tbody>
               <tr>
-                <td><a th:href="@{/tops}">Tops</a></td>
-                <td><a th:href="@{/jeans}">Jeans</a></td>
-                <td><a th:href="@{/nightsuits}">Night Suits</a></td>
+              <form id="form" th:action="@{/tops}" th:object="${product}" method="Get">
+              <td> <button type="submit">Tops</button></td>
+              </form>
+              <form id="form" th:action="@{/jeans}" th:object="${product}" method="Get">
+              <td> <button type="submit">Jeans</button></td>
+              </form>
+              <form id="form" th:action="@{/nightsuits}" th:object="${product}" method="Get">
+              <td> <button type="submit">Night Suits</button></td>
+              </form>
               </tr>
               <tr>
-                <td><a th:href="@{/jeggins}">Jeggins</a></td>
-                 <td><a th:href="@{/plazzo}">Plazzos</a></td>
-                  <td><a th:href="@{/shorts}">Shorts</a></td>
+              <form id="form" th:action="@{/jeggins}" th:object="${product}" method="Get">
+              <td> <button type="submit">Jeggins</button></td>
+              </form>
+              <form id="form" th:action="@{/plazzo}" th:object="${product}" method="Get">
+              <td> <button type="submit">Plazzos</button></td>
+              </form>
+              <form id="form" th:action="@{/shorts}" th:object="${product}" method="Get">
+              <td> <button type="submit">Shorts</button></td>
+              </form>
               </tr>
               <tr>
-                <td><a th:href="@{/sweaters}">Sweaters</a></td>
+              <form id="form" th:action="@{/sweaters}" th:object="${product}" method="Get">
+              <td> <button type="submit">Sweaters</button></td>
+              </form>
                
               </tr>
               <tr>
-                <td><a th:href="@{/jumpsuits}">Jump Suits</a></td>
+              <form id="form" th:action="@{/jumpsuits}" th:object="${product}" method="Get">
+              <td> <button type="submit">Jump Suits</button></td>
+              </form>
                 <td></td>
               </tr>
               </tbody></table></div>

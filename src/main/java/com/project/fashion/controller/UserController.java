@@ -86,11 +86,20 @@ public class UserController {
 			String nameByEmail = userdao.findNameByEmail(email);
 			session.setAttribute("userName", nameByEmail);
 			session.setAttribute("userDetails", userDetails);
-		    return "/productlist";
+		    return "redirect:/products";
 		}
 		else
 			return "";
 	}
+	
+	@GetMapping("/products")
+	public String viewProductList(Model model)
+	{
+	     model.addAttribute("card",productDao.allProductList());
+		 return "productlist";
+	}
+	
+	
 	//-----Handling Invalid Email Exception-----
 	@ExceptionHandler(InvalidEmailException.class)
 	public String invalidException(InvalidEmailException email ,Model model)
@@ -140,22 +149,14 @@ public class UserController {
 	public String getAllUsers(Model model) {
 		List<User> users = userdao.userList();
 		model.addAttribute("userlist", users);
-		return "list.jsp";
+		return "list";
 	}
-	
-	@GetMapping(path="/productlist")
-	public String viewProductList(Model model)
-	{
-	     model.addAttribute("card",productDao.allProductList());
-		 return "productlist";
-	}
-   @GetMapping(path="/addcart")
+     @GetMapping(path="/addcart")
      public String saveCartDetails(@RequestParam("userId")int userId,@RequestParam("id")int id,
-    		 @RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
+    		 @RequestParam("productname")String name,@RequestParam("price")int price,@RequestParam("type")String type,
     		 @RequestParam("quantity")int quantity,
-    		 @RequestParam("size")String size) throws IOException
+    		 @RequestParam("size")String size)
      {
-	    //String image = Base64.getEncoder().encodeToString(images.getBytes());
 	    userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
 		return "/productlist";
      }
@@ -168,13 +169,9 @@ public class UserController {
    @GetMapping("/carts")
    public String myCartDetails(@RequestParam("userId")int userId,Model model)
    {
-     model.addAttribute("mycartlist",userdao.findCartDetailsUsingCustomerId(userId));
+     //model.addAttribute("mycartlist",userdao.findCartDetailsUsingCustomerId(userId));
      return "mycart";
    }
-   
-   
-   
-   
    
    @GetMapping(path="/updatesize/{id}")
    public String updateSize(@PathVariable(value="id")int id,@RequestParam("quantity")int quantity,Model model)
