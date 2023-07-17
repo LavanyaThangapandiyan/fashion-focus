@@ -1,5 +1,7 @@
 package com.project.fashion.controller;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
@@ -44,7 +48,6 @@ public class UserController {
 	@GetMapping(path = "/login")
 	public String getLoginForm() {
 		return "login";
-
 	}
 
 	@GetMapping(path = "/forgot")
@@ -146,16 +149,32 @@ public class UserController {
 	     model.addAttribute("card",productDao.allProductList());
 		 return "productlist";
 	}
-	
    @GetMapping(path="/addcart")
      public String saveCartDetails(@RequestParam("userId")int userId,@RequestParam("id")int id,
     		 @RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("type")String type,
     		 @RequestParam("quantity")int quantity,
-    		 @RequestParam("size")String size)
+    		 @RequestParam("size")String size) throws IOException
      {
+	    //String image = Base64.getEncoder().encodeToString(images.getBytes());
 	    userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
 		return "/productlist";
      }
+   
+   @GetMapping("/mycart")
+   public String getmyCart()
+   {
+	   return "mycart";
+   }
+   @GetMapping("/carts")
+   public String myCartDetails(@RequestParam("userId")int userId,Model model)
+   {
+     model.addAttribute("mycartlist",userdao.findCartDetailsUsingCustomerId(userId));
+     return "mycart";
+   }
+   
+   
+   
+   
    
    @GetMapping(path="/updatesize/{id}")
    public String updateSize(@PathVariable(value="id")int id,@RequestParam("quantity")int quantity,Model model)

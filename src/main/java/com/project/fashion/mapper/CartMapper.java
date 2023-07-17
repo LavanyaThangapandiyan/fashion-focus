@@ -18,6 +18,7 @@ public class CartMapper implements RowMapper<Cart> {
 		 * */
 		int customerId=rs.getInt("customer_id");
 		int productId=rs.getInt("product_id");
+		//String  image= rs.getString("image");
 		String name=rs.getString("product_name");
 		int price=rs.getInt("price");
 		String size=rs.getString("size");
@@ -27,6 +28,7 @@ public class CartMapper implements RowMapper<Cart> {
 		String status=rs.getString("is_available");
 		cart.setCustomerId(customerId);
 		cart.setProductId(productId);
+		//cart.setImage(image);
 		cart.setProductName(name);
 		cart.setPrice(price);
 		cart.setSize(size);

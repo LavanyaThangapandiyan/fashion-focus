@@ -36,21 +36,17 @@ public class HomeController {
 		model.addAttribute("nightsuitslist",userDao.allProductList(name));
 		return "nightsuits";
 	}
-	
-	
-	
-	
-	@GetMapping("/plazzos")
+	@GetMapping("/plazzo")
 	public String getPlazzos()
 	{
-		return "plazzos";
+		return "plazzo";
 	}
-	@GetMapping("/plazzo")
+	@GetMapping("/plazzos")
 	public String showAllPlazzoList(Model model)
 	{
 		String name="Plazzos";
 		model.addAttribute("plazzoList",userDao.allProductList(name));
-		return "plazzos";
+		return "plazzo";
 	}
 	 
 	@GetMapping("/jumpsuits")
@@ -91,17 +87,12 @@ public class HomeController {
 		String name="Sweaters";
 		model.addAttribute("SweatersList",userDao.allProductList(name));
 		return "sweaters";
-		
 	}
-	
-	
-	
 	@GetMapping("/jeggins")
 	public String getjeggins()
 	{
 		return "jeggins";
 	}
-	
 	@GetMapping("/jeggin")
 	public String showjeggins(Model model)
 	{
@@ -109,7 +100,6 @@ public class HomeController {
 		model.addAttribute("jegginlist",userDao.allProductList(name));
 		return "jeggins";
 	}
-	
 	@GetMapping("/tops")
 	public String getTops()
 	{
@@ -175,7 +165,6 @@ public class HomeController {
 	public String getLehangas()
 	{
 		return "lehanga";
-		
 	}
 	@GetMapping("/lehangas")
 	public String showLehangas(Model model)
@@ -198,7 +187,6 @@ public class HomeController {
 		return "gowns";
 	}
 	
-	
 	@GetMapping("/rayonkurti")
 	public String getAllkurti()
 	{
@@ -210,15 +198,12 @@ public class HomeController {
 		String name="Rayon Kurti";
 		model.addAttribute("rayonkurti",userDao.allProductList(name));
 		return "rayonkurti";
-		
 	}
-	
 	@GetMapping("/anarkali")
 	public String getAllSarees() {
 		// model.addAttribute();
 		return "anarkali";
 	}
-	
 	@GetMapping("/anarkalis")
 	public String showAllsarees(Model model) 
 	{
@@ -243,7 +228,6 @@ public class HomeController {
 	{
 		return "cottonsaree";
 	}
-	
 	@GetMapping("/cotton")
 	public String showCottonSaree(Model model)
 	{
@@ -258,7 +242,6 @@ public class HomeController {
 		model.addAttribute("georgettesaree",userDao.allProductList(name));
 		return "georgette";
 	}
-	
 	@GetMapping("/chiffon")
 	public String getChiffonSarees()
 	{
@@ -270,8 +253,5 @@ public class HomeController {
 		String name="Chiffon Sarees";
 		model.addAttribute("chiffonsaree",userDao.allProductList(name));
 		return "chiffon";
-		
 	}
-	
-
 }

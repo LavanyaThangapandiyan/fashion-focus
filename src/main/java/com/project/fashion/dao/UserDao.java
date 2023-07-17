@@ -53,7 +53,6 @@ public class UserDao
 		{
 			  throw new ExistMobileException("Exist Mobile Number Exception");
 		}
-
 		else 
 		 {
 			String password = user.getPassword();
@@ -301,19 +300,45 @@ public class UserDao
 			return 1;
 	    }
 	     //----Cart CRUD----
+	    
 	    //----save Cart details--
-         Cart cart=new Cart();
+        Cart cart=new Cart();
 	    public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size)
 	    {
+	    	UserDao user=new UserDao();
+	    	Cart getCartDetails = user.findCartDetailsUsingCustomerId(userId);
+	    	int quantity2 = getCartDetails.getQuantity();
+	    	int productId = getCartDetails.getProductId();
+	    	int amount2 = getCartDetails.getAmount();
+	    	int addQuantity=quantity+quantity2;
+	    	if(productId==id)
+	    	{
+	    	int calculateCurrentAmount=addQuantity*amount2;
+	    	String update="update cart set quantity=?,total_amount=? where product_id=? and customer_id=?";
+	    	Object[] details= {addQuantity,calculateCurrentAmount,productId,userId};
+	    	int update2 = jdbcTemplate.update(update,details);
+	    	logger.info("Updated Quantity : "+update2);
+	    	}
+	    	else {
 	    	String insert="insert into cart(customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?)";
             int amount=price;
 	    	int totalAmount=amount*quantity;
 	    	Object[] details= {userId,id,name,price,size,type,quantity,totalAmount,"Available"};
 	    	int rows=jdbcTemplate.update(insert,details);
 	        logger.info("Insert Cart details : "+rows);
-			return 0;
+	    	}
+	    	return 0;
 	    }
-	  
+	    
+	    //---Finding Cart details Using Customer Id
+	    public Cart findCartDetailsUsingCustomerId(int userId)
+	    {
+	    	String findCart="select customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=?";
+             Cart cart2 = jdbcTemplate.queryForObject(findCart, new CartMapper(),userId );
+             System.out.println(cart2);
+	    	return cart2 ;
+	    }
+	    
 	    //----Active and In active cart details---
 	    public void activeAndInActiveCart(int id)
 	    {

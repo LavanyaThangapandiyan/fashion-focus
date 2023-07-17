@@ -1,6 +1,7 @@
 package com.project.fashion.model;
 
 public class Cart {
+	private String image;
 	private int id;
 	private int orderId;
 	private int customerId;
@@ -16,22 +17,12 @@ public class Cart {
 	private String status;
 	
 	
-	public Cart(int id, int orderId, int customerId, int productId, String productName, int price, String size,
-			String product_type, String fabric, String gender, int quantity, int amount, String status) {
-		super();
-		this.id = id;
-		this.orderId = orderId;
-		this.customerId = customerId;
-		this.productId = productId;
-		this.productName = productName;
-		this.price = price;
-		this.size = size;
-		this.product_type = product_type;
-		this.fabric = fabric;
-		this.gender = gender;
-		this.quantity = quantity;
-		this.amount = amount;
-		this.status = status;
+	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	public String getFabric() {
 		return fabric;
@@ -114,13 +105,32 @@ public class Cart {
 	public Cart() {
 		super();
 	}
+	public Cart(String image, int id, int orderId, int customerId, int productId, String productName, int price,
+			String size, String product_type, String fabric, String gender, int quantity, int amount, String status) {
+		super();
+		this.image = image;
+		this.id = id;
+		this.orderId = orderId;
+		this.customerId = customerId;
+		this.productId = productId;
+		this.productName = productName;
+		this.price = price;
+		this.size = size;
+		this.product_type = product_type;
+		this.fabric = fabric;
+		this.gender = gender;
+		this.quantity = quantity;
+		this.amount = amount;
+		this.status = status;
+	}
 	@Override
 	public String toString() {
-		return "Cart [id=" + id + ", orderId=" + orderId + ", customerId=" + customerId + ", productId=" + productId
-				+ ", productName=" + productName + ", price=" + price + ", size=" + size + ", product_type="
-				+ product_type + ", fabric=" + fabric + ", gender=" + gender + ", quantity=" + quantity + ", amount="
-				+ amount + ", status=" + status + "]";
+		return "Cart [image=" + image + ", id=" + id + ", orderId=" + orderId + ", customerId=" + customerId
+				+ ", productId=" + productId + ", productName=" + productName + ", price=" + price + ", size=" + size
+				+ ", product_type=" + product_type + ", fabric=" + fabric + ", gender=" + gender + ", quantity="
+				+ quantity + ", amount=" + amount + ", status=" + status + "]";
 	}
+	
 	
 
 }
