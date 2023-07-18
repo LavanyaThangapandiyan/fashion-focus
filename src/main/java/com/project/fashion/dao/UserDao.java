@@ -274,19 +274,18 @@ public class UserDao implements UserInterface {
 
 	public int saveCartDetails(int userId, int id, String productName, int price, String type, int quantity,
 			String size) {
-		String findCart = "select customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart";
-		List<Cart> query = jdbcTemplate.query(findCart, new CartMapper());
+		String findCart = "select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? ";
+		List<Cart> query = jdbcTemplate.query(findCart, new CartMapper(),userId);
 		for (Cart cartModel : query) {
 			int productId = cartModel.getProductId();
-			int customerId = cartModel.getCustomerId();
 			int quantity2 = cartModel.getQuantity();
 			int amount = cartModel.getAmount();
 			int addQuantity = quantity + quantity2;
 			int calculateCurrentAmount = addQuantity * amount;
 			if (productId == id)
 			{
-				String update = "update cart set quantity=?,total_amount=? where product_id=?";
-				Object[] details = { addQuantity, calculateCurrentAmount, productId };
+				String update = "update cart set quantity=?,total_amount=? where product_id=? and customer_id=? ";
+				Object[] details = { addQuantity, calculateCurrentAmount, productId,userId};
 				int update2 = jdbcTemplate.update(update, details);
 				logger.info("Updated Quantity : " + update2);
 				return 1;
@@ -302,21 +301,23 @@ public class UserDao implements UserInterface {
 		return 2;
 	}
 
-	// ---Finding Cart details Using Customer Id
-	public List<Cart> findCartDetailsUsingCustomerId() {
-		String findCart = "select customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart";
-		List<Cart> query = jdbcTemplate.query(findCart, new CartMapper());
-		return query;
-	}
-
-	// ----Active and In active cart details---
-	public void activeAndInActiveCart(int id) {
-		Cart cart = new Cart();
+	// ---- In active cart details---
+	public void cancelCartDetails(int id) 
+	{
 		String statusUpdate = "update cart set is_available=? where id=?";
-		Object[] details = { cart.getStatus(), id };
+		Object[] details = {"Not Available", id };
 		int update = jdbcTemplate.update(statusUpdate, details);
 		logger.info("Update status Cart : " + update);
 	}
+	
+	public void clicktoActiveCartDetails(int id)
+	{
+		String statusUpdate = "update cart set is_available=? where id=?";
+		Object[] details = {"Available", id };
+		int update = jdbcTemplate.update(statusUpdate, details);
+		logger.info("Update status Cart : " + update);
+	}
+	
 
 	/// ----update Size----
 	public Cart updateProductSize(int cartId) {
@@ -337,10 +338,16 @@ public class UserDao implements UserInterface {
 	}
 
 	// ---Cart List
-	public Cart cartList(int customerId) {
-		String getCartList = " select customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? ";
-		Cart queryForObject = jdbcTemplate.queryForObject(getCartList, new CartMapper(), customerId);
+	public List<Cart> cartList(int customerId) {
+		String getCartList = " select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
+		List<Cart> queryForObject = jdbcTemplate.query(getCartList, new CartMapper(), customerId,"Available");
 		return queryForObject;
+	}
+	public List<Cart> inActiveCartList(int customerId)
+	{
+		String getInActiveCartList="select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
+		List<Cart> query = jdbcTemplate.query(getInActiveCartList, new CartMapper(),customerId,"Not Available");
+		return query;
 	}
 
 	// ---Filter--

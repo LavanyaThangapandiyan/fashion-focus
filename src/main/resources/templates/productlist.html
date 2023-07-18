@@ -5,7 +5,84 @@
   <title>Product List</title>
 </head>
 <body>
-  <script>
+  <header>
+    <div class="tab">
+      <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #740074">
+        <a href="" class="navbar-brand">Fashion Focus Boutique</a>
+        
+        <form id="form" th:action="@{/mycart}" method="Get">
+          <input hidden name="user" th:value="${session.id}">
+           <td> <button type="submit">My Cart</button></td>
+          </form>
+         
+         <a th:href="@{/}" class="navbar-brand">Log Out</a>
+      </nav>
+        <form id="formsearch" action="#" class="search-bar">
+        <input type="search" name="search" pattern=".*\S.*" required>
+        <button class="search-btn" type="submit">
+        <span>Search</span>
+        </button>
+      </form>
+ </div>
+ </header>
+
+ <h1>Welcome</h1>
+  <p th:text="${session.userName}"></p>
+      <tr th:each="product, itemStat : *{card}">
+      <tr th:each="product : ${card}">
+    <form  th:action="@{/addcart}" method="GET">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img alt="" th:src="'data:images/jpg;base64,' + ${product.image}" style="width: 100%; height: 100%;">
+                </div>
+                <div class="flip-card-back">
+                    <input hidden name="userId" th:value="${session.id}">
+                    <input hidden name="id" th:value="${product.id}">
+                    <p><input hidden  name="productname"  th:value="${product.name}" readonly></p>
+                    <p><input hidden name="price" id="price" th:value="${product.price}" readonly></p>
+                    <p><input hidden  name="type" id="type" th:value="${product.type}" readonly></p>
+                    <p><input hidden name="fabric" id="fabric" th:value="${product.fabric}" readonly></p>
+                    <h3>Name : <span th:text="${product.name}"></span> </h3>
+                    <p class="price">Price Rs.<span th:text="${product.price}"></span></p>
+                    <p>Type : <span th:text="${product.type}">  </span></p>
+                    <p>Size : <span th:text="${product.size}">  </span></p>
+                    <p>Fabric : <span th:text="${product.fabric}">  </span></p>
+                    <p>Gender : <span th:text="${product.gender}"> </span></p>
+                      <label><b>Size</b></label><br>
+                      <input type="checkbox" value="S" id="sz" name="size"> S
+                      <input type="checkbox" value="M" id="sz" name="size"> M
+                      <input type="checkbox" value="L" id="sz" name="size"> L
+                      <input type="checkbox" value="XL" id="sz" name="size"> XL
+                      <input type="checkbox" value="XXL" id="sz" name="size"> XXL
+                      <input type="checkbox" value="XXXl" id="sz" name="size"> XXXL
+                      <input type="checkbox" value="ALL" id="sz" name="size"> ALL
+                
+                   <label for="type"><b>Quantity</b></label>
+                    <div class="quantity">
+                      <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value"><b>-</b>
+                      </div>
+                      <input type="number" id="number" name="quantity" value="1" />
+                      <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value"><b>+</b>
+                      </div>
+                      </div>
+                <button type="submit">Add to Cart</button>
+               </div></div></div></form></tr></tr>
+  </div>
+</div>
+   </form>
+  
+
+
+
+
+
+
+
+
+
+
+   <script>
     function increaseValue() 
     {
       var value = parseInt(document.getElementById('number').value, 10);
@@ -22,77 +99,33 @@
       document.getElementById('number').value = value; }
   </script>
 
-  <header>
-    <div class="tab">
-      <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #740074">
-        <a href="" class="navbar-brand">Fashion Focus Boutique</a>
-         <a th:href="@{/mycart}" class="navbar-brand">My Cart</a>
-         <a th:href="@{/}" class="navbar-brand">Log Out</a>
-      </nav>
-      <form id="formsearch" action="#" class="search-bar">
-        <input type="search" name="search" pattern=".*\S.*" required>
-        <button class="search-btn" type="submit">
-          <span>Search</span>
-        </button>
-      </form>
- </div>
- </header>
-  <p th:text="${session.userName}"></p>
-  <table class="table table-bordered" style="background-color:#fsfsfs">
-  <thead style="background-color: purple">
-    </thead>
-    <tbody>
-      <tr th:each="product, itemStat : *{card}">
-      <tr th:each="product : ${card}">
-        <td>
-          <body>
-       <form  th:action="@{/addcart}" method="GET">
-       <div class="main">
-            <div class="flip-card">
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img alt="" th:src="'data:images/jpg;base64,' + ${product.image}" style="width: 100%; height: 100%;">
-                </div>
-                <div class="flip-card-back">
-                    <input hidden name="userId" th:value="${session.id}">
-                    <input hidden name="id" th:value="${product.id}">
-                    <p><input hidden  name="productname"  th:value="${product.name}" readonly></p>
-                    <p><input hidden name="price" id="price" th:value="${product.price}" readonly></p>
-                    <p><input hidden  name="type" id="type" th:value="${product.type}" readonly></p>
-                    <p><input hidden name="fabric" id="fabric" th:value="${product.fabric}" readonly></p>
-                    
-                    <h3>Name : <span th:text="${product.name}"></span> </h3>
-                    <p class="price">Price Rs.<span th:text="${product.price}"></span></p>
-                    <p>Type : <span th:text="${product.type}">  </span></p>
-                    <p>Size : <span th:text="${product.size}">  </span></p>
-                    <p>Fabric : <span th:text="${product.fabric}">  </span></p>
-                    <p>Gender : <span th:text="${product.gender}"> </span></p>
-                    <div>
-                      <label><b>Size</b></label><br>
-                      <input type="checkbox" value="S" id="sz" name="size"> S
-                      <input type="checkbox" value="M" id="sz" name="size"> M
-                      <input type="checkbox" value="L" id="sz" name="size"> L
-                      <input type="checkbox" value="XL" id="sz" name="size"> XL
-                      <input type="checkbox" value="XXL" id="sz" name="size"> XXL
-                      <input type="checkbox" value="XXXl" id="sz" name="size"> XXXL
-                      <input type="checkbox" value="ALL" id="sz" name="size"> ALL
-                    </div>
-                    <label for="type"><b>Quantity</b></label>
-                    <div class="quantity">
-                      <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value"><b>-</b>
-                      </div>
-                      <input type="number" id="number" name="quantity" value="1" />
-                      <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value"><b>+</b>
-                      </div>
-                    </div>
-                    <button type="submit">Add to Cart</button>
-                   </div>
-      </tr></tr></tbody>
-  </table>
-   </form>
-  </div>
-  </div>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <style>
  .main {
     height: 80vh;
@@ -168,13 +201,13 @@
     #sz {
       accent-color: #792099;
     }
-    .flip-card {
-    display: inline-block;
-    display: flex;
-   flex-wrap: wrap;
+    .flip-card 
+    {
+      display: inline-block;
+      display: flex;
       background-color: transparent;
       width: 300px;
-      height: 390px;
+      height: 450px;
       border: 1px solid #f1f1f1;
       perspective: 1000px;
       /* Remove this if you don't want the 3D effect */

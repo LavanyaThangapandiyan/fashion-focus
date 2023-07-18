@@ -7,11 +7,12 @@
 <title>My Cart</title>
 </head>
 <body>
+
 <header>
 <div class="tab">
     <nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: #740074">
-			<a href="" class="navbar-brand">Fashion Focus Boutique</a></nav>
+			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
 			<div class="topnav-right">
 			<a th:href="@{/productlist}" class="navbar-brand">Back</a>
 			<a th:href="@{/}" class="navbar-brand">Log Out</a>
@@ -20,7 +21,8 @@
   </div>
 </div>		
 </header>
-<a th:href="@{/product}" class="btn btn-primary btn-sm mb-3"> Add Cart </a>
+<h1>Active Cart List</h1>
+<a th:href="@{/productlist}" class="btn btn-primary btn-sm mb-3"> Add Cart </a>
 <table id="example" class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
         <tr>
@@ -29,27 +31,56 @@
              <th style="color:white; font-size:14pt;"> Type </th>
              <th style="color:white; font-size:14pt;"> Size </th>
              <th style="color:white; font-size:14pt;"> Quantity </th>
-             <th style="color:white; font-size:14pt;"> Fabric </th>
-             <th style="color:white; font-size:14pt;"> Gender </th>
+             <th style="color:white; font-size:14pt;"> Total Amount </th>
              <th style="color:white; font-size:14pt;"> Actions </th>
         </tr>
     </thead>
     <tbody> 
-    <tr th:each="product, itemStat : *{allproduct}">
-        <tr th:each="product : ${allproduct}">
-              <td>
-			  <img alt="" th:src="'data:images/jpg;base64,' + ${product.image}"
-							style="width: 100px;"></td>				
-               <td><span th:text="${product.name}"> Name </span></td>
-               <td><span th:text="${product.price}"> Price </span></td>
-               <td><span th:text="${product.type}"> Type </span></td>
-               <td><span th:text="${product.size}"> Size </span></td>
-               <td><span th:text="${product.quantity}">Quantity</span></td>
-               <td><span th:text="${product.fabric}"> Fabric </span></td>
-                <td><span th:text="${product.gender}"> Gender </span></td>
-               <td> <a th:href="@{/update/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
-               <a th:href="@{/deleteproduct/{id}(id=${product.id})}" class="btn btn-danger">Click to In Active</a>
+    <tr th:each="cart, itemStat : *{mycartlist}">
+        <tr th:each="cart : ${mycartlist}">
+               <td><span th:text="${cart.productName}"> Name </span></td>
+               <td><span th:text="${cart.price}"> Price </span></td>
+               <td><span th:text="${cart.product_type}"> Type </span></td>
+               <td><span th:text="${cart.size}"> Size </span></td>
+               <td><span th:text="${cart.quantity}">Quantity</span></td>
+                <td><span th:text="${cart.amount}">Total Amount</span></td>
+               <td><a th:href="@{/deletecart/{id}(id=${cart.id})}" class="btn btn-danger">Cancel Product</a>
+               </td>
+        </tr>
+    </tbody>   
+</table><br><br>
+<h1>In Active Cart List</h1>
+
+<br>
+<table id="example" class="table table-bordered" style="background-color: #fsfsfs">
+<thead style="background-color: purple">
+        <tr>
+             <th style="color:white; font-size:14pt;"> Name </th>
+             <th style="color:white; font-size:14pt;"> Price </th>
+             <th style="color:white; font-size:14pt;"> Type </th>
+             <th style="color:white; font-size:14pt;"> Size </th>
+             <th style="color:white; font-size:14pt;"> Quantity </th>
+             <th style="color:white; font-size:14pt;"> Total Amount </th>
+             <th style="color:white; font-size:14pt;"> Actions </th>
+        </tr>
+    </thead>
+    <tbody> 
+    <tr th:each="cart, itemStat : *{inactivelist}">
+        <tr th:each="cart : ${inactivelist}">
+               <td><span th:text="${cart.productName}"> Name </span></td>
+               <td><span th:text="${cart.price}"> Price </span></td>
+               <td><span th:text="${cart.product_type}"> Type </span></td>
+               <td><span th:text="${cart.size}"> Size </span></td>
+               <td><span th:text="${cart.quantity}">Quantity</span></td>
+                <td><span th:text="${cart.amount}">Total Amount</span></td>
+               <td><a th:href="@{/activecart/{id}(id=${cart.id})}" class="btn btn-danger">Add cart</a>
                     </td>
         </tr>
     </tbody>   
-</table>
+</table><br><br>
+</body>
+</html>
+
+
+
+

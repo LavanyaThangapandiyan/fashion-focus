@@ -13,9 +13,8 @@ public class CartMapper implements RowMapper<Cart> {
 	public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
 		Cart cart=new Cart();
-		/*customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available
-		 * 
-		 * */
+		
+		int id=rs.getInt("id");
 		int customerId=rs.getInt("customer_id");
 		int productId=rs.getInt("product_id");
 		//String  image= rs.getString("image");
@@ -26,6 +25,7 @@ public class CartMapper implements RowMapper<Cart> {
 		int quantity=rs.getInt("quantity");
 		int amount=rs.getInt("total_amount");
 		String status=rs.getString("is_available");
+		cart.setId(id);
 		cart.setCustomerId(customerId);
 		cart.setProductId(productId);
 		//cart.setImage(image);

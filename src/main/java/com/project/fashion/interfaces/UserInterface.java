@@ -1,16 +1,13 @@
 package com.project.fashion.interfaces;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.model.Cart;
 import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
-import com.project.fashion.model.Product;
 import com.project.fashion.model.User;
 import com.project.fashion.model.WishList;
 
@@ -35,9 +32,8 @@ public interface UserInterface {
 	public WishList getWishListById(int customerId);
 	public int activeAndInActiveWishList(int wishListId);
 	public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size);
-	public List<Cart> findCartDetailsUsingCustomerId();
-	public void activeAndInActiveCart(int id);
+	public void cancelCartDetails(int id) ;
 	public Cart updateProductSize(int cartId);
 	public Cart updateProductquantity(int cartId);
-	public Cart cartList(int customerId);
+	public List<Cart> cartList(int customerId);
 }

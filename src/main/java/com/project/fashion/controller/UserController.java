@@ -77,7 +77,7 @@ public class UserController {
 			return "list";
 		else if (number == 1)
 		{	
-			userdao.findIdByEmail(email, session);
+		    userdao.findIdByEmail(email, session);
 		    return "redirect:/products";
 		}
 		else
@@ -153,18 +153,29 @@ public class UserController {
 		return "/productlist";
      }
      
-   
    @GetMapping("/mycart")
-   public String getmyCart()
+   public String getmyCart(Model model,HttpSession session)
    {
+	   int userId=(int)session.getAttribute("id");
+	   model.addAttribute("mycartlist",userdao.cartList(userId));
+	   model.addAttribute("inactivelist",userdao.inActiveCartList(userId));
 	   return "mycart";
-   }
-   @GetMapping("/carts")
-   public String myCartDetails(@RequestParam("userId")int userId,Model model)
+   } 
+   
+   @GetMapping(path="/deletecart/{id}")
+   public String cancelCartDetails(@PathVariable(value="id")int id)
    {
-     //model.addAttribute("mycartlist",userdao.findCartDetailsUsingCustomerId(userId));
-     return "mycart";
+	userdao.cancelCartDetails(id);
+	return "redirect:/mycart";
    }
+   
+   @GetMapping(path="/activecart/{id}")
+   public String acitveCartDetails(@PathVariable(value="id")int id)
+   {
+	userdao.clicktoActiveCartDetails(id);
+	return "redirect:/mycart";
+   }
+  
    
    @GetMapping(path="/updatesize/{id}")
    public String updateSize(@PathVariable(value="id")int id,@RequestParam("quantity")int quantity,Model model)
@@ -182,12 +193,7 @@ public class UserController {
 	    return "cart";
    }
   
-   @GetMapping(path="/activeinactive/{id}")
-   public String activeAndInactiveCart(@PathVariable(value="id")int id)
-   {
-	userdao.activeAndInActiveCart(id);
-	return "cart";
-   }
+   
    
    @GetMapping(path="wishlist")
    public String saveWishList(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("size")String size,@RequestParam("category")String category)
