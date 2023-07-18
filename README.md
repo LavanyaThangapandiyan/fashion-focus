@@ -39,16 +39,16 @@
 
 - [X] Admin Login
 - [ ] Manage Users
-- [ ] CRUD Operations of Product 	
-- [ ] Manage Product categories
+- [X] CRUD Operations of Product 	
+- [X] Manage Product categories
 - [ ] Manage Sales
 - [ ] Manage Payment
 
 <h4> 3.User Panel :</h4>
 
 - [X] Log in with login Id
-- [ ] Product list & categorization
-- [ ] Product Details	
+- [X] Product list & categorization
+- [X] Product Details	
 - [ ] Advanced Search and Filter
 - [ ] Cart Management
 - [ ] My Orders
