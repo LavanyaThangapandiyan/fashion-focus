@@ -150,7 +150,7 @@ public class UserController {
     		 @RequestParam("size")String size)
      {
 	    userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
-		return "/productlist";
+		return "redirect:/products";
      }
      
    @GetMapping("/mycart")
@@ -176,6 +176,16 @@ public class UserController {
 	return "redirect:/mycart";
    }
   
+   @GetMapping("/placeorder")
+   public String getOrderDetails()
+   {
+	return "myorder";
+	   
+   }
+   
+   
+   
+   
    
    @GetMapping(path="/updatesize/{id}")
    public String updateSize(@PathVariable(value="id")int id,@RequestParam("quantity")int quantity,Model model)

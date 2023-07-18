@@ -178,7 +178,8 @@ public class UserDao implements UserInterface {
 	Order order = new Order();
 
 	// ---Save Order Details---
-	public int saveOrderDetails(Order order) {
+	public int saveOrderDetails(Order order) 
+	{
 		String insert = "insert into orders(customer_id,product_id,product_name,price,size,category,quantity,is_available)values(?,?,?,?,?,?,?)";
 		Object[] details = { order.getCustomerId(), order.getProductId(), order.getPrice(), order.getSize(),
 				order.getCategory(), order.getQuantity(), order.getStatus() };

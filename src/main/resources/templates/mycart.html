@@ -14,15 +14,14 @@
 			style="background-color: #740074">
 			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
 			<div class="topnav-right">
-			<a th:href="@{/productlist}" class="navbar-brand">Back</a>
 			<a th:href="@{/}" class="navbar-brand">Log Out</a>
 			</div>	
             </nav>
   </div>
 </div>		
 </header>
-<h1>Active Cart List</h1>
-<a th:href="@{/productlist}" class="btn btn-primary btn-sm mb-3"> Add Cart </a>
+<h2>Active Cart List</h2>
+<a th:href="@{/products}" class="btn btn-primary btn-sm mb-3"> Add Products</a>
 <table id="example" class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
         <tr>
@@ -36,6 +35,7 @@
         </tr>
     </thead>
     <tbody> 
+    <form  th:action="@{/placeorder}" method="GET">
     <tr th:each="cart, itemStat : *{mycartlist}">
         <tr th:each="cart : ${mycartlist}">
                <td><span th:text="${cart.productName}"> Name </span></td>
@@ -44,13 +44,22 @@
                <td><span th:text="${cart.size}"> Size </span></td>
                <td><span th:text="${cart.quantity}">Quantity</span></td>
                 <td><span th:text="${cart.amount}">Total Amount</span></td>
-               <td><a th:href="@{/deletecart/{id}(id=${cart.id})}" class="btn btn-danger">Cancel Product</a>
+               <td>
+               <a th:href="@{/deletecart/{id}(id=${cart.id})}" class="btn btn-danger">Cancel Product</a>
                </td>
-        </tr>
+        
     </tbody>   
 </table><br><br>
-<h1>In Active Cart List</h1>
+</tr>
+<div class="order">
+<button type="submit" >Place Order</button>
+</div>
+     
+     </form>
 
+
+<h2>In Active Cart List</h2>
+           
 <br>
 <table id="example" class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
@@ -78,6 +87,26 @@
         </tr>
     </tbody>   
 </table><br><br>
+<style>
+.order{
+text-align: center;
+}
+.order button{
+    background-color: #792099;
+    color:white;
+    border: 1px solid #792099;
+    border-radius: 5px;
+    padding:10px;
+    margin:10px 0px;
+    cursor:pointer;
+    font-size:20px;
+    width:20%;
+}
+
+</style>
+
+
+
 </body>
 </html>
 
