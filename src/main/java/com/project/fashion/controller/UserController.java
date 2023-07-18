@@ -1,7 +1,5 @@
 package com.project.fashion.controller;
 
-import java.io.IOException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
@@ -38,9 +34,10 @@ public class UserController {
     Product product=new Product();
 	User user=new User();
 
+	
 	@GetMapping("/")
-	public String showHome() {
-		System.out.println("Start");
+	public String showHome(HttpSession session) {
+        session.invalidate();		
 		return "index";
 	}
 
@@ -72,7 +69,7 @@ public class UserController {
 
 	@PostMapping(path = "/loginsubmit")
 	public String submitUserRegisterForm(@RequestParam("email") String email, @RequestParam("password") String password,
-			@ModelAttribute User user, Model model ,HttpSession session) throws InvalidEmailException {
+			@ModelAttribute User user, Model model,HttpSession session) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.findUserDetails(user);
@@ -80,12 +77,7 @@ public class UserController {
 			return "list";
 		else if (number == 1)
 		{	
-			List<User> userDetails = userdao.userDetails(email, session);
-			int userId = userdao.findIdByEmail(email);
-			session.setAttribute("userId",userId );
-			String nameByEmail = userdao.findNameByEmail(email);
-			session.setAttribute("userName", nameByEmail);
-			session.setAttribute("userDetails", userDetails);
+			userdao.findIdByEmail(email, session);
 		    return "redirect:/products";
 		}
 		else
@@ -160,6 +152,7 @@ public class UserController {
 	    userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
 		return "/productlist";
      }
+     
    
    @GetMapping("/mycart")
    public String getmyCart()

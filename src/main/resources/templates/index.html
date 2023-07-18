@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="https://thymeleaf.org"> 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -8,9 +7,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
 <meta charset="ISO-8859-1">
-<title>Filter</title>
+<title>Home</title>
 </head>
 <body>
+
+   
   <header>
     <div>
         <nav class="navbar navbar-expand-md navbar-dark"
@@ -21,7 +22,7 @@
         </div>
         </nav>
         </div>
-        
+ </header>       
     <div class="tab">
         <button class="tablinks" onclick="openCity(event, 'ethnic')">Women Ethnic</button>
         <button class="tablinks" onclick="openCity(event, 'western')">Women Western</button>
@@ -38,7 +39,6 @@
     </div>
     </header>
       <!-- Tab content -->
-      
       <div id="ethnic" class="tabcontent">
         <h4 style="color:purple;">All Women Ethnic</h4>
         <table >
@@ -135,7 +135,6 @@
               <form id="form" th:action="@{/sweaters}" th:object="${product}" method="Get">
               <td> <button type="submit">Sweaters</button></td>
               </form>
-               
               </tr>
               <tr>
               <form id="form" th:action="@{/jumpsuits}" th:object="${product}" method="Get">
@@ -154,16 +153,12 @@
             </thead>
             <tbody>
               <tr>
-                <td><a th:href="@{/mtop}">All Top  Wear</a></td>
-                <td><a th:href="@{/mtrack}">Track pants</a></td>
+              <td><a th:href="@{/tshirt}">Tshirts</a></td>
+                <td><a th:href="@{/mentrack}">Track pants</a></td>
               </tr>
               <tr>
-                <td><a th:href="@{/tshirt}">Tshirts</a></td>
-                <td><a th:href="@{/mjeans}">Jeans</a></td>
-              </tr>
-              <tr>
-                <td><a th:href="@{/shirts}">Shirts</a></td>
-                <td><a th:href="@{/trousers}">Trousers</a></td>
+                 <td><a th:href="@{//shirt}">Shirts</a></td>
+                <td><a th:href="@{/jeansmen}">Jeans</a></td>
               </tr>
             </tbody>
         </table>
@@ -177,7 +172,6 @@
             </thead>
             <tbody>
               <tr>
-                <td><a th:href="@{/mtop}">All Top  Wear</a></td>
                 <td><a th:href="@{/track}">Track pants</a></td>
                 <td><a th:href="@{/mkurtas}">Men Kurtas</a></td>
               </tr>
@@ -203,14 +197,95 @@
         </table>
       </div>
       <div class="Container col-md-20">
-				<div class="card">
-					<div class="card-body">
-					<div>
+   <div class="card">
 	<div style="text-align:center">Delivers Excellent Customer Service at our Boutique<br><h4>Lowest Prices Best Quality
     Shopping.
   </h4></div>
 	</div>
+
+ 
 <style> 
+body {
+    background: url(https://previews.123rf.com/images/leszekczerwonka/leszekczerwonka1710/leszekczerwonka171000005/88191609-woman-s-warm-clothes-fashion-background.jpg)
+                no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+.carousel-container {
+  width: 600px;
+  height: 400px;
+  position: relative;
+  margin: 0 auto;
+
+}
+
+.navigation-buttons .previous {
+  position: absolute;
+  z-index: 10;
+  font-size: 25px;
+  top: 40%;
+  left: 10px;
+  font-weight: 700;
+}
+
+.navigation-buttons .next {
+  right: 10px;
+  position: absolute;
+  font-size: 25px;
+  z-index: 10;
+  top: 40%;
+}
+
+.navigation-buttons .nav-btn {
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  
+}
+
+.navigation .nav-btn:hover {
+  background: white;
+}
+
+.slider-carousel {
+  margin-top: 20px;
+  transition: all 0.3s ease;
+
+}
+.slider-carousel img {
+  width: 100%;
+  transition: all 0.3s ease;
+  border:8px solid white;
+}
+
+.images {
+  position: absolute;
+  display: none;
+}
+
+.main {
+  display: block;
+}
+
+.image-text {
+  position: absolute;
+  bottom: 0;
+  width: 103%;
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  height: 35px;
+}
+
   input {
 	color: #171717;
 }
@@ -485,6 +560,56 @@ td {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+const previous = document.querySelector('.previous');
+    const next = document.querySelector('.next');
+    const images = document.querySelector('.slider-carousel').children;
+    const totalImages = images.length;
+    let currentIndex = 0;
+
+
+	// Event Listeners to previous and next buttons
+    previous.addEventListener('click', () => {
+      previousImage()
+    })
+
+    next.addEventListener('click', () => {
+      nextImage();
+    })
+    
+    setInterval(()=>{
+    	nextImage();
+    },1000);
+    
+    // Function to go to next Image
+    function nextImage(){
+
+      images[currentIndex].classList.remove('main');
+    	if(currentIndex == totalImages-1){
+        	currentIndex = 0;
+        }
+        else{
+        	currentIndex++;
+        }
+
+      images[currentIndex].classList.add('main');
+      
+    }
+    
+    // Function to go to previous Image
+    function previousImage(){
+
+      images[currentIndex].classList.remove('main');
+    	if(currentIndex == 0){
+        	currentIndex = totalImages-1;
+        }
+        else{
+        	currentIndex--;
+        }
+    
+      images[currentIndex].classList.add('main');
+
+    }
+    
     </script>
 </body>
 </html>

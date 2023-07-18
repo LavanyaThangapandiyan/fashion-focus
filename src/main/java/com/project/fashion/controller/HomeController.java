@@ -172,4 +172,42 @@ public class HomeController {
 		model.addAttribute("filterlist",userDao.allProductList(name));
 		return "filter";
 	}
+	
+	@GetMapping("/shirt")
+	public String showAllMenShirt(Model model)
+	{
+		String name="Shirt";
+		model.addAttribute("filterlist",userDao.allProductList(name));
+		return "filter";
+	}
+	@GetMapping("/tshirt")
+	public String showAllTshirt(Model model)
+	{
+		String name="Tshirt";
+		model.addAttribute("filterlist",userDao.allProductList(name));
+		return "filter";
+	}
+	
+	@GetMapping("/jeansmen")
+	public String showMenJeans(Model model)
+	{
+		String name="Men Jeans";
+		model.addAttribute("filterlist",userDao.allProductList(name));
+		return "filter";
+	}
+	@GetMapping("/mentrack")
+	public String showMenTreackList(Model model)
+	{
+		String name="Men Tracks";
+		model.addAttribute("filterlist",userDao.allProductList(name));
+		return "filter";
+		
+	}
+	@GetMapping("/kids")
+	public String showAllKids(Model model)
+	{
+		String name="Kids";
+		model.addAttribute("filterlist",userDao.allProductList(name));
+		return "filter";
+	}
 }

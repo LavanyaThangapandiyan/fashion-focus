@@ -21,8 +21,7 @@ public interface UserInterface {
 	public List<User> userDetails(String email,HttpSession session);
 	public int deleteUserDetails(User user);
 	public int updateUserPassword(User user) throws InvalidEmailException;
-	public int findIdByEmail(String email);
-	public String findNameByEmail(String email);
+	public int findIdByEmail(String email,HttpSession session);
 	public int savePaymentDetails(Payment payment);
 	public Payment findPaymentDetails(int orderId);
 	public List<Payment> paymentList();
@@ -36,7 +35,7 @@ public interface UserInterface {
 	public WishList getWishListById(int customerId);
 	public int activeAndInActiveWishList(int wishListId);
 	public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size);
-	public Cart findCartDetailsUsingCustomerId(int userId);
+	public List<Cart> findCartDetailsUsingCustomerId();
 	public void activeAndInActiveCart(int id);
 	public Cart updateProductSize(int cartId);
 	public Cart updateProductquantity(int cartId);
