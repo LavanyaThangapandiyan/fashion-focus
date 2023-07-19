@@ -1,6 +1,7 @@
 package com.project.fashion.model;
 
 public class Order {
+	private int id;
 	private int orderId;
 	private int customerId;
 	private int productId;
@@ -10,12 +11,20 @@ public class Order {
 	private String category;
 	private int quantity;
 	private String status;
+	private int amount;
+	
+
+	
+
 	
 	
 
-	public Order(int orderId, int customerId, int productId, String productName, int price, String size,
-			String category, int quantity, String status) {
+	
+
+	public Order(int id, int orderId, int customerId, int productId, String productName, int price, String size,
+			String category, int quantity, String status, int amount) {
 		super();
+		this.id = id;
 		this.orderId = orderId;
 		this.customerId = customerId;
 		this.productId = productId;
@@ -25,6 +34,23 @@ public class Order {
 		this.category = category;
 		this.quantity = quantity;
 		this.status = status;
+		this.amount = amount;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getProductName() {
@@ -92,10 +118,13 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", customerId=" + customerId + ", productId=" + productId
+		return "Order [id=" + id + ", orderId=" + orderId + ", customerId=" + customerId + ", productId=" + productId
 				+ ", productName=" + productName + ", price=" + price + ", size=" + size + ", category=" + category
-				+ ", quantity=" + quantity + ", status=" + status + "]";
+				+ ", quantity=" + quantity + ", status=" + status + ", amount=" + amount + "]";
 	}
+
+	
+	
 
 	
 }

@@ -1,0 +1,77 @@
+
+<html xmlns:th="https://thymeleaf.org"> 
+<head>
+	<meta charset="ISO-8859-1">
+	<title>My Order List</title>
+</head>
+<style>
+	.card {
+		transition: 0.1s;
+		width: 320px;
+		height: 400px;
+		display: inline-block;
+		background-color: white;
+		margin-left: 40px;
+		margin-top: 25px;
+		padding-bottom: 20px;
+		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+
+
+	}
+
+	.card:hover {
+		box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.6);
+
+	}
+
+	.container {
+		padding: 2px 16px;
+
+
+		float: left;
+	}
+
+	p {
+		margin-top: 12px;
+		margin-left: 12px;
+
+		font-family: serif;
+		text-transform: uppercase;
+	}
+
+
+	strong {
+		margin-left: 12px;
+		margin-top: 30px;
+	}
+
+	span {
+		text-transform: uppercase;
+	}
+
+	button {
+		margin-left: 100px;
+	}
+</style>
+
+<body>
+	<th:block th:each="order :${orderlist}">
+		<div class="container">
+			<div class="card">
+			<strong>Order ID:</strong>
+				<span th:text="${order.id}"></span><br>
+			<strong>Product Name :</strong>
+			<span th:text="${order.productName}"></span>
+				<br>
+				
+				<strong> Quantity :</strong>
+				<span th:text="${order.quantity}"></span><br>
+				<strong> Rs :</strong>
+				<span th:text="${order.amount}"></span>
+				<br>
+			</div>
+		</div>
+
+	</th:block>
+</body>
+</html>

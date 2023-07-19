@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+    <title>Po</title>
+        <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <style>
+body {
+    background: url(https://img.freepik.com/free-photo/front-view-young-beautiful-lady-white-dress-holding-shopping-packages-with-smile-her-face_140725-17613.jpg?w=740&t=st=1689749046~exp=1689749646~hmac=09d2e63baadd686acc6052110ebfdb3768df088b51c24c3f354b6a8ba6e6ef5b)
+                no-repeat center center fixed;
+    background-size: cover;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: -290px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+            /* POUPS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: cursive;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    background: #3c5077;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+        min-height: 100vh;
+        background-color: url();
+        background-size: cover;
+    
+}
+
+.btn {
+    padding: 10px 60px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 500;
+    border-radius: 30px;
+}
+    .model-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top:0;
+        left: 0;
+        background: rgba(0,0,0, .3);
+
+    }
+    .model-container .model{
+        height: 400px;
+        max-width: 390px;
+        margin: 0 10px;
+        padding: 20px;
+        background: white;
+        border-radius: 5px;
+        text-align: center;
+        position: relative;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+
+
+    }
+    
+    .model-container .model h3{
+        color: #666;
+        margin: 25px ;
+    }
+    .model-container .model p{
+        color: #666;
+        margin: 20px 0;
+    }
+    button{
+        height: 35px;
+        width: 150px;
+        background-color: #792099;
+        color: #fff;
+        outline: none;
+        border: none;
+        border-radius:50px ;
+        font-size: 17px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0,0,0, .3);
+    }
+    button:hover{
+        opacity: .8;
+
+    }
+    .model-container .model .fa-times{
+        position: absolute;
+        top:15px;
+        right: 15px;
+        font-size: 25px;
+        cursor: pointer;
+        color:#333 ;
+
+    } 
+    /* Style the popup container */
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 9999;
+  display: none;
+}
+
+/* Style the popup overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: none;
+}
+
+/* Show the popup and overlay when the button is clicked */
+.open-popup-btn:focus + .popup-overlay,
+.open-popup-btn:focus + .popup-overlay + .popup-container {
+  display: block;
+}
+    </style>
+    <body>
+     
+  <div class="myButton">
+  <div id="myModal" class="modal">
+  <div class="modal-content">
+    <div class="model-container">
+  <div class="model">
+    <h3>Select Size and Quantity</h3>
+<form id="form" action="product" th:action="@{/cartupdate}" method="GET">
+        <tr th:each="cart, itemStat : *{cartupdate}">
+            <tr th:each="cart : ${cartupdate}">
+           <label for=><b>Quantity</b></label><br> 
+           <br>
+          <input hidden name="id" th:value="${cart.id}"> 
+        <input type="number" min="1" name="quantity" th:value="${cart.quantity}" class="form-control mb-4 col-4" required>
+        <br>
+        <input hidden name="amount" th:value="${cart.amount}">
+        <div >
+			<label for=><b>Size</b></label><br><br>
+			<input type="checkbox" value="S" id="sz" name="size" >        S   
+			<input type="checkbox" value="M" id="sz" name="size" >       M   
+			<input type="checkbox" value="L" id="sz" name="size" >       L   
+			<input type="checkbox" value="XL" id="sz" name="size" >       XL   
+			<input type="checkbox" value="XXL" id="sz" name="size" >       XXL    
+			<input type="checkbox" value="XXXl" id="sz" name="size" >       XXXL   
+			<input type="checkbox" value="free" id="sz" name="size" >  Free  
+		</div>
+        <br><br><br>
+    <hr>
+    <button type="submit">Confirm</button>
+    <span class="close"></span>
+    </form>
+    </div>
+    </div>
+    
+  </div>
+</div>
+</div>
+
+</body>
+</html>
+

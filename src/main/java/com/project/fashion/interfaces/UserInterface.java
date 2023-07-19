@@ -22,18 +22,14 @@ public interface UserInterface {
 	public int savePaymentDetails(Payment payment);
 	public Payment findPaymentDetails(int orderId);
 	public List<Payment> paymentList();
-	public int saveOrderDetails(Order order);
+	public int saveOrderDetails(int userId);
 	public int cancelOrder(int id);
-	public int updateSize(int orderId);
-	public int updateQuantity(int OrderId);
 	public Order findByOrderId(int orderId);
-	public List<Order> getOrdersList();
+	 public List<Order> getOrdersList(int userId);
 	public int saveWishList(WishList wish);
 	public WishList getWishListById(int customerId);
 	public int activeAndInActiveWishList(int wishListId);
 	public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size);
 	public void cancelCartDetails(int id) ;
-	public Cart updateProductSize(int cartId);
-	public Cart updateProductquantity(int cartId);
 	public List<Cart> cartList(int customerId);
 }

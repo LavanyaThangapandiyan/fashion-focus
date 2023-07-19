@@ -16,6 +16,7 @@ import com.project.fashion.mapper.CartMapper;
 import com.project.fashion.mapper.OrderMapper;
 import com.project.fashion.mapper.PaymentMapper;
 import com.project.fashion.mapper.ProductMapperAll;
+import com.project.fashion.mapper.UpdateCartMapper;
 import com.project.fashion.mapper.UserMapper;
 import com.project.fashion.mapper.UserMapperSingle;
 import com.project.fashion.mapper.WishListMapper;
@@ -178,24 +179,19 @@ public class UserDao implements UserInterface {
 	Order order = new Order();
 
 	// ---Save Order Details---
-	public int saveOrderDetails(Order order) 
+	public int saveOrderDetails(int userId)
 	{
-		String insert = "insert into orders(customer_id,product_id,product_name,price,size,category,quantity,is_available)values(?,?,?,?,?,?,?)";
-		Object[] details = { order.getCustomerId(), order.getProductId(), order.getPrice(), order.getSize(),
-				order.getCategory(), order.getQuantity(), order.getStatus() };
-		int insertRows = jdbcTemplate.update(insert, details);
-		logger.info("Inserted Order : " + insertRows);
-		List<Order> orderList = getOrdersList();
-		String getOrder = orderList.toString();
-		String productName = order.getProductName();
-		boolean contains = getOrder.contains(productName);
-		if (contains == true) {
-			String update = "update orders set quantity=? where product_name=?";
-			Object[] details1 = { order.getQuantity(), order.getProductName() };
-			int updateRows = jdbcTemplate.update(update, details1);
-			logger.info("Quantity Updated : " + updateRows);
+		//--find cart details and by using session id
+		String getCartList = " select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
+		List<Cart> cartlist= jdbcTemplate.query(getCartList, new CartMapper(), userId,"Available");
+	      for (Cart cartModel : cartlist)
+		  {
+				String insert = "insert into orders(customer_id,cart_id,product_id,productsname,price,size,category,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?,?)";
+				Object[] details = { userId, cartModel.getId(), cartModel.getProductId(), cartModel.getProductName(), cartModel.getPrice(), cartModel.getSize(), cartModel.getProduct_type(), cartModel.getQuantity(),cartModel.getAmount(),"Available"};
+				int insertRows = jdbcTemplate.update(insert, details);
+				logger.info("Inserted Order : " + insertRows);
 		}
-		return 1;
+		return 0;
 	}
 
 	// ----Cancel Order Details-----
@@ -207,24 +203,6 @@ public class UserDao implements UserInterface {
 		return 1;
 	}
 
-	// ----Update Size Using Order Id----
-	public int updateSize(int orderId) {
-		String updateSize = "update orders set size=? where id=?";
-		Object[] details = { order.getSize(), order.getOrderId() };
-		int updatedSize = jdbcTemplate.update(updateSize, details);
-		logger.info("Updated Size :" + updatedSize);
-		return orderId;
-	}
-
-	// -----Update Quantity Using Order Id-----
-	public int updateQuantity(int OrderId) {
-		String updateQuantity = "update orders set quantity=? where id=?";
-		Object[] details = { order.getQuantity(), order.getOrderId() };
-		int updatedQuantity = jdbcTemplate.update(updateQuantity, details);
-		logger.info("Updated Quantity : " + updatedQuantity);
-		return OrderId;
-	}
-
 	// ----Find Order Details Using Order ID
 	public Order findByOrderId(int orderId) {
 		String find = "select customer_id,product_id,product_name,price,size,category,quantity,is_available from orders where id=?";
@@ -233,9 +211,17 @@ public class UserDao implements UserInterface {
 	}
 
 	// ---- Get Orders List (Admin)
-	public List<Order> getOrdersList() {
-		String listQuery = "select customer_id,product_id,product_name,price,size,category,quantity,is_available from orders";
-		List<Order> getOrderList = jdbcTemplate.query(listQuery, new OrderMapper());
+	 public List<Order> getOrdersList(int userId) {
+		String listQuery = "select id,customer_id,product_id,productsname,price,size,category,quantity,total_amount,is_available from orders where customer_id=? and is_available=?";
+		List<Order> getOrderList = jdbcTemplate.query(listQuery, new OrderMapper(),userId,"Available");
+	      for (Order orderModel : getOrderList)
+		  {
+	    	  int amount=0;
+	    	  amount = amount+ orderModel.getAmount();
+	    	  System.out.println(amount);
+		  }
+		
+		
 		return getOrderList;
 	}
 
@@ -272,6 +258,52 @@ public class UserDao implements UserInterface {
 
 	// ----save Cart details--
 	Cart cart = new Cart();
+	
+	//----update cart details------
+	public int updateCartDetails(int cartId,String size,int quantity,int amount,int userId)
+	{	
+		   String find="select id,size,quantity,total_amount from cart where id=?";
+		   Cart queryForObject = jdbcTemplate.queryForObject(find, new UpdateCartMapper(),cartId);
+		   int quantity2 = queryForObject.getQuantity();
+		   int amount1=queryForObject.getAmount();
+		   if(quantity2==quantity)
+		   {
+			 String update="update cart set size=? where id=?";
+			 Object[] details= {size,cartId};
+			 int update2 = jdbcTemplate.update(update,details);
+			 logger.info("Updated Size  : "+update2);
+		   }
+		   else if(quantity2<quantity)
+		   {
+		    int addAmount=quantity*amount1;
+			String update="update cart set size=?,quantity=?,total_amount=? where id=?";
+			Object[] details= {size,quantity,addAmount,cartId};
+			int update2 = jdbcTemplate.update(update,details);
+			logger.info("Update size and Quantity and Amount in Cart : "+update2);
+		    return 1;	
+		   }
+		   else if(quantity2>quantity)
+		   {
+			   int divideAmount=amount1%quantity2;
+			   int reduceAmount=divideAmount*quantity;
+			   String reduce="update cart set size=?,quantity=?,total_amount=? where id=? ";
+			   Object[] details= {size,quantity,reduceAmount,cartId};
+			   int update = jdbcTemplate.update(reduce,details);
+			   logger.info("Reduce Total Amount : "+update);
+		   }
+		return 0;
+		   
+	}
+	
+	
+	
+	public List<Cart> getcartUpdateDetails(int cartId)
+	{
+		String findCart = "select id,size,quantity,total_amount from cart where id=? and is_available=? ";
+		List<Cart> query = jdbcTemplate.query(findCart, new UpdateCartMapper(),cartId,"Available");
+		return query;
+	}
+	
 
 	public int saveCartDetails(int userId, int id, String productName, int price, String type, int quantity,
 			String size) {
@@ -319,25 +351,6 @@ public class UserDao implements UserInterface {
 		logger.info("Update status Cart : " + update);
 	}
 	
-
-	/// ----update Size----
-	public Cart updateProductSize(int cartId) {
-		String updateSize = "update cart set size=? where id=? ";
-		Object[] details = { cart.getSize(), cartId };
-		int update = jdbcTemplate.update(updateSize, details);
-		logger.info("Update Product Size :" + update);
-		return cart;
-	}
-
-	// -----update quantity----
-	public Cart updateProductquantity(int cartId) {
-		String updatequantity = "update cart set quantity=? where id=?";
-		Object[] details = { cart.getQuantity(), cartId };
-		int update = jdbcTemplate.update(updatequantity, details);
-		logger.info("Update Quantity : " + update);
-		return cart;
-	}
-
 	// ---Cart List
 	public List<Cart> cartList(int customerId) {
 		String getCartList = " select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";

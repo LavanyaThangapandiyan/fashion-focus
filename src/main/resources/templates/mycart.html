@@ -14,6 +14,7 @@
 			style="background-color: #740074">
 			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
 			<div class="topnav-right">
+			<a th:href="@{/myorder}" class="navbar-brand">My Order</a>
 			<a th:href="@{/}" class="navbar-brand">Log Out</a>
 			</div>	
             </nav>
@@ -21,7 +22,10 @@
 </div>		
 </header>
 <h2>Active Cart List</h2>
-<a th:href="@{/products}" class="btn btn-primary btn-sm mb-3"> Add Products</a>
+<div class="button">
+<a th:href="@{/products}" class="navbar-brand">Add Products</a>
+</div>
+<br>
 <table id="example" class="table table-bordered" style="background-color: #fsfsfs">
 <thead style="background-color: purple">
         <tr>
@@ -38,16 +42,24 @@
     <form  th:action="@{/placeorder}" method="GET">
     <tr th:each="cart, itemStat : *{mycartlist}">
         <tr th:each="cart : ${mycartlist}">
+        
+               <input hidden name="userId" th:value="${session.id}">
+               <input hidden name="id" th:value="${cart.id}">
+               <input hidden name="productId" th:value="${cart.productId}">
+               <p><input hidden  name="productname"  th:value="${cart.productName}" readonly></p>
+               <p><input hidden name="price" id="price" th:value="${cart.price}" readonly></p>
+               <p><input hidden  name="type" id="type" th:value="${cart.product_type}" readonly></p>
+               <p><input hidden name="amount" id="fabric" th:value="${cart.amount}" readonly></p>
                <td><span th:text="${cart.productName}"> Name </span></td>
-               <td><span th:text="${cart.price}"> Price </span></td>
-               <td><span th:text="${cart.product_type}"> Type </span></td>
-               <td><span th:text="${cart.size}"> Size </span></td>
-               <td><span th:text="${cart.quantity}">Quantity</span></td>
+               <td>Rs.<span th:text="${cart.price}"> Price </span></td>
+                <td><span th:text="${cart.product_type}"> Type </span></td>
+                <td><span th:text="${cart.size}"> Type </span></td>
+                <td><span th:text="${cart.quantity}">Quantity </span></td>
                 <td><span th:text="${cart.amount}">Total Amount</span></td>
                <td>
-               <a th:href="@{/deletecart/{id}(id=${cart.id})}" class="btn btn-danger">Cancel Product</a>
-               </td>
-        
+               <a th:href="@{/updatecart/{id}(id=${cart.id})}" class="btn btn-danger">Update</a>
+               <a th:href="@{/deletecart/{id}(id=${cart.id})}" class="btn btn-danger">Remove</a>
+               </td>    
     </tbody>   
 </table><br><br>
 </tr>
@@ -77,10 +89,10 @@
     <tr th:each="cart, itemStat : *{inactivelist}">
         <tr th:each="cart : ${inactivelist}">
                <td><span th:text="${cart.productName}"> Name </span></td>
-               <td><span th:text="${cart.price}"> Price </span></td>
+               <td>Rs.<span th:text="${cart.price}"> Price </span></td>
                <td><span th:text="${cart.product_type}"> Type </span></td>
                <td><span th:text="${cart.size}"> Size </span></td>
-               <td><span th:text="${cart.quantity}">Quantity</span></td>
+               <td><span  th:text="${cart.quantity}">Quantity</td>
                 <td><span th:text="${cart.amount}">Total Amount</span></td>
                <td><a th:href="@{/activecart/{id}(id=${cart.id})}" class="btn btn-danger">Add cart</a>
                     </td>
@@ -90,6 +102,16 @@
 <style>
 .order{
 text-align: center;
+}
+
+.button{
+float : right;
+background-color: #792099;
+    color:white;
+    border: 1px solid #792099;
+    cursor:pointer;
+    font-size:20px;
+    width:10%;
 }
 .order button{
     background-color: #792099;

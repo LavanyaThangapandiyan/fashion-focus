@@ -27,17 +27,15 @@ import com.project.fashion.validation.Validation;
 @Controller
 public class UserController {
 	Validation valid = new Validation();
-    
-	
-	AdminDao productDao=new AdminDao();
-	UserDao userdao=new UserDao();
-    Product product=new Product();
-	User user=new User();
 
-	
+	AdminDao productDao = new AdminDao();
+	UserDao userdao = new UserDao();
+	Product product = new Product();
+	User user = new User();
+
 	@GetMapping("/")
 	public String showHome(HttpSession session) {
-        session.invalidate();		
+		session.invalidate();
 		return "index";
 	}
 
@@ -54,7 +52,8 @@ public class UserController {
 	}
 
 	@GetMapping("forgotpassword")
-	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password) throws InvalidEmailException {
+	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password)
+			throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.updateUserPassword(user);
@@ -69,34 +68,29 @@ public class UserController {
 
 	@PostMapping(path = "/loginsubmit")
 	public String submitUserRegisterForm(@RequestParam("email") String email, @RequestParam("password") String password,
-			@ModelAttribute User user, Model model,HttpSession session) throws InvalidEmailException {
+			@ModelAttribute User user, Model model, HttpSession session) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.findUserDetails(user);
 		if (number == 2)
 			return "list";
-		else if (number == 1)
-		{	
-		    userdao.findIdByEmail(email, session);
-		    return "redirect:/products";
-		}
-		else
+		else if (number == 1) {
+			userdao.findIdByEmail(email, session);
+			return "redirect:/products";
+		} else
 			return "";
 	}
-	
+
 	@GetMapping("/products")
-	public String viewProductList(Model model)
-	{
-	     model.addAttribute("card",productDao.allProductList());
-		 return "productlist";
+	public String viewProductList(Model model) {
+		model.addAttribute("card", productDao.allProductList());
+		return "productlist";
 	}
-	
-	
-	//-----Handling Invalid Email Exception-----
+
+	// -----Handling Invalid Email Exception-----
 	@ExceptionHandler(InvalidEmailException.class)
-	public String invalidException(InvalidEmailException email ,Model model)
-	{
-		model.addAttribute("invalid","Invalid login or password. Please try again.");
+	public String invalidException(InvalidEmailException email, Model model) {
+		model.addAttribute("invalid", "Invalid login or password. Please try again.");
 		return "login";
 	}
 
@@ -104,12 +98,12 @@ public class UserController {
 	public String getRegisterForm() {
 		return "register";
 	}
+
 	@PostMapping(path = "/register-submit")
 	public String saveUserDetails(@RequestParam("username") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("mobile") String mobile,
-			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException 
-	{
-		User user=new User();
+			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException {
+		User user = new User();
 		user.setName(name);
 		user.setEmail(email);
 		user.setPassword(password);
@@ -118,22 +112,20 @@ public class UserController {
 		int number = userdao.saveDetails(user);
 		if (number == 1)
 			return "login";
-		else 
+		else
 			return "register";
 	}
-	
-	//---Handling Exist Mail ID Exception ----
+
+	// ---Handling Exist Mail ID Exception ----
 	@ExceptionHandler(ExistMailIdException.class)
-	public String existMailException(ExistMailIdException exist,Model model)
-	{
-		model.addAttribute("existMail","Email Id Already Exist.");
+	public String existMailException(ExistMailIdException exist, Model model) {
+		model.addAttribute("existMail", "Email Id Already Exist.");
 		return "register";
 	}
-	
-	//---Handling Exist Mobile Number Exception----
-	public String existMobileNumberException(ExistMobileException existMobile,Model model)
-	{
-		model.addAttribute("existMobile","Mobile Number Already Exist.");
+
+	// ---Handling Exist Mobile Number Exception----
+	public String existMobileNumberException(ExistMobileException existMobile, Model model) {
+		model.addAttribute("existMobile", "Mobile Number Already Exist.");
 		return "register";
 	}
 
@@ -143,116 +135,113 @@ public class UserController {
 		model.addAttribute("userlist", users);
 		return "list";
 	}
-     @GetMapping(path="/addcart")
-     public String saveCartDetails(@RequestParam("userId")int userId,@RequestParam("id")int id,
-    		 @RequestParam("productname")String name,@RequestParam("price")int price,@RequestParam("type")String type,
-    		 @RequestParam("quantity")int quantity,
-    		 @RequestParam("size")String size)
-     {
-	    userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
+
+	@GetMapping(path = "/addcart")
+	public String saveCartDetails(@RequestParam("userId") int userId, @RequestParam("id") int id,
+			@RequestParam("productname") String name, @RequestParam("price") int price,
+			@RequestParam("type") String type, @RequestParam("quantity") int quantity,
+			@RequestParam("size") String size) {
+		userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
 		return "redirect:/products";
-     }
-     
-   @GetMapping("/mycart")
-   public String getmyCart(Model model,HttpSession session)
-   {
-	   int userId=(int)session.getAttribute("id");
-	   model.addAttribute("mycartlist",userdao.cartList(userId));
-	   model.addAttribute("inactivelist",userdao.inActiveCartList(userId));
-	   return "mycart";
-   } 
-   
-   @GetMapping(path="/deletecart/{id}")
-   public String cancelCartDetails(@PathVariable(value="id")int id)
-   {
-	userdao.cancelCartDetails(id);
-	return "redirect:/mycart";
-   }
-   
-   @GetMapping(path="/activecart/{id}")
-   public String acitveCartDetails(@PathVariable(value="id")int id)
-   {
-	userdao.clicktoActiveCartDetails(id);
-	return "redirect:/mycart";
-   }
-  
-   @GetMapping("/placeorder")
-   public String getOrderDetails()
-   {
-	return "myorder";
-	   
-   }
-   
-   
-   
-   
-   
-   @GetMapping(path="/updatesize/{id}")
-   public String updateSize(@PathVariable(value="id")int id,@RequestParam("quantity")int quantity,Model model)
-   {
-	  Cart carts=userdao.updateProductSize(id);
-	  model.addAttribute("cart",carts);
-	   return "cart";
-   }
-   
-   @GetMapping(path="/updatequantity/{id}")
-   public String updateQuantity(@PathVariable(value="id")int id,Model model)
-   {
-	   Cart carts=userdao.updateProductquantity(id);
-	   model.addAttribute("cart",carts);
-	    return "cart";
-   }
-  
-   
-   
-   @GetMapping(path="wishlist")
-   public String saveWishList(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("size")String size,@RequestParam("category")String category)
-   {
-	   
-	   WishList wish=new WishList();
-	   wish.setProductName(name);
-	   wish.setPrice(price);
-	   wish.setCategory(category);
-	   wish.setSize(size);
-	   userdao.saveWishList(wish);
-	   return "/productlist";
-   }
-   
-   @GetMapping(path="/activeInactive/{id}")
-   public String activeAndInActiveWishList(@PathVariable(value="id")int id)
-   {
-	userdao.activeAndInActiveWishList(id);
-	return "wish_list";
-   }
-   
-   @GetMapping(path="/order")
-   public String saveOrderDetails(@RequestParam("name")String name,@RequestParam("price")int price,@RequestParam("size")String size,@RequestParam("category")String category)
-   {
-	Order order=new Order();
-	order.setProductName(name);
-	order.setPrice(price);
-	order.setCategory(category);
-	order.setSize(size);
-	order.setQuantity(price);
-	return "order";
-   }
-   
-   @GetMapping(path="/cancelorder/{id}")
-   public String cancelOrder(@PathVariable(value="id")int id)
-   {
-	userdao.cancelOrder(id);
-	return "redirect:order";
-   }
-   
-   @GetMapping(path="/payment")
-   public String savePaymentDetails(@RequestParam("OrderId")int id,@RequestParam("Amount")int amount,@RequestParam("PaymentType")String PaymentType ,@RequestParam("date")Date date)
-   {
-	Payment pay=new Payment();
-	pay.setOrderId(id);
-	pay.setPaymentType(PaymentType);
-	pay.setAmount(amount);
-	pay.setDate(date);
-	userdao.savePaymentDetails(pay);
-	return "/payment";
-   }
+	}
+
+	@GetMapping("/mycart")
+	public String getmyCart(Model model, HttpSession session) {
+		int userId = (int) session.getAttribute("id");
+		model.addAttribute("mycartlist", userdao.cartList(userId));
+		model.addAttribute("inactivelist", userdao.inActiveCartList(userId));
+		return "mycart";
+	}
+
+	@GetMapping(path = "/deletecart/{id}")
+	public String cancelCartDetails(@PathVariable(value = "id") int id) {
+		userdao.cancelCartDetails(id);
+		return "redirect:/mycart";
+	}
+
+	@GetMapping(path = "/activecart/{id}")
+	public String acitveCartDetails(@PathVariable(value = "id") int id) {
+		userdao.clicktoActiveCartDetails(id);
+		return "redirect:/mycart";
+	}
+
+	@GetMapping("/cartupdate")
+	public String updateCartDetails(@RequestParam("id") int id, @RequestParam("size") String size,
+			@RequestParam("quantity") int quantity, @RequestParam("amount") int amount,HttpSession session) {
+		int userId = (int) session.getAttribute("id");
+		userdao.updateCartDetails(id, size, quantity, amount,userId);
+		return "redirect:/mycart";
+	}
+
+	@GetMapping("/updatecart/{id}")
+	public String updateSizeQuantity(@PathVariable("id") int id, Model model)
+	{
+		
+		model.addAttribute("cartupdate", userdao.getcartUpdateDetails(id));
+		return "updatepopup";
+
+	}
+
+	@GetMapping("/placeorder")
+	public String getOrderDetails(@RequestParam("userId") int userId) {
+	userdao.saveOrderDetails(userId);
+		return "redirect:/myorder";
+	}
+	
+	@GetMapping("/myorder")
+	public String showMyOrderList(Model model, HttpSession session)
+	{
+		int userId = (int) session.getAttribute("id");
+		model.addAttribute("orderlist",userdao.getOrdersList(userId));
+		return "myorder";
+	}
+
+	@GetMapping(path = "wishlist")
+	public String saveWishList(@RequestParam("name") String name, @RequestParam("price") int price,
+			@RequestParam("size") String size, @RequestParam("category") String category) {
+
+		WishList wish = new WishList();
+		wish.setProductName(name);
+		wish.setPrice(price);
+		wish.setCategory(category);
+		wish.setSize(size);
+		userdao.saveWishList(wish);
+		return "/productlist";
+	}
+
+	@GetMapping(path = "/activeInactive/{id}")
+	public String activeAndInActiveWishList(@PathVariable(value = "id") int id) {
+		userdao.activeAndInActiveWishList(id);
+		return "wish_list";
+	}
+
+	@GetMapping(path = "/order")
+	public String saveOrderDetails(@RequestParam("name") String name, @RequestParam("price") int price,
+			@RequestParam("size") String size, @RequestParam("category") String category) {
+		Order order = new Order();
+		order.setProductName(name);
+		order.setPrice(price);
+		order.setCategory(category);
+		order.setSize(size);
+		order.setQuantity(price);
+		return "order";
+	}
+
+	@GetMapping(path = "/cancelorder/{id}")
+	public String cancelOrder(@PathVariable(value = "id") int id) {
+		userdao.cancelOrder(id);
+		return "redirect:order";
+	}
+
+	@GetMapping(path = "/payment")
+	public String savePaymentDetails(@RequestParam("OrderId") int id, @RequestParam("Amount") int amount,
+			@RequestParam("PaymentType") String PaymentType, @RequestParam("date") Date date) {
+		Payment pay = new Payment();
+		pay.setOrderId(id);
+		pay.setPaymentType(PaymentType);
+		pay.setAmount(amount);
+		pay.setDate(date);
+		userdao.savePaymentDetails(pay);
+		return "/payment";
+	}
 }
