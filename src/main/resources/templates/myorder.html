@@ -1,9 +1,22 @@
-
 <html xmlns:th="https://thymeleaf.org"> 
+<link rel="stylesheet"
 <head>
-	<meta charset="ISO-8859-1">
-	<title>My Order List</title>
+<meta charset="ISO-8859-1">
+<title>My Cart</title>
 </head>
+<body>
+<header>
+<div class="tab">
+    <nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: #740074">
+			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
+			<div class="topnav-right">
+			<a th:href="@{/}" class="navbar-brand">Log Out</a>
+			</div>	
+            </nav>
+  </div>
+</div>		
+</header>
 <style>
 	.card {
 		transition: 0.1s;
@@ -15,36 +28,27 @@
 		margin-top: 25px;
 		padding-bottom: 20px;
 		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
-
-
 	}
 
 	.card:hover {
 		box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.6);
-
 	}
 
 	.container {
 		padding: 2px 16px;
-
-
 		float: left;
 	}
-
 	p {
 		margin-top: 12px;
 		margin-left: 12px;
-
 		font-family: serif;
 		text-transform: uppercase;
 	}
-
 
 	strong {
 		margin-left: 12px;
 		margin-top: 30px;
 	}
-
 	span {
 		text-transform: uppercase;
 	}
@@ -52,9 +56,24 @@
 	button {
 		margin-left: 100px;
 	}
+	.function{
+	text-align: center;
+	}
+	.button{
+float : right;
+background-color: #792099;
+    color:white;
+    border: 1px solid #792099;
+    cursor:pointer;
+    font-size:20px;
+    width:10%;
+}
+	
 </style>
-
 <body>
+<div class="button">
+<a th:href="@{/products}" class="navbar-brand">Add Products</a>
+</div>
 	<th:block th:each="order :${orderlist}">
 		<div class="container">
 			<div class="card">
@@ -63,12 +82,17 @@
 			<strong>Product Name :</strong>
 			<span th:text="${order.productName}"></span>
 				<br>
-				
 				<strong> Quantity :</strong>
 				<span th:text="${order.quantity}"></span><br>
 				<strong> Rs :</strong>
 				<span th:text="${order.amount}"></span>
 				<br>
+				<div class="function">
+				<a th:href="@{/updateorder/{id}(id=${order.id})}" class="btn btn-danger">Update</a>
+				<br>
+				<a th:href="@{/deleteorder/{id}(id=${order.id})}" class="btn btn-danger">Cancel Order</a>
+				<br>
+				</div>
 			</div>
 		</div>
 

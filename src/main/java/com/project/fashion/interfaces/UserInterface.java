@@ -24,7 +24,6 @@ public interface UserInterface {
 	public List<Payment> paymentList();
 	public int saveOrderDetails(int userId);
 	public int cancelOrder(int id);
-	public Order findByOrderId(int orderId);
 	 public List<Order> getOrdersList(int userId);
 	public int saveWishList(WishList wish);
 	public WishList getWishListById(int customerId);

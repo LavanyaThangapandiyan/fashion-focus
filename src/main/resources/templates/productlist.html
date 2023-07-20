@@ -9,12 +9,8 @@
     <div class="tab">
       <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #740074">
         <a href="" class="navbar-brand">Fashion Focus Boutique</a>
-        
-        <form id="form" th:action="@{/mycart}" method="Get">
-          <input hidden name="user" th:value="${session.id}">
-           <td> <button type="submit">My Cart</button></td>
-          </form>
-         
+         <a th:href="@{/mycart}" class="navbar-brand">My Cart</a>
+         <a th:href="@{/myorder}" class="navbar-brand">My Orders</a>         
          <a th:href="@{/}" class="navbar-brand">Log Out</a>
       </nav>
         <form id="formsearch" action="#" class="search-bar">

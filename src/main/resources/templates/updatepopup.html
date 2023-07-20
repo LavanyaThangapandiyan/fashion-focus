@@ -157,11 +157,11 @@ body {
   <div class="model">
     <h3>Select Size and Quantity</h3>
 <form id="form" action="product" th:action="@{/cartupdate}" method="GET">
-        <tr th:each="cart, itemStat : *{cartupdate}">
-            <tr th:each="cart : ${cartupdate}">
+        <tr th:each="cart, itemStat : *{updatedata}">
+            <tr th:each="cart : ${updatedata}">
            <label for=><b>Quantity</b></label><br> 
            <br>
-          <input hidden name="id" th:value="${cart.id}"> 
+        <input hidden name="id" th:value="${cart.id}"> 
         <input type="number" min="1" name="quantity" th:value="${cart.quantity}" class="form-control mb-4 col-4" required>
         <br>
         <input hidden name="amount" th:value="${cart.amount}">

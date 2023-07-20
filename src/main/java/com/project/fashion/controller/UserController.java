@@ -16,7 +16,6 @@ import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
-import com.project.fashion.model.Cart;
 import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
 import com.project.fashion.model.Product;
@@ -158,7 +157,14 @@ public class UserController {
 		userdao.cancelCartDetails(id);
 		return "redirect:/mycart";
 	}
-
+	
+	@GetMapping(path="/deleteorder/{id}")
+	public String deleteOrderDetails(@PathVariable(value="id")int id)
+	{
+		userdao.cancelOrder(id);
+		return "redirect:/myorder";
+	}
+	
 	@GetMapping(path = "/activecart/{id}")
 	public String acitveCartDetails(@PathVariable(value = "id") int id) {
 		userdao.clicktoActiveCartDetails(id);
@@ -169,18 +175,27 @@ public class UserController {
 	public String updateCartDetails(@RequestParam("id") int id, @RequestParam("size") String size,
 			@RequestParam("quantity") int quantity, @RequestParam("amount") int amount,HttpSession session) {
 		int userId = (int) session.getAttribute("id");
-		userdao.updateCartDetails(id, size, quantity, amount,userId);
+		userdao.updateOrderDetails(id, size, quantity, amount,userId);
 		return "redirect:/mycart";
 	}
+	
 
 	@GetMapping("/updatecart/{id}")
 	public String updateSizeQuantity(@PathVariable("id") int id, Model model)
 	{
+		model.addAttribute("updatedata", userdao.getcartUpdateDetails(id));
 		
-		model.addAttribute("cartupdate", userdao.getcartUpdateDetails(id));
 		return "updatepopup";
-
 	}
+	
+	@GetMapping("/updateorder/{id}")
+	public String updateOrderDetails(@PathVariable("id")int id,Model model)
+	{
+		model.addAttribute("updatedata",userdao.getorderUpdateDetails(id));
+		return "updatepopup";
+		
+	}
+	
 
 	@GetMapping("/placeorder")
 	public String getOrderDetails(@RequestParam("userId") int userId) {

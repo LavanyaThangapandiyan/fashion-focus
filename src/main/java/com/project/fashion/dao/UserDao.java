@@ -17,6 +17,7 @@ import com.project.fashion.mapper.OrderMapper;
 import com.project.fashion.mapper.PaymentMapper;
 import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.mapper.UpdateCartMapper;
+import com.project.fashion.mapper.UpdateOrderMapper;
 import com.project.fashion.mapper.UserMapper;
 import com.project.fashion.mapper.UserMapperSingle;
 import com.project.fashion.mapper.WishListMapper;
@@ -197,28 +198,26 @@ public class UserDao implements UserInterface {
 	// ----Cancel Order Details-----
 	public int cancelOrder(int id) {
 		String cancel = "update orders set is_available=? where id=?";
-		Object[] details = { order.getStatus() };
+		Object[] details = { "Not Available",id };
 		int cancelRows = jdbcTemplate.update(cancel, details);
 		logger.info("Cancel Order Rows: " + cancelRows);
 		return 1;
 	}
-
-	// ----Find Order Details Using Order ID
-	public Order findByOrderId(int orderId) {
-		String find = "select customer_id,product_id,product_name,price,size,category,quantity,is_available from orders where id=?";
-		Order getRow = jdbcTemplate.queryForObject(find, new OrderMapper(), orderId);
-		return getRow;
+	
+	//--Find Order Details Using orderId
+     public List<Order> getorderUpdateDetails(int orderId)
+	 {
+		String find = "select id,size,quantity,total_amount from orders where id=? and is_available=? ";
+		List<Order> query = jdbcTemplate.query(find, new UpdateOrderMapper(),orderId,"Available");
+		return query;
 	}
-
+	
 	// ---- Get Orders List (Admin)
 	 public List<Order> getOrdersList(int userId) {
 		String listQuery = "select id,customer_id,product_id,productsname,price,size,category,quantity,total_amount,is_available from orders where customer_id=? and is_available=?";
 		List<Order> getOrderList = jdbcTemplate.query(listQuery, new OrderMapper(),userId,"Available");
 	      for (Order orderModel : getOrderList)
 		  {
-	    	  int amount=0;
-	    	  amount = amount+ orderModel.getAmount();
-	    	  System.out.println(amount);
 		  }
 		
 		
@@ -259,43 +258,20 @@ public class UserDao implements UserInterface {
 	// ----save Cart details--
 	Cart cart = new Cart();
 	
-	//----update cart details------
-	public int updateCartDetails(int cartId,String size,int quantity,int amount,int userId)
+	//----update order details------
+	public int updateOrderDetails(int id,String size,int quantity,int amount,int userId)
 	{	
-		   String find="select id,size,quantity,total_amount from cart where id=?";
-		   Cart queryForObject = jdbcTemplate.queryForObject(find, new UpdateCartMapper(),cartId);
-		   int quantity2 = queryForObject.getQuantity();
-		   int amount1=queryForObject.getAmount();
-		   if(quantity2==quantity)
-		   {
-			 String update="update cart set size=? where id=?";
-			 Object[] details= {size,cartId};
-			 int update2 = jdbcTemplate.update(update,details);
-			 logger.info("Updated Size  : "+update2);
-		   }
-		   else if(quantity2<quantity)
-		   {
-		    int addAmount=quantity*amount1;
-			String update="update cart set size=?,quantity=?,total_amount=? where id=?";
-			Object[] details= {size,quantity,addAmount,cartId};
-			int update2 = jdbcTemplate.update(update,details);
-			logger.info("Update size and Quantity and Amount in Cart : "+update2);
+		    int addAmount=quantity*amount;
+			String updateCart="update cart set size=?,quantity=?,total_amount=? where id=?";
+			Object[] details= {size,quantity,addAmount,id};
+			String updateOrder="update orders set size=?,quantity=?,total_amount=? where id=?";
+			Object[] orderDetails= {size,quantity,addAmount,id};
+			int update = jdbcTemplate.update(updateOrder,orderDetails);
+			logger.info("Updated Order Details : "+update);
+			int update2 = jdbcTemplate.update(updateCart,details);
+			logger.info("Update Cart details : "+update2);
 		    return 1;	
-		   }
-		   else if(quantity2>quantity)
-		   {
-			  
-			   int divideAmount=amount1%quantity2;
-			   int reduceAmount=divideAmount*quantity;
-			   String reduce="update cart set size=?,quantity=?,total_amount=? where id=? ";
-			   Object[] details= {size,quantity,reduceAmount,cartId};
-			   int update = jdbcTemplate.update(reduce,details);
-			   logger.info("Reduce Total Amount : "+update);
-		   }
-		return 0;
-		   
 	}
-	
 	
 	
 	public List<Cart> getcartUpdateDetails(int cartId)
