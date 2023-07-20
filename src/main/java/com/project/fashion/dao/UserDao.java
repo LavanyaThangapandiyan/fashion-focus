@@ -284,6 +284,7 @@ public class UserDao implements UserInterface {
 		   }
 		   else if(quantity2>quantity)
 		   {
+			  
 			   int divideAmount=amount1%quantity2;
 			   int reduceAmount=divideAmount*quantity;
 			   String reduce="update cart set size=?,quantity=?,total_amount=? where id=? ";
