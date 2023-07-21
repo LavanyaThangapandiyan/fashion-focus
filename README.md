@@ -38,7 +38,7 @@
 <h4> 2.Admin Panel : </h4>
 
 - [X] Admin Login
-- [ ] Manage Users
+- [X] Manage Users
 - [X] CRUD Operations of Product 	
 - [X] Manage Product categories
 - [ ] Manage Sales
@@ -50,6 +50,6 @@
 - [X] Product list & categorization
 - [X] Product Details	
 - [ ] Advanced Search and Filter
-- [ ] Cart Management
+- [X] Cart Management
 - [ ] My Orders
 - [ ] Payment Option
