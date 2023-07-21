@@ -30,11 +30,6 @@ public class ProductController {
 		return "product";
 	}
 
-	@GetMapping(path = "/customer")
-	public String showCustomer() {
-		return "customer";
-	}
-
 	@GetMapping(path = "/sales")
 	public String showSales() {
 		return "sales";

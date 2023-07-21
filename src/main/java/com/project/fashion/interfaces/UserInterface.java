@@ -2,6 +2,10 @@ package com.project.fashion.interfaces;
 
 import java.util.List;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.Model;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
@@ -12,12 +16,11 @@ import com.project.fashion.model.User;
 import com.project.fashion.model.WishList;
 
 public interface UserInterface {
-	public int saveDetails(User user) throws ExistMailIdException, ExistMobileException ;
+	public int saveDetails(User user) throws ExistMailIdException, ExistMobileException, JsonProcessingException ;
 	public int findUserDetails(User user) throws InvalidEmailException;
-	public List<User> userList();
-	public List<User> userDetails(String email,HttpSession session);
+	public List<User> userList(Model model) throws JsonProcessingException;
 	public int deleteUserDetails(User user);
-	public int updateUserPassword(User user) throws InvalidEmailException;
+	public int updateUserPassword(User user) throws InvalidEmailException, JsonProcessingException;
 	public int findIdByEmail(String email,HttpSession session);
 	public int savePaymentDetails(Payment payment);
 	public Payment findPaymentDetails(int orderId);

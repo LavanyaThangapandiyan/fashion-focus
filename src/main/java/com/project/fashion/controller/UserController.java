@@ -1,7 +1,7 @@
 package com.project.fashion.controller;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
@@ -39,7 +41,7 @@ public class UserController {
 	}
 
 	// method to get register form
-	@GetMapping(path = "/login")
+	@GetMapping("/login")
 	public String getLoginForm() {
 		return "login";
 	}
@@ -52,7 +54,7 @@ public class UserController {
 
 	@GetMapping("forgotpassword")
 	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password)
-			throws InvalidEmailException {
+			throws InvalidEmailException, JsonProcessingException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.updateUserPassword(user);
@@ -101,7 +103,7 @@ public class UserController {
 	@PostMapping(path = "/register-submit")
 	public String saveUserDetails(@RequestParam("username") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("mobile") String mobile,
-			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException {
+			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException, JsonProcessingException {
 		User user = new User();
 		user.setName(name);
 		user.setEmail(email);
@@ -128,11 +130,10 @@ public class UserController {
 		return "register";
 	}
 
-	@GetMapping("userlist")
-	public String getAllUsers(Model model) {
-		List<User> users = userdao.userList();
-		model.addAttribute("userlist", users);
-		return "list";
+	@GetMapping("/customer")
+	public String getAllUsers(Model model) throws JsonProcessingException {
+	model.addAttribute("userlist", userdao.userList(model));
+		return "customer";
 	}
 
 	@GetMapping(path = "/addcart")
@@ -193,10 +194,8 @@ public class UserController {
 	{
 		model.addAttribute("updatedata",userdao.getorderUpdateDetails(id));
 		return "updatepopup";
-		
 	}
 	
-
 	@GetMapping("/placeorder")
 	public String getOrderDetails(@RequestParam("userId") int userId) {
 	userdao.saveOrderDetails(userId);
