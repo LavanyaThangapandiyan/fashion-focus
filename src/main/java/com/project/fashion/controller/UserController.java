@@ -2,6 +2,7 @@ package com.project.fashion.controller;
 
 import java.sql.Date;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,12 +26,17 @@ import com.project.fashion.validation.Validation;
 
 @Controller
 public class UserController {
+	
+	
 	Validation valid = new Validation();
-
 	AdminDao productDao = new AdminDao();
 	UserDao userdao = new UserDao();
 	Product product = new Product();
 	User user = new User();
+ 
+	@Value
+	("${email:}")
+	String email;
 
 	@GetMapping("/")
 	public String showHome(HttpSession session) {
@@ -41,6 +47,7 @@ public class UserController {
 	// method to get register form
 	@GetMapping("/login")
 	public String getLoginForm() {
+		System.out.println("Email : "+email);
 		return "login";
 	}
 
@@ -75,10 +82,24 @@ public class UserController {
 			return "list";
 		else if (number == 1) {
 			userdao.findIdByEmail(email, session);
-			return "redirect:/products";
+			return "loginpopup";
 		} else
 			return "";
 	}
+	
+	@GetMapping("/registerland")
+	public String afterRegisterSuccess()
+	{
+		return "redirect:login";
+	}
+	
+         
+	@GetMapping("/adminland")
+	  public String afterLoginSuccess()
+	  {
+		return "redirect:/products";
+	  }
+	
 
 	@GetMapping("/products")
 	public String viewProductList(Model model) {
@@ -89,8 +110,8 @@ public class UserController {
 	// -----Handling Invalid Email Exception-----
 	@ExceptionHandler(InvalidEmailException.class)
 	public String invalidException(InvalidEmailException email, Model model) {
-		model.addAttribute("invalid", "Invalid login or password. Please try again.");
-		return "login";
+		model.addAttribute("errormessage", "Invalid login or password. Please try again.");
+		return "error";
 	}
 
 	@GetMapping(path = "/register")
@@ -110,7 +131,7 @@ public class UserController {
 		user.setGender(gender);
 		int number = userdao.saveDetails(user, model );
 		if (number == 1)
-			return "login";
+			return "registerpopup";
 		else
 			return "register";
 	}
@@ -118,14 +139,14 @@ public class UserController {
 	// ---Handling Exist Mail ID Exception ----
 	@ExceptionHandler(ExistMailIdException.class)
 	public String existMailException(ExistMailIdException exist, Model model) {
-		model.addAttribute("existMail", "Email Id Already Exist.");
-		return "register";
+		model.addAttribute("errormessage", "Email Id Already Exist.");
+		return "error";
 	}
 
 	// ---Handling Exist Mobile Number Exception----
 	public String existMobileNumberException(ExistMobileException existMobile, Model model) {
-		model.addAttribute("existMobile", "Mobile Number Already Exist.");
-		return "register";
+		model.addAttribute("errormessage", "Mobile Number Already Exist.");
+		return "error";
 	}
 
 	@GetMapping("/customer")

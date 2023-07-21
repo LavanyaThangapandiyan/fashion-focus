@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title></title>
+</head>
+<style type="text/css">
+body {
+    background: url(https://img.freepik.com/free-photo/young-attractive-woman-saying-yes-showing-thumbs-up-sign-approval-smiling-confident-satisfied_1258-124528.jpg)
+                no-repeat center center fixed;
+    background-size: cover;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: cursive;
+}
+
+.chart {
+	width: 80%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.pop {
+	width: 400px;
+	background: #ffff;
+	border-radius: 6px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	margin-top: 200px;
+	margin-left:-200px;
+	transition: transform 0.0s, top 0.0s;
+	display: time 12px;
+}
+.pop img {
+	width: 100px;
+	margin-top: -50px;
+	border-radius: 50%;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.pop h2 {
+	font-size: 30px;
+	font-weight: 500;
+	margin: 30px 0 10px;
+}
+
+.pop button {
+	width: 100%;
+	margin-top: 50px;
+	padding: 10px 0;
+	background: #6fd649;
+	color: #fff;
+	border: 0;
+	outline: none;
+	font-size: 18px;
+	border-radius: 4px;
+	cursor: pointer;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+</style>
+
+<body>
+<div class="chart">
+<form th:action="@{/registerland}" method="get">
+
+<div class="pop" id="pop">
+		<img src="/images/checked.png" alt="">
+	       <h3>Congratulations!.</h3>
+		 <p>Your Account has been <br> Successfully Created.</p>
+
+		<button type="submit">Continue</button>
+	</div>
+	</form>
+	</div>
+</body>
+</html>

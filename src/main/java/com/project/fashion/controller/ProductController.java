@@ -2,7 +2,6 @@ package com.project.fashion.controller;
 
 import java.io.IOException;
 import java.util.Base64;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.exception.ExistCategoryException;
@@ -21,7 +19,7 @@ import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 
 @Controller
-public class ProductController {
+public class ProductController {	
 	AdminDao productDao = new AdminDao();
 	Product product = new Product();
 	Category category = new Category();
@@ -32,14 +30,6 @@ public class ProductController {
 		return "product";
 	}
 	
-	/*@GetMapping("/customer")
-	public String getAllUsers(Model model) throws JsonProcessingException {
-	model.addAttribute("userlist", userdao.userList(model));
-		return "customer";
-	}
-	 * */
-	
-
 	@GetMapping(path = "/sales")
 	public String showSales(Model model) throws JsonProcessingException 
 	{

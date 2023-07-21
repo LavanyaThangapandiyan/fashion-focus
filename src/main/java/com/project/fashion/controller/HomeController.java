@@ -1,6 +1,4 @@
 package com.project.fashion.controller;
-
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +9,7 @@ import com.project.fashion.dao.UserDao;
 public class HomeController {
 	UserDao userDao=new UserDao();
 	
+		
 	@GetMapping("/filter")
 	public String getChiffonSarees()
 	{
