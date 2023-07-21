@@ -24,5 +24,5 @@ public interface AdminInterface
 	public void updateCategoryName(int id, String name);
 	public Category findCategoryById(int id);
 	public int deleteCategoryDetails(int id);
-	
+
 }

@@ -1,7 +1,6 @@
 package com.project.fashion.controller;
 
 import java.sql.Date;
-
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.dao.UserDao;
@@ -53,11 +51,11 @@ public class UserController {
 	}
 
 	@GetMapping("forgotpassword")
-	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password)
+	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password,Model model)
 			throws InvalidEmailException, JsonProcessingException {
 		user.setEmail(email);
 		user.setPassword(password);
-		int number = userdao.updateUserPassword(user);
+		int number = userdao.updateUserPassword(user,model);
 		if (number == 1)
 			return "login";
 		else
@@ -69,7 +67,7 @@ public class UserController {
 
 	@PostMapping(path = "/loginsubmit")
 	public String submitUserRegisterForm(@RequestParam("email") String email, @RequestParam("password") String password,
-			@ModelAttribute User user, Model model, HttpSession session) throws InvalidEmailException {
+			@ModelAttribute User user, HttpSession session) throws InvalidEmailException {
 		user.setEmail(email);
 		user.setPassword(password);
 		int number = userdao.findUserDetails(user);
@@ -103,14 +101,14 @@ public class UserController {
 	@PostMapping(path = "/register-submit")
 	public String saveUserDetails(@RequestParam("username") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("mobile") String mobile,
-			@RequestParam("gender") String gender) throws ExistMailIdException, ExistMobileException, JsonProcessingException {
+			@RequestParam("gender") String gender,Model model) throws ExistMailIdException, ExistMobileException, JsonProcessingException {
 		User user = new User();
 		user.setName(name);
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setMobile(mobile);
 		user.setGender(gender);
-		int number = userdao.saveDetails(user);
+		int number = userdao.saveDetails(user, model );
 		if (number == 1)
 			return "login";
 		else

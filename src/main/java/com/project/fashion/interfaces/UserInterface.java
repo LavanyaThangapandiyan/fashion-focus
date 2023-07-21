@@ -16,11 +16,11 @@ import com.project.fashion.model.User;
 import com.project.fashion.model.WishList;
 
 public interface UserInterface {
-	public int saveDetails(User user) throws ExistMailIdException, ExistMobileException, JsonProcessingException ;
+	public int saveDetails(User user,Model model) throws ExistMailIdException, ExistMobileException, JsonProcessingException;
 	public int findUserDetails(User user) throws InvalidEmailException;
 	public List<User> userList(Model model) throws JsonProcessingException;
 	public int deleteUserDetails(User user);
-	public int updateUserPassword(User user) throws InvalidEmailException, JsonProcessingException;
+	public int updateUserPassword(User user,Model model) throws InvalidEmailException, JsonProcessingException ;
 	public int findIdByEmail(String email,HttpSession session);
 	public int savePaymentDetails(Payment payment);
 	public Payment findPaymentDetails(int orderId);

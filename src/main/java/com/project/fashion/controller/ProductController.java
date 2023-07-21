@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
@@ -29,9 +31,19 @@ public class ProductController {
 		model.addAttribute("nameList", productDao.getCategoryName());
 		return "product";
 	}
+	
+	/*@GetMapping("/customer")
+	public String getAllUsers(Model model) throws JsonProcessingException {
+	model.addAttribute("userlist", userdao.userList(model));
+		return "customer";
+	}
+	 * */
+	
 
 	@GetMapping(path = "/sales")
-	public String showSales() {
+	public String showSales(Model model) throws JsonProcessingException 
+	{
+		model.addAttribute("salesList",productDao.getSalesList(model));
 		return "sales";
 	}
 

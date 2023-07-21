@@ -6,17 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.interfaces.AdminInterface;
+import com.project.fashion.mapper.CartMapper;
 import com.project.fashion.mapper.CategoryMapper;
 import com.project.fashion.mapper.CategoryMapperSingle;
 import com.project.fashion.mapper.CategoryNameMapper;
 import com.project.fashion.mapper.ProductMapperAll;
+import com.project.fashion.mapper.SalesMapper;
 import com.project.fashion.mapper.SingleProductMapper;
+import com.project.fashion.model.Cart;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
+import com.project.fashion.model.Sales;
 import com.project.fashion.util.ConnectionUtil;
 import com.project.fashion.validation.Validation;
 
@@ -195,5 +202,43 @@ public class AdminDao implements AdminInterface {
 		int rows = jdbcTemplate.update(changeStatus, details);
 		logger.info("status updated : " + rows);
 		return 1;
+	}
+	//-----Sales ----
+	Sales sale=new Sales();
+	
+	public int saveSalesDetails(int productId,int quantity) 
+	{	
+		String findSale=" select id,category_name,product_id,quantity,Date from sales  where product_id =?";
+		List<Sales> sales=jdbcTemplate.query(findSale, new SalesMapper(),productId);
+		for(Sales saleModel : sales)
+		{
+			int productId1 = saleModel.getProductId();
+			int quantity2 = saleModel.getQuantity();
+			int updateQuantity=quantity2 + quantity;
+			if(productId== productId1)
+			{
+				String update="update sales set quantity=? where product_id=?";
+				Object[] updates= {updateQuantity,productId};
+				int update2 = jdbcTemplate.update(update,updates);
+				logger.info("Increase Quantity in Sales : "+update2);
+				return 1;
+			}	
+		}	
+		String insert="insert into payment(category_name,product_id,quantity,Date)values(?,?,?,?)";
+		Object[] details= {sale.getCategoryName(),sale.getProductId(),sale.getQuantity(),sale.getDate()};
+		int insertSales = jdbcTemplate.update(insert,details);
+		logger.info("Insert Sales Row : "+insertSales);
+		return 1;
+	}
+	
+	//---Sales List----
+	public List<Sales> getSalesList(Model model) throws JsonProcessingException
+	{
+		String getSalesList="select id,category_name,product_id,quantity,Date from sales " ;
+		List<Sales> getSales = jdbcTemplate.query(getSalesList, new SalesMapper());
+		ObjectMapper object=new ObjectMapper();
+		String sales=object.writeValueAsString(getSales);
+		model.addAttribute("listofsales",sales);
+		return getSales;
 	}
 }

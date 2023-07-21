@@ -40,8 +40,9 @@ public class UserDao implements UserInterface {
 	Validation valid = new Validation();
 	JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 	// ----Inserting User Details
-	public int saveDetails(User user) throws ExistMailIdException, ExistMobileException, JsonProcessingException {
-		List<User> userList = userList(null);
+	public int saveDetails(User user,Model model) throws ExistMailIdException, ExistMobileException, JsonProcessingException
+	{
+		List<User> userList = userList(model);
 		String getUser = userList.toString();
 		String userEmail = user.getEmail();
 		String mobile = user.getMobile();
@@ -120,11 +121,11 @@ public class UserDao implements UserInterface {
 	}
 
 	// --Update user Password
-	public int updateUserPassword(User user) throws InvalidEmailException, JsonProcessingException {
+	public int updateUserPassword(User user,Model model) throws InvalidEmailException, JsonProcessingException {
 		String password = user.getPassword();
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
-		List<User> userList = userList(null);
+		List<User> userList = userList(model);
 		String getUser = userList.toString();
 		String userEmail = user.getEmail();
 		boolean contains = getUser.contains(userEmail);
@@ -336,11 +337,12 @@ public class UserDao implements UserInterface {
 	
 	// -------------------Payment CRUD--------------------
 		// ---Save Payment Details---
-		public int savePaymentDetails(Payment payment) {
+		public int savePaymentDetails(Payment payment)
+		{
 			String insert = "insert into payment(order_id,amount,payment_type,Date)values(?,?,?,?)";
 			Object[] details = { payment.getOrderId(), payment.getAmount(), payment.getPaymentType(), payment.getDate() };
 			int numberOfRows = jdbcTemplate.update(insert, details);
-			logger.info("Payment Inserted Rows : " + numberOfRows);
+			logger.info("Payment Inserted Rows : " + numberOfRows);			
 			return 1;
 		}
 
