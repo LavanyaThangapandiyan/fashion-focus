@@ -358,10 +358,6 @@ public class UserDao implements UserInterface {
 			String listQuery = "select order_id,amount,payment_type,Date from payment where order_id=?";
 			List<Payment> listPayment = jdbcTemplate.query(listQuery, new PaymentMapper());
 			return listPayment;
-		}
-
-		
-
-		
+		}		
 	}
 	
