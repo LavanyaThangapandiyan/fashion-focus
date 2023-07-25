@@ -1,73 +1,101 @@
 <html xmlns:th="https://thymeleaf.org"> 
-<link rel="stylesheet"
+<html lang="en">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>My Cart</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./css/style.css" rel="stylesheet">
 </head>
 <body>
-<header>
-<div class="tab">
-    <nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: #740074">
-			<a href="" class="navbar-brand">Fashion Focus Boutique</a>
-			<div class="topnav-right">
-			<a th:href="@{/}" class="navbar-brand">Log Out</a>
-			</div>	
-            </nav>
+ <header>
+    <div class="tab">
+      <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #740074">
+        <a href="" class="navbar-brand">Fashion Focus Boutique</a>
+         <a th:href="@{/mycart}" class="navbar-brand">My Cart</a>
+         <a th:href="@{/}" class="navbar-brand">Log Out</a>
+      </nav>
+ </div>
+ </header>
+ <form  th:action="@{/confirmorder}" method="GET">
+    <div class="container py-5">
+        <h1 class="text-center">Your Orders</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+            <th:block th:each="order :${orderlist}">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                    <img alt="" th:src="'data:images/jpg;base64,' + ${order.image}" style="width: 100%; height: 100%;">
+                          <input hidden name="userId" th:value="${session.id}">
+                          <strong>Order ID:</strong>
+                          <span th:text="${order.id}"></span><br>
+                      <strong>Product Name :</strong>
+                      <span th:text="${order.productName}"></span>
+                          <br>
+                          <strong> Quantity :</strong>
+                          <span th:text="${order.quantity}"></span><br>
+                          <strong> Rs :</strong>
+                          <span th:text="${order.amount}"></span>
+                          <br>
+                          <div class="function">
+                          <a th:href="@{/updateorder/{id}(id=${order.id})}" class="btn btn-danger">Update</a>
+                          <a th:href="@{/deleteorder/{id}(id=${order.id})}" class="btn btn-danger">Cancel Order</a>
+                          </div>
+ </div>
   </div>
-</div>		
-</header>
-<style>
-body {
-    background: url(https://img.freepik.com/free-photo/woman-great-mood-is-laughing-holding-packages-after-shopping-pink-background_197531-17596.jpg?w=2000)
-                no-repeat center center fixed;
-    background-size: cover;
+</div> 
+  </div>
+  </form>
+  <th:block th:each="order :${amount}">
+  <div class="font"> 
+             <h3>Total Amount : $ <h3 th:text="${order.amount}"></h3>
+            
+  </div>        
+<div class="con">
+<button type="submit" >Confirm Order</button>
+</div>
+</form>
+  <br>
+  <div class="container py-5">
+        <h1 class="text-center" style="color:red;">Cancelled Orders</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+            <th:block th:each="order :${cancelorder}">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                    <img  th:src="'data:images/jpg;base64,' + ${order.image}" style="width: 100%; height: 80%;">
+                          <input hidden name="userId" th:value="${session.id}">
+                          <strong>Order ID:</strong>
+                          <span th:text="${order.id}"></span><br>
+                      <strong>Product Name :</strong>
+                      <span th:text="${order.productName}"></span>
+                          <br>
+                          <strong> Quantity :</strong>
+                          <span th:text="${order.quantity}"></span><br>
+                          <strong> Rs :</strong>
+                          <span th:text="${order.amount}"></span>
+                          <br>
+                          <div class="function">
+                          <a th:href="@{/reorder/{id}(id=${order.id})}" class="btn btn-danger">Re Order</a>
+                          </div>
+ </div>
+  </div>
+</div> 
+  </div>
+  
+  
+  
+  
+  
+ <style>
+ .con{
+text-align: center;
 }
 
-
-
-	.card {
-		transition: 0.1s;
-		width: 320px;
-		height: 400px;
-		display: inline-block;
-		background-color: white;
-		margin-left: 40px;
-		margin-top: 25px;
-		padding-bottom: 20px;
-		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
-	}
-
-	.card:hover {
-		box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.6);
-	}
-
-	.container {
-		padding: 2px 16px;
-		float: left;
-	}
-	p {
-		margin-top: 12px;
-		margin-left: 12px;
-		font-family: serif;
-		text-transform: uppercase;
-	}
-
-	strong {
-		margin-left: 12px;
-		margin-top: 30px;
-	}
-	span {
-		text-transform: uppercase;
-	}
-
-	button {
-		margin-left: 100px;
-	}
-	.function{
-	text-align: center;
-	}
-	.button{
+.button{
 float : right;
 background-color: #792099;
     color:white;
@@ -76,34 +104,67 @@ background-color: #792099;
     font-size:20px;
     width:10%;
 }
-	
-</style>
-<body>
-<div class="button">
-<a th:href="@{/products}" class="navbar-brand">Add Products</a>
-</div>
-	<th:block th:each="order :${orderlist}">
-		<div class="container">
-			<div class="card">
-			<strong>Order ID:</strong>
-				<span th:text="${order.id}"></span><br>
-			<strong>Product Name :</strong>
-			<span th:text="${order.productName}"></span>
-				<br>
-				<strong> Quantity :</strong>
-				<span th:text="${order.quantity}"></span><br>
-				<strong> Rs :</strong>
-				<span th:text="${order.amount}"></span>
-				<br>
-				<div class="function">
-				<a th:href="@{/updateorder/{id}(id=${order.id})}" class="btn btn-danger">Update</a>
-				<br>
-				<a th:href="@{/deleteorder/{id}(id=${order.id})}" class="btn btn-danger">Cancel Order</a>
-				<br>
-				</div>
-			</div>
-		</div>
+.con button{
+    background-color: #792099;
+    color:white;
+    border: 1px solid #792099;
+    border-radius: 5px;
+    padding:10px;
+    margin:10px 0px;
+    cursor:pointer;
+    font-size:20px;
+    width:20%;
+}
+ .font{
+ text-align: right;
+ }
+        *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.function a
+{
+ background-color:#792099;
+}
+body{
+        background-color: #f9f6f2;
+}
+.card-img-top{
+    border-radius: 50px;
+    padding: 20px;
+}
+.card{
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    
+}
+.card-body{
+    padding: 25px;
+    margin-top: -15px;
+}
+.btn-primary{
+    border-radius: 50px;
+    width: 120px;
+}
+.btn-primary:hover{
+    background-color: black;
+    border: none;
+}
+h3,h5{
+    color: #740074;
+}
+.card button{
+    background-color: #792099;
+    color:white;
+    border: 1px solid #792099;
+    border-radius: 5px;
+    padding:10px;
+    margin:10px 0px;
+    cursor:pointer;
+    font-size:20px;
+    width:100%;
+}
 
-	</th:block>
-</body>
-</html>
+        </style>
+        

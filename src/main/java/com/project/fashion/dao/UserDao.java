@@ -1,5 +1,7 @@
 package com.project.fashion.dao;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
@@ -9,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.fashion.exception.ExistMailIdException;
@@ -17,6 +18,7 @@ import com.project.fashion.exception.ExistMobileException;
 import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.interfaces.UserInterface;
 import com.project.fashion.mapper.CartMapper;
+import com.project.fashion.mapper.OrderAmountMappper;
 import com.project.fashion.mapper.OrderMapper;
 import com.project.fashion.mapper.PaymentMapper;
 import com.project.fashion.mapper.ProductMapperAll;
@@ -198,10 +200,12 @@ public class UserDao implements UserInterface {
 		}
       //--- Save Cart Details----
 		public int saveCartDetails(int userId, int id, String productName, int price, String type, int quantity,
-				String size) {
-			String findCart = "select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? ";
+				String size) 
+		{
+			String findCart = "select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,image,is_available from cart where customer_id=? ";
 			List<Cart> query = jdbcTemplate.query(findCart, new CartMapper(), userId);
-			for (Cart cartModel : query) {
+			for (Cart cartModel : query)
+			{
 				int productId = cartModel.getProductId();
 				int quantity2 = cartModel.getQuantity();
 				int amount = cartModel.getAmount();
@@ -216,15 +220,17 @@ public class UserDao implements UserInterface {
 				}
 
 			}
+			String find = "select id,name,price,category,size,quantity,fabric,gender,image from product where id=?";
+			Product getDetails = jdbcTemplate.queryForObject(find, new ProductMapperAll(), id);
+			String image = getDetails.getImage();
 			int amount = price;
 			int totalAmount = amount * quantity;
-			String inserts = "insert into cart(customer_id ,product_id ,product_name ,price,size ,product_type ,quantity ,total_amount ,is_available )values(?,?,?,?,?,?,?,?,?)";
-			Object[] details = { userId, id, productName, price, size, type, quantity, totalAmount, "Available" };
+			String inserts = "insert into cart(customer_id ,product_id ,image,product_name ,price,size ,product_type ,quantity ,total_amount ,is_available )values(?,?,?,?,?,?,?,?,?,?)";
+			Object[] details = { userId, id,image,productName, price, size, type, quantity, totalAmount, "Available" };
 			int rows = jdbcTemplate.update(inserts, details);
 			logger.info("Insert Cart details : " + rows);
 			return 2;
 		}
-
 		// ---- In active cart details---
 		public void cancelCartDetails(int id) {
 			String statusUpdate = "update cart set is_available=? where id=?";
@@ -242,13 +248,13 @@ public class UserDao implements UserInterface {
 
 		// ---Cart List--------
 		public List<Cart> cartList(int customerId) {
-			String getCartList = " select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
+			String getCartList = " select id,customer_id,product_id,image,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
 			List<Cart> queryForObject = jdbcTemplate.query(getCartList, new CartMapper(), customerId, "Available");
 			return queryForObject;
 		}
 
 		public List<Cart> inActiveCartList(int customerId) {
-			String getInActiveCartList = "select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
+			String getInActiveCartList = "select id,customer_id,product_id,image,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
 			List<Cart> query = jdbcTemplate.query(getInActiveCartList, new CartMapper(), customerId, "Not Available");
 			return query;
 		}
@@ -267,19 +273,36 @@ public class UserDao implements UserInterface {
 	// ---Save Order Details---
 	public int saveOrderDetails(int userId) {
 		// --find cart details and by using session id
-		String getCartList = " select id,customer_id,product_id,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
+		String getCartList = " select id,customer_id,product_id,image,product_name,price,size,product_type,quantity,total_amount,is_available from cart where customer_id=? and is_available=?";
 		List<Cart> cartlist = jdbcTemplate.query(getCartList, new CartMapper(), userId, "Available");
-		for (Cart cartModel : cartlist) {
-			String insert = "insert into orders(customer_id,cart_id,product_id,productsname,price,size,category,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?,?)";
-			Object[] details = { userId, cartModel.getId(), cartModel.getProductId(), cartModel.getProductName(),
+		for (Cart cartModel : cartlist) 
+		{
+			String insert = "insert into orders(customer_id,cart_id,product_id,image,productsname,price,size,category,quantity,total_amount,is_available)values(?,?,?,?,?,?,?,?,?,?,?)";
+			Object[] details = { userId, cartModel.getId(), cartModel.getProductId(),cartModel.getImage(), cartModel.getProductName(),
 					cartModel.getPrice(), cartModel.getSize(), cartModel.getProduct_type(), cartModel.getQuantity(),
 					cartModel.getAmount(), "Available" };
 			int insertRows = jdbcTemplate.update(insert, details);
 			logger.info("Inserted Order : " + insertRows);
+			
 		}
 		return 0;
 	}
-
+	public void saveAlterTable(int userId)
+	{
+		String listQuery = "select id,customer_id,product_id,image,productsname,price,size,category,quantity,total_amount,is_available from orders where customer_id=? and is_available=?";
+		List<Order> getOrderList = jdbcTemplate.query(listQuery, new OrderMapper(), userId, "Available");
+		for(Order cartModel:getOrderList)
+		{
+		String inserts="insert into altercart(customer_id,product_id,image,productsname ,price,size ,category ,quantity ,total_amount ,is_available )values(?,?,?,?,?,?,?,?,?,?)";
+		Object[] detail = { userId,cartModel.getProductId(),cartModel.getImage(), cartModel.getProductName(),
+				cartModel.getPrice(), cartModel.getSize(), cartModel.getCategory(), cartModel.getQuantity(),
+				cartModel.getAmount(), "Available" };
+		int update = jdbcTemplate.update(inserts,detail);
+		logger.info("Insert Alter : "+update);	
+		}
+		
+	}
+	
 	// ----Cancel Order Details-----
 	public int cancelOrder(int id) {
 		String cancel = "update orders set is_available=? where id=?";
@@ -288,42 +311,83 @@ public class UserDao implements UserInterface {
 		logger.info("Cancel Order Rows: " + cancelRows);
 		return 1;
 	}
+	
+	//CLick to ReOrder 
+	public int reOrder(int id)
+	{
+		String reOrder="update orders set is_available=? where id=?";
+		Object[] details = {"Available", id };
+		int cancelRows = jdbcTemplate.update(reOrder, details);
+		logger.info("Re Order Rows: " + cancelRows);
+		return 1;
+	}
 
 	// --Find Order Details Using orderId
-	public Order getorderUpdateDetails(int orderId) {
+	public Order getorderUpdateDetails(int orderId)
+	{
 		String find = "select id,size,quantity,total_amount from orders where id=? and is_available=? ";
 	     Order queryForObject = jdbcTemplate.queryForObject(find, new UpdateOrderMapper(), orderId, "Available");
 		return queryForObject;
 	}
-
 	// ---- Get Orders List (Admin)
 	public List<Order> getOrdersList(int userId) {
-		String listQuery = "select id,customer_id,product_id,productsname,price,size,category,quantity,total_amount,is_available from orders where customer_id=? and is_available=?";
+		String listQuery = "select id,customer_id,product_id,image,productsname,price,size,category,quantity,total_amount,is_available from orders where customer_id=? and is_available=?";
 		List<Order> getOrderList = jdbcTemplate.query(listQuery, new OrderMapper(), userId, "Available");
-		for (Order orderModel : getOrderList) {
-		}
 		return getOrderList;
 	}
-
+	public List<Order> getCancelledOrdersList(int userId) {
+		String listQuery = "select id,customer_id,product_id,image,productsname,price,size,category,quantity,total_amount,is_available from orders where customer_id=? and is_available=?";
+		List<Order> getOrderList = jdbcTemplate.query(listQuery, new OrderMapper(), userId, "Not Available");
+		return getOrderList;
+	}
+	
+	  public List<Order> getTotalAmountOrder(int userId,HttpSession session)
+	  {
+		  String query="SELECT SUM(total_amount) from orders where is_available=?;";
+		  List<Order> query2 = jdbcTemplate.query(query, new OrderAmountMappper(),"Available");
+		  for (Order orderModel : query2) {
+				session.setAttribute("amount", orderModel.getAmount());
+			}
+		  
+		  return query2;
+	  }
+	  
+	  //---get order History-----
+	  
+	  public List<Order> getOrderHistoryList(int UserId)
+	  {
+		String query="select id,customer_id,product_id,image,productsname,price,size ,category,quantity,total_amount,is_available from altercart where customer_id=? and  is_available=?";
+		List<Order> query2 = jdbcTemplate.query(query, new OrderMapper(), UserId,"Available");
+		return query2;
+	  }
+	  
 	// --------Wish List CRUD--------
 
 	WishList wish = new WishList();
 
 	// ----Save Wish List
-	public int saveWishList(WishList wish) {
-		String insert = "insert into wish_list(customer_id,product_id,product_name,price,size,category,is_available)values(?,?,?,?,?,?,?)";
-		Object[] details = { wish.getCustomerId(), wish.getProductId(), wish.getProductName(), wish.getPrice(),
-				wish.getSize(), wish.getCategory(), wish.getStatus() };
+	public int saveWishList(int  id,int userId) throws IOException
+	{	
+		String find = "select id,name,price,category,size,quantity,fabric,gender,image from product where id=?";
+		Product getDetails = jdbcTemplate.queryForObject(find, new ProductMapperAll(), id);
+		int id2 = getDetails.getId();
+		String image = getDetails.getImage();
+		String name = getDetails.getName();
+		int price = getDetails.getPrice();
+		String size = getDetails.getSize();
+		String type = getDetails.getType();
+		String insert = "insert into wish_list(customer_id,image,product_id,product_name,price,size,category,is_available)values(?,?,?,?,?,?,?,?)";
+		Object[] details = {userId,image,id2,name,price,size,type,"Available" };
 		int insertRow = jdbcTemplate.update(insert, details);
 		logger.info("Insert Wish List : " + insertRow);
 		return 1;
-	}
-
+	  }
 	// ---- Find wish list using customer ID---
-	public WishList getWishListById(int customerId) {
-		String getRow = "select customer_id,product_id,product_name,price,size,category,is_available from wish_list where customer_id=?";
-		WishList getWishList = jdbcTemplate.queryForObject(getRow, new WishListMapper());
-		return getWishList;
+	public List<WishList> getWishListById(int customerId) {
+		String getRow = "select customer_id,product_id,image,product_name,price,size,category from wish_list where customer_id=?";
+	     List<WishList> query = jdbcTemplate.query(getRow, new WishListMapper(),customerId);
+	     System.out.println(query);
+		return  query;
 	}
 
 	// ---Active and In active in wish List---
@@ -337,20 +401,22 @@ public class UserDao implements UserInterface {
 	
 	// -------------------Payment CRUD--------------------
 		// ---Save Payment Details---
-		public int savePaymentDetails(Payment payment)
+		public int savePaymentDetails(Payment payment,HttpSession session)
 		{
-			String insert = "insert into payment(order_id,amount,payment_type,Date)values(?,?,?,?)";
-			Object[] details = { payment.getOrderId(), payment.getAmount(), payment.getPaymentType(), payment.getDate() };
+			int userId = (int) session.getAttribute("id");
+			LocalDate today = LocalDate.now();
+			String insert = "insert into payment(user_name,email,amount,payment_type,card_number,cvv,month,year,Date)values(?,?,?,?,?,?,?,?,?)";
+			Object[] details = { payment.getUserName(), payment.getEmail(), payment.getAmount(), payment.getPaymentType(),payment.getCardNumber(),
+					payment.getCvv(),payment.getMonth(),payment.getYear(),today};
 			int numberOfRows = jdbcTemplate.update(insert, details);
-			logger.info("Payment Inserted Rows : " + numberOfRows);			
+			
+				/*String delete="delete from cart where customer_id=?";
+				Object[] detail= {userId};
+				int update = jdbcTemplate.update(delete,detail);
+				logger.info(" After Payment Clear Cart : "+update);*/	
+			
+			logger.info("Payment Inserted Rows : " + numberOfRows);		
 			return 1;
-		}
-
-		// ---Find Payment Details By Order Id--
-		public Payment findPaymentDetails(int orderId) {
-			String find = "select order_id,amount,payment_type,Date from payment where order_id=?";
-			Payment paymentList = jdbcTemplate.queryForObject(find, new PaymentMapper(), orderId);
-			return paymentList;
 		}
 
 		// ---Get Payment Details (Admin)

@@ -18,35 +18,22 @@
  </header>
   
   <div class="container py-5">
-        <h1 class="text-center">Your WishList Product</h1>
+        <h1 class="text-center">Order History</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
-             <tr th:each="wish, itemStat : *{wishlist}">
-               <tr th:each="wish : ${wishlist}">
+             <tr th:each="order, itemStat : *{historylist}">
+               <tr th:each="order : ${historylist}">
             <div class="col">
             <form  th:action="@{/addcart}" method="GET">
                 <div class="card" >
-                     <img alt="" th:src="'data:images/jpg;base64,' + ${wish.image}" style="width: 100%; height: 50%;">
+                     <img alt="" th:src="'data:images/jpg;base64,' + ${order.image}" style="width: 100%; height: 50%;">
                     <div class="card-body"> 
                     <input hidden name="userId" th:value="${session.id}">
-                     <p><input hidden  name="id"  th:value="${wish.productId}" readonly></p>
-                    <p><input hidden  name="productname"  th:value="${wish.productName}" readonly></p>
-                    <p><input hidden name="price" id="price" th:value="${wish.price}" readonly></p>
-                    <p><input hidden  name="type" id="type" th:value="${wish.category}" readonly></p>
-                    <h3>Name : <span th:text="${wish.productName}"></span> </h3>
-                    <h3>Rs.<span th:text="${wish.price}"></span></h3>
-                    <p>Type : <span th:text="${wish.category}">  </span></p>
-                      <label><b>Size</b></label><br>
-                      <input type="checkbox" value="S" id="sz" name="size"> S
-                      <input type="checkbox" value="M" id="sz" name="size"> M
-                      <input type="checkbox" value="L" id="sz" name="size"> L
-                      <input type="checkbox" value="XL" id="sz" name="size"> XL
-                      <input type="checkbox" value="XXL" id="sz" name="size"> XXL
-                      <input type="checkbox" value="XXXl" id="sz" name="size"> XXXL
-                      <input type="checkbox" value="ALL" id="sz" name="size"> ALL
-                   <label for="type"><b>Quantity</b></label>            
-                      <input type="number" min="1" id="number" name="quantity" value="1" />
-                 <div class="button">
-                 <button type="submit">Buy Now</button>
+                     
+                    <h3>Name : <span th:text="${order.productName}"></span> </h3>
+                    <h3>Rs.<span th:text="${order.price}"></span></h3>
+                    <p>Type : <span th:text="${order.category}">  </span></p>
+                    <p>Type : <span th:text="${order.size}">  </span></p>
+                     <p>Type : <span th:text="${order.quantity}">  </span></p> 
                  </div>
                </div></div></div>
               

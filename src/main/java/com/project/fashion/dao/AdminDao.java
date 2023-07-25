@@ -1,26 +1,22 @@
 package com.project.fashion.dao;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.interfaces.AdminInterface;
-import com.project.fashion.mapper.CartMapper;
 import com.project.fashion.mapper.CategoryMapper;
 import com.project.fashion.mapper.CategoryMapperSingle;
 import com.project.fashion.mapper.CategoryNameMapper;
 import com.project.fashion.mapper.ProductMapperAll;
 import com.project.fashion.mapper.SalesMapper;
 import com.project.fashion.mapper.SingleProductMapper;
-import com.project.fashion.model.Cart;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
 import com.project.fashion.model.Sales;
@@ -31,17 +27,13 @@ import com.project.fashion.validation.Validation;
 public class AdminDao implements AdminInterface {
 	
 	Logger logger = LoggerFactory.getLogger(AdminDao.class);
-	
 	Validation valid = new Validation();
-
-	JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();
-	
+	JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();	
 	Product product = new Product();
 
 	// ----Insert Product Details
 	public int saveProductDetails(Product product) throws ExistProductException
-	{
-		
+	{		
 		String insert = "insert into product(name,price,category,size,quantity,fabric,gender,image,is_available)values(?,?,?,?,?,?,?,?,?)";
 		String input=product.getName();
 		String productName=input.substring(0,1).toUpperCase()+input.substring(1);
@@ -57,8 +49,7 @@ public class AdminDao implements AdminInterface {
 			logger.info("Inserted Rows : " + numberOfRows);
 			return 1;
 		} else
-            logger.error("Invalid Product Details");
-		
+            logger.error("Invalid Product Details");	
 		return 0;
 	}
 
@@ -94,16 +85,15 @@ public class AdminDao implements AdminInterface {
 		Product getDetails = jdbcTemplate.queryForObject(find, new SingleProductMapper(), productId);
 		return getDetails;
 	}
-
 	// --Delete Product---
-	public int deleteProduct(int id) {
+	public int deleteProduct(int id) 
+	{
 		String delete = "update product set is_available=? where id=?";
 		Object[] details = { "Not Available", id };
 		int update = jdbcTemplate.update(delete, details);
 		logger.info("Delete Product : " + update);
 		return update;
 	}
-
 	// ---Active Product By Id---
 	public int activeProduct(int id) {
 		String active = "update product set is_available=? where id=?";
@@ -111,7 +101,6 @@ public class AdminDao implements AdminInterface {
 		int update = jdbcTemplate.update(active, details);
 		logger.info("Active Product : " + update);
 		return update;
-
 	}
 	
 	// ------save category details----

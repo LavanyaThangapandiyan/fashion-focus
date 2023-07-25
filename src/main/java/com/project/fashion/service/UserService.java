@@ -109,10 +109,6 @@ public class UserService  {
 		userDao.getOrdersList(userId);
 	}
 	
-	public void saveWishList(WishList wish)
-	{
-		userDao.saveWishList(wish);
-	}
 	
 	public void getWishListById(int customerId)
 	{
@@ -125,12 +121,9 @@ public class UserService  {
 	}
 	public void savePaymentDetails(Payment payment)
 	{
-		userDao.savePaymentDetails(payment);
+		userDao.savePaymentDetails(payment, null);
 	}
-	public void findPaymentDetails(int orderId)
-	{
-		userDao.findPaymentDetails(orderId);
-	}
+	
 	public  void paymentList() 
 	{
 		userDao.paymentList();

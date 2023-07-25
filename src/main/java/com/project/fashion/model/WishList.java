@@ -8,6 +8,14 @@ public class WishList {
 	private String size;
 	private String category;
 	private String status;
+	private String image;
+	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -56,10 +64,11 @@ public class WishList {
 	@Override
 	public String toString() {
 		return "WishList [customerId=" + customerId + ", productId=" + productId + ", productName=" + productName
-				+ ", price=" + price + ", size=" + size + ", category=" + category + ", status=" + status + "]";
+				+ ", price=" + price + ", size=" + size + ", category=" + category + ", status=" + status + ", image="
+				+ image + "]";
 	}
 	public WishList(int customerId, int productId, String productName, int price, String size, String category,
-			String status) {
+			String status, String image) {
 		super();
 		this.customerId = customerId;
 		this.productId = productId;
@@ -68,7 +77,9 @@ public class WishList {
 		this.size = size;
 		this.category = category;
 		this.status = status;
+		this.image = image;
 	}
+	
 	
 
 }

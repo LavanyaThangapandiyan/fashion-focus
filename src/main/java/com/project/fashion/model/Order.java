@@ -12,17 +12,11 @@ public class Order {
 	private int quantity;
 	private String status;
 	private int amount;
-	
+	private String image;
 
-	
-
-	
-	
-
-	
 
 	public Order(int id, int orderId, int customerId, int productId, String productName, int price, String size,
-			String category, int quantity, String status, int amount) {
+			String category, int quantity, String status, int amount, String image) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
@@ -35,6 +29,15 @@ public class Order {
 		this.quantity = quantity;
 		this.status = status;
 		this.amount = amount;
+		this.image = image;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public int getAmount() {
@@ -120,7 +123,7 @@ public class Order {
 	public String toString() {
 		return "Order [id=" + id + ", orderId=" + orderId + ", customerId=" + customerId + ", productId=" + productId
 				+ ", productName=" + productName + ", price=" + price + ", size=" + size + ", category=" + category
-				+ ", quantity=" + quantity + ", status=" + status + ", amount=" + amount + "]";
+				+ ", quantity=" + quantity + ", status=" + status + ", amount=" + amount + ", image=" + image + "]";
 	}
 
 	

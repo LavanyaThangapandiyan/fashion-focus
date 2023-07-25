@@ -1,5 +1,6 @@
 package com.project.fashion.interfaces;
 
+import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
@@ -22,14 +23,13 @@ public interface UserInterface {
 	public int deleteUserDetails(User user);
 	public int updateUserPassword(User user,Model model) throws InvalidEmailException, JsonProcessingException ;
 	public int findIdByEmail(String email,HttpSession session);
-	public int savePaymentDetails(Payment payment);
-	public Payment findPaymentDetails(int orderId);
+	public int savePaymentDetails(Payment payment,HttpSession session);
 	public List<Payment> paymentList();
 	public int saveOrderDetails(int userId);
 	public int cancelOrder(int id);
 	 public List<Order> getOrdersList(int userId);
-	public int saveWishList(WishList wish);
-	public WishList getWishListById(int customerId);
+	 public int saveWishList(int  id,int userId) throws IOException ;
+	 public List<WishList> getWishListById(int customerId);
 	public int activeAndInActiveWishList(int wishListId);
 	public int saveCartDetails(int userId,int id,String name,int price,String type,int quantity,String size);
 	public void cancelCartDetails(int id) ;

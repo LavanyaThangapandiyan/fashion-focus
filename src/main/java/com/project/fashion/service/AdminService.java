@@ -1,6 +1,5 @@
 package com.project.fashion.service;
 
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
-import com.project.fashion.model.Sales;
 
 @Service
 

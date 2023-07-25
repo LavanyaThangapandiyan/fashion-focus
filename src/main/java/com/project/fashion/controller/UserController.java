@@ -1,5 +1,6 @@
 package com.project.fashion.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,21 +22,18 @@ import com.project.fashion.model.Order;
 import com.project.fashion.model.Payment;
 import com.project.fashion.model.Product;
 import com.project.fashion.model.User;
-import com.project.fashion.model.WishList;
 import com.project.fashion.validation.Validation;
 
 @Controller
 public class UserController {
-	
-	
+
 	Validation valid = new Validation();
 	AdminDao productDao = new AdminDao();
 	UserDao userdao = new UserDao();
 	Product product = new Product();
 	User user = new User();
- 
-	@Value
-	("${email:}")
+
+	@Value("${email:}")
 	String email;
 
 	@GetMapping("/")
@@ -47,7 +45,6 @@ public class UserController {
 	// method to get register form
 	@GetMapping("/login")
 	public String getLoginForm() {
-		System.out.println("Email : "+email);
 		return "login";
 	}
 
@@ -58,11 +55,11 @@ public class UserController {
 	}
 
 	@GetMapping("forgotpassword")
-	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password,Model model)
-			throws InvalidEmailException, JsonProcessingException {
+	public String resetPassword(@RequestParam("email") String email, @RequestParam("password") String password,
+			Model model) throws InvalidEmailException, JsonProcessingException {
 		user.setEmail(email);
 		user.setPassword(password);
-		int number = userdao.updateUserPassword(user,model);
+		int number = userdao.updateUserPassword(user, model);
 		if (number == 1)
 			return "login";
 		else
@@ -86,20 +83,16 @@ public class UserController {
 		} else
 			return "";
 	}
-	
+
 	@GetMapping("/registerland")
-	public String afterRegisterSuccess()
-	{
+	public String afterRegisterSuccess() {
 		return "redirect:login";
 	}
-	
-         
+
 	@GetMapping("/adminland")
-	  public String afterLoginSuccess()
-	  {
+	public String afterLoginSuccess() {
 		return "redirect:/products";
-	  }
-	
+	}
 
 	@GetMapping("/products")
 	public String viewProductList(Model model) {
@@ -122,14 +115,15 @@ public class UserController {
 	@PostMapping(path = "/register-submit")
 	public String saveUserDetails(@RequestParam("username") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("mobile") String mobile,
-			@RequestParam("gender") String gender,Model model) throws ExistMailIdException, ExistMobileException, JsonProcessingException {
+			@RequestParam("gender") String gender, Model model)
+			throws ExistMailIdException, ExistMobileException, JsonProcessingException {
 		User user = new User();
 		user.setName(name);
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setMobile(mobile);
 		user.setGender(gender);
-		int number = userdao.saveDetails(user, model );
+		int number = userdao.saveDetails(user, model);
 		if (number == 1)
 			return "registerpopup";
 		else
@@ -151,7 +145,7 @@ public class UserController {
 
 	@GetMapping("/customer")
 	public String getAllUsers(Model model) throws JsonProcessingException {
-	model.addAttribute("userlist", userdao.userList(model));
+		model.addAttribute("userlist", userdao.userList(model));
 		return "customer";
 	}
 
@@ -161,6 +155,14 @@ public class UserController {
 			@RequestParam("type") String type, @RequestParam("quantity") int quantity,
 			@RequestParam("size") String size) {
 		userdao.saveCartDetails(userId, id, name, price, type, quantity, size);
+		return "redirect:/mycart";
+	}
+
+	@GetMapping(path = "/addwish/{id}")
+	public String saveWIshListDetails(@PathVariable("id") int id, HttpSession session, Model model) throws IOException {
+		model.addAttribute("card", productDao.allProductList());
+		int userId = (int) session.getAttribute("id");
+		userdao.saveWishList(id, userId);
 		return "redirect:/products";
 	}
 
@@ -177,14 +179,13 @@ public class UserController {
 		userdao.cancelCartDetails(id);
 		return "redirect:/mycart";
 	}
-	
-	@GetMapping(path="/deleteorder/{id}")
-	public String deleteOrderDetails(@PathVariable(value="id")int id)
-	{
+
+	@GetMapping(path = "/deleteorder/{id}")
+	public String deleteOrderDetails(@PathVariable(value = "id") int id) {
 		userdao.cancelOrder(id);
 		return "redirect:/myorder";
 	}
-	
+
 	@GetMapping(path = "/activecart/{id}")
 	public String acitveCartDetails(@PathVariable(value = "id") int id) {
 		userdao.clicktoActiveCartDetails(id);
@@ -193,53 +194,62 @@ public class UserController {
 
 	@GetMapping("/cartupdate")
 	public String updateCartDetails(@RequestParam("id") int id, @RequestParam("size") String size,
-			@RequestParam("quantity") int quantity, @RequestParam("amount") int amount,HttpSession session) {
+			@RequestParam("quantity") int quantity, @RequestParam("amount") int amount, HttpSession session) {
 		int userId = (int) session.getAttribute("id");
-		userdao.updateOrderDetails(id, size, quantity, amount,userId);
+		userdao.updateOrderDetails(id, size, quantity, amount, userId);
 		return "redirect:/mycart";
 	}
-	
 
 	@GetMapping("/updatecart/{id}")
-	public String updateSizeQuantity(@PathVariable("id") int id, Model model)
-	{
+	public String updateSizeQuantity(@PathVariable("id") int id, Model model) {
 		model.addAttribute("updatedata", userdao.getcartUpdateDetails(id));
-		
+
 		return "updatepopup";
 	}
-	
+
 	@GetMapping("/updateorder/{id}")
-	public String updateOrderDetails(@PathVariable("id")int id,Model model)
-	{
-		model.addAttribute("updatedata",userdao.getorderUpdateDetails(id));
+	public String updateOrderDetails(@PathVariable("id") int id, Model model) {
+		model.addAttribute("updatedata", userdao.getorderUpdateDetails(id));
 		return "updatepopup";
 	}
-	
+
 	@GetMapping("/placeorder")
 	public String getOrderDetails(@RequestParam("userId") int userId) {
-	userdao.saveOrderDetails(userId);
+		userdao.saveOrderDetails(userId);
 		return "redirect:/myorder";
 	}
 	
-	@GetMapping("/myorder")
-	public String showMyOrderList(Model model, HttpSession session)
+	@GetMapping("/payment")
+	public String showPaymentForm(HttpSession session,Model model)
 	{
 		int userId = (int) session.getAttribute("id");
-		model.addAttribute("orderlist",userdao.getOrdersList(userId));
-		return "myorder";
+		model.addAttribute("amount", userdao.getTotalAmountOrder(userId, session));
+		return "payment";
+	}
+	
+	
+
+	@GetMapping("/confirmorder")
+	public String confirmOrder(HttpSession session, Model model) {
+		int userId = (int) session.getAttribute("id");
+		userdao.saveAlterTable(userId);
+		return "payment";
 	}
 
-	@GetMapping(path = "wishlist")
-	public String saveWishList(@RequestParam("name") String name, @RequestParam("price") int price,
-			@RequestParam("size") String size, @RequestParam("category") String category) {
+	@GetMapping("/mywish")
+	public String showWishList(Model model, HttpSession session) {
+		int userId = (int) session.getAttribute("id");
+		model.addAttribute("wishlist", userdao.getWishListById(userId));
+		return "wishlist";
+	}
 
-		WishList wish = new WishList();
-		wish.setProductName(name);
-		wish.setPrice(price);
-		wish.setCategory(category);
-		wish.setSize(size);
-		userdao.saveWishList(wish);
-		return "/productlist";
+	@GetMapping("/myorder")
+	public String showMyOrderList(Model model, HttpSession session) {
+		int userId = (int) session.getAttribute("id");
+		model.addAttribute("orderlist", userdao.getOrdersList(userId));
+		model.addAttribute("cancelorder", userdao.getCancelledOrdersList(userId));
+		model.addAttribute("amount", userdao.getTotalAmountOrder(userId, session));
+		return "myorder";
 	}
 
 	@GetMapping(path = "/activeInactive/{id}")
@@ -261,20 +271,48 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/cancelorder/{id}")
-	public String cancelOrder(@PathVariable(value = "id") int id) {
+	public String cancelOrder(@PathVariable(value = "id") int id) 
+	{
 		userdao.cancelOrder(id);
 		return "redirect:order";
 	}
 
-	@GetMapping(path = "/payment")
-	public String savePaymentDetails(@RequestParam("OrderId") int id, @RequestParam("Amount") int amount,
-			@RequestParam("PaymentType") String PaymentType, @RequestParam("date") Date date) {
-		Payment pay = new Payment();
-		pay.setOrderId(id);
-		pay.setPaymentType(PaymentType);
-		pay.setAmount(amount);
-		pay.setDate(date);
-		userdao.savePaymentDetails(pay);
-		return "/payment";
+	@GetMapping(path = "/reorder/{id}")
+	public String reOrder(@PathVariable(value = "id") int id) {
+		userdao.reOrder(id);
+		return "redirect:/myorder";
+	}
+	
+	@GetMapping("/pay")
+	public String getPaymentDetails(@RequestParam("userName")String name,@RequestParam("email")String email,@RequestParam("amount")int amount,
+			@RequestParam("pay")String type,@RequestParam("cardnumber")String card,@RequestParam("cvv")int cvv,
+			@RequestParam("month")String month,@RequestParam("year")String year,HttpSession session)
+	{
+	  Payment payment=new Payment();
+	  payment.setUserName(name);
+	  payment.setEmail(email);
+	  payment.setAmount(amount);
+	  payment.setPaymentType(type);
+	  Long number=Long.parseLong(card);
+	  payment.setCardNumber(number);
+	  payment.setCvv(cvv);
+	  payment.setMonth(month);
+	  payment.setYear(year);
+	  userdao.savePaymentDetails(payment, session);
+     return "success";
+	}
+	
+	@GetMapping("/paymentland")
+	public String afterPaymentSuccess()
+	{
+		return "redirect:/thank";
+	}
+	
+	@GetMapping("/history")
+	public String getHistoryList(Model model,HttpSession session)
+	{
+		int userId = (int) session.getAttribute("id");
+		model.addAttribute("historylist",userdao.getOrderHistoryList(userId));
+		return "history";
 	}
 }

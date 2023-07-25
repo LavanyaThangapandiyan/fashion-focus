@@ -15,18 +15,18 @@ public class WishListMapper implements RowMapper<WishList>{
 		WishList wish=new WishList();
 		int customerId=rs.getInt("customer_id");
 		int productId=rs.getInt("product_id");
+		String image=rs.getString("image");
 		String productName=rs.getString("product_name");
 		int price=rs.getInt("price");
 		String size=rs.getString("size");
 		String category=rs.getString("category");
-		String status=rs.getString("is_available");
 		wish.setCustomerId(customerId);
 		wish.setProductId(productId);
+		wish.setImage(image);
 		wish.setProductName(productName);
 		wish.setPrice(price);
 		wish.setSize(size);
 		wish.setCategory(category);
-		wish.setStatus(status);
 		return wish;
 	}
 

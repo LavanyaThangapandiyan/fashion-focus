@@ -12,10 +12,12 @@ public class OrderMapper implements RowMapper<Order> {
 	@Override
 	public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
+		
 		Order order=new Order();
 		int id=rs.getInt("id");
 		int customerId=rs.getInt("customer_id");
 		int productId=rs.getInt("product_id");
+		String image=rs.getString("image");
 		String productName=rs.getString("productsname");
 		int price=rs.getInt("price");
 		String size=rs.getString("size");
@@ -26,6 +28,7 @@ public class OrderMapper implements RowMapper<Order> {
 		order.setId(id);
 		order.setCustomerId(customerId);
 		order.setProductId(productId);
+		order.setImage(image);
 		order.setProductName(productName);
 		order.setPrice(price);
 		order.setSize(size);

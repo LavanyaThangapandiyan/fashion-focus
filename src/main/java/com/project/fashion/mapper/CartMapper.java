@@ -17,24 +17,25 @@ public class CartMapper implements RowMapper<Cart> {
 		int id=rs.getInt("id");
 		int customerId=rs.getInt("customer_id");
 		int productId=rs.getInt("product_id");
-		//String  image= rs.getString("image");
 		String name=rs.getString("product_name");
 		int price=rs.getInt("price");
 		String size=rs.getString("size");
 		String productType=rs.getString("product_type");
 		int quantity=rs.getInt("quantity");
 		int amount=rs.getInt("total_amount");
+		String image=rs.getString("image");
 		String status=rs.getString("is_available");
+		
 		cart.setId(id);
 		cart.setCustomerId(customerId);
 		cart.setProductId(productId);
-		//cart.setImage(image);
 		cart.setProductName(name);
 		cart.setPrice(price);
 		cart.setSize(size);
 		cart.setProduct_type(productType);
 		cart.setQuantity(quantity);
 		cart.setAmount(amount);
+		cart.setImage(image);
 		cart.setStatus(status);
 		return cart;
 	}

@@ -11,12 +11,18 @@
 </head>
 <body>
   <header>
+  
     <div class="topnav">
+     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFFtoTeqaTwrwGyI-PfJaBGGFTywZCA4xXkQIghMSeOaM3KpzxvWbXKbUKhpPlPdYEQJg&usqp=CAU" class="logo"/>
       <a class="active" href="#home">Fashion Focus Boutique</a>
       <div class="topnav-right">
+           
+      
         <a th:href="@{/login}" class="navbar-brand"><i class="fa fa-fw fa-user"></i> Login</a>
+        
       </div>
     </div>
+    
  </header> 
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'ethnic')">Women Ethnic</button>
@@ -141,7 +147,6 @@
     <thead >
       <th>Top Wear</th>
       <th>Bottom Wear</th>
-      
       </thead>
       <tbody>
         <tr>
@@ -195,7 +200,6 @@
 </div>
 <!-- Slideshow container -->
 <div class="slideshow-container">
-
   <!-- Full-width images with number and caption text -->
   <div class="mySlides fade">
     <div class="numbertext">1 / 3</div>
@@ -293,11 +297,10 @@ const previous = document.querySelector('.previous');
 
 
 </script>
-
-
-
  <style>
- 
+ .logo {
+        max-width: 50px;
+      }
  
 .text{
   color: #171717;
