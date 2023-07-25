@@ -1,16 +1,16 @@
 package com.project.fashion.service;
 
+
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.dao.UserDao;
 import com.project.fashion.exception.ExistMailIdException;
 import com.project.fashion.exception.ExistMobileException;
-import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.exception.InvalidEmailException;
 import com.project.fashion.model.Cart;
 import com.project.fashion.model.Order;
@@ -20,20 +20,32 @@ import com.project.fashion.model.User;
 import com.project.fashion.model.WishList;
 
 @Service
-public class UserService  {
+public class UserService  
+{
 	UserDao userDao=new UserDao();
-	public void saveDetails(User user,Model model) throws ExistMailIdException, ExistMobileException, JsonProcessingException
+	public int saveDetails(User user,Model model) throws ExistMailIdException, ExistMobileException, JsonProcessingException
 	{
-		userDao.saveDetails(user, model);
+		return userDao.saveDetails(user, model);
 	}
-	public void  findUserDetails(User user) throws InvalidEmailException
+	public int  findUserDetails(User user) throws InvalidEmailException
 	{
-		userDao.findUserDetails(user);
+		return userDao.findUserDetails(user);
+	}
+	public void  findIdByEmail(String email, HttpSession session)
+	{
+		userDao.findIdByEmail(email, session);
 	}
 	
-	public void userList(Model model) throws JsonProcessingException
+	public int  updateUserPassword(User user,Model model) throws InvalidEmailException, JsonProcessingException
 	{
-		userDao.userList(model);
+		return userDao.updateUserPassword(user, model);
+	}
+	
+	
+	
+	public List<User> userList(Model model) throws JsonProcessingException
+	{
+		return userDao.userList(model);
 	}
 	
 	public void deleteUserDetails(User user)
@@ -41,24 +53,15 @@ public class UserService  {
 		userDao.deleteUserDetails(user);
 	}
 	
-	public void  updateUserPassword(User user,Model model) throws InvalidEmailException, JsonProcessingException
-	{
-		userDao.updateUserPassword(user, model);
-	}
-	
-	public void  findIdByEmail(String email, HttpSession session)
-	{
-		userDao.findIdByEmail(email, session);
-	}
 	
 	public void updateOrderDetails(int id, String size, int quantity, int amount, int userId)
 	{
 		userDao.updateOrderDetails(id, size, quantity, amount, userId);
 	}
 	
-	public void getcartUpdateDetails(int cartId)
+	public Cart getcartUpdateDetails(int cartId)
 	{
-		userDao.getcartUpdateDetails(cartId);
+		return userDao.getcartUpdateDetails(cartId);
 	}
 	
 	public void  saveCartDetails(int userId, int id, String productName, int price, String type, int quantity,
@@ -76,19 +79,19 @@ public class UserService  {
 	{
 		userDao.clicktoActiveCartDetails(id);
 	}
-	public void cartList(int customerId)
+	public List<Cart> cartList(int customerId)
 	{
-		userDao.cartList(customerId);
+		return userDao.cartList(customerId);
 	}
 	
-	public void inActiveCartList(int customerId)
+	public List<Cart> inActiveCartList(int customerId)
 	{
-		userDao.inActiveCartList(customerId);
+		return userDao.inActiveCartList(customerId);
 	}
 	
-	public void allProductList(String category)
+	public List<Product> allProductList(String category)
 	{
-		userDao.allProductList(category);
+		return userDao.allProductList(category);
 	}
 	public void saveOrderDetails(int userId)
 	{
@@ -99,33 +102,59 @@ public class UserService  {
 	{
 		userDao.cancelOrder(id);
 	}
-	public void getorderUpdateDetails(int orderId)
+	public Order getorderUpdateDetails(int orderId)
 	{
-		userDao.getorderUpdateDetails(orderId);
+		return userDao.getorderUpdateDetails(orderId);
 	}
 	
-	public void getOrdersList(int userId)
+	public List<Order> getOrdersList(int userId)
 	{
-		userDao.getOrdersList(userId);
+		return userDao.getOrdersList(userId);
+	}
+	public List<Order> getCancelledOrdersList(int userId) {
+		return userDao.getCancelledOrdersList(userId);
+		
+	}
+	public int saveWishList(int  id,int userId) throws IOException
+	{
+		return userDao.saveWishList(id, userId);
+		
 	}
 	
-	
-	public void getWishListById(int customerId)
+	public List<WishList> getWishListById(int customerId)
 	{
-		userDao.getWishListById(customerId);
+		return userDao.getWishListById(customerId);
 	}
 
 	public void activeAndInActiveWishList(int wishListId)
 	{
 		userDao.activeAndInActiveWishList(wishListId);
 	}
-	public void savePaymentDetails(Payment payment)
+	public List<Order> getTotalAmountOrder(int userId,HttpSession session)
 	{
-		userDao.savePaymentDetails(payment, null);
+		return userDao.getTotalAmountOrder(userId, session);
 	}
 	
+	public void saveAlterTable(int userId)
+	{
+		userDao.saveAlterTable(userId);
+	}
+	public int reOrder(int id)
+	{
+		return userDao.reOrder(id);
+	}
+	
+	public void savePaymentDetails(Payment payment, HttpSession session)
+	{
+		userDao.savePaymentDetails(payment, session);
+	}
 	public  void paymentList() 
 	{
 		userDao.paymentList();
+	}
+	public List<Order> getOrderHistoryList(int UserId)
+	{
+		return userDao.getOrderHistoryList(UserId);
+		
 	}
 }

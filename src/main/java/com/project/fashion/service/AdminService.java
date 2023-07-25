@@ -1,38 +1,49 @@
 package com.project.fashion.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.fashion.dao.AdminDao;
 import com.project.fashion.exception.ExistCategoryException;
 import com.project.fashion.exception.ExistProductException;
 import com.project.fashion.model.Category;
 import com.project.fashion.model.Product;
-
+import com.project.fashion.model.Sales;
 @Service
 
-public class AdminService {
+public class AdminService 
+{
 	AdminDao adminDao=new AdminDao();
 	
-	public void saveProducts(Product product) throws ExistProductException
+	public int saveProducts(Product product) throws ExistProductException
 	{
-		adminDao.saveProductDetails(product);
+		return adminDao.saveProductDetails(product);
 	}
+	
+	
 	public void updateProductDetails(int id, String name, int price, String size, int quantity, String fabric,
 			String gender)
 	{
 		adminDao.updateProductDetails(id, name, price, size, quantity, fabric, gender);
 	}
-	
-	public void allProductList()
+	public List<Product> inActiveProductList()
 	{
-		adminDao.allProductList();
+		return adminDao.inActiveProductList();
+		
 	}
-	public void getProductById(int productId)
+		
+	public List<Product> allProductList()
 	{
-		adminDao.getProductById(productId);
+		return adminDao.allProductList();
+	}
+	
+	
+	public Product getProductById(int productId)
+	{
+		return adminDao.getProductById(productId);
 	}
 	
 	public void deleteProduct(int id)
@@ -49,28 +60,28 @@ public class AdminService {
 	{
 		adminDao.saveCategoryDetails(category);
 	}
-	public void categoryList()
+	public List<Category> categoryList()
 	{
-		adminDao.categoryList();
+		return adminDao.categoryList();
 	}
 	
-	public void unActiveCategoryList()
+	public List<Category> inActiveCategoryList()
 	{
-		adminDao.unActiveCategoryList();
+		return adminDao.inActiveCategoryList();
 	}
 	
-	public void getCategoryName()
+	public List<Category> getCategoryName()
 	{
-		adminDao.getCategoryName();	
+		return adminDao.getCategoryName();	
 	}
 	
 	public void updateCategoryName(int id, String name)
 	{
 		adminDao.updateCategoryName(id, name);
 	}
-	public void findCategoryById(int id)
+	public Category findCategoryById(int id)
 	{
-		adminDao.findCategoryById(id);
+		return adminDao.findCategoryById(id);
 	}
 	
 	public void deleteCategoryDetails(int id)
@@ -89,8 +100,8 @@ public class AdminService {
 	{
 		adminDao.saveSalesDetails(productId, quantity);
 	}
-	public void getSalesList(Model model) throws JsonProcessingException
+	public List<Sales> getSalesList(Model model) throws JsonProcessingException
 	{
-		adminDao.getSalesList(model);
+		return adminDao.getSalesList(model);
 	}
 }

@@ -23,7 +23,7 @@ public interface UserInterface {
 	public int deleteUserDetails(User user);
 	public int updateUserPassword(User user,Model model) throws InvalidEmailException, JsonProcessingException ;
 	public int findIdByEmail(String email,HttpSession session);
-	public int savePaymentDetails(Payment payment,HttpSession session);
+	public void savePaymentDetails(Payment payment,HttpSession session);
 	public List<Payment> paymentList();
 	public int saveOrderDetails(int userId);
 	public int cancelOrder(int id);

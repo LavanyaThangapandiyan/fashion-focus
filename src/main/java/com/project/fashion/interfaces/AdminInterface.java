@@ -13,13 +13,13 @@ public interface AdminInterface
 	public void updateProductDetails(int id, String name, int price, String size, int quantity, String fabric,
 			String gender);
 	public List<Product> allProductList();
-	public List<Product> unActiveProductList();
+	public List<Product> inActiveProductList();
 	public Product getProductById(int productId);
 	public int deleteProduct(int id);
 	public int activeProduct(int id);
 	public void saveCategoryDetails(Category category) throws ExistCategoryException;
 	public List<Category> categoryList();
-	public List<Category> unActiveCategoryList();
+	public List<Category> inActiveCategoryList();
 	public List<Category> getCategoryName();
 	public void updateCategoryName(int id, String name);
 	public Category findCategoryById(int id);

@@ -25,41 +25,39 @@ import com.project.fashion.validation.Validation;
 
 @Repository
 public class AdminDao implements AdminInterface {
-	
+
 	Logger logger = LoggerFactory.getLogger(AdminDao.class);
 	Validation valid = new Validation();
-	JdbcTemplate jdbcTemplate=ConnectionUtil.getJdbcTemplate();	
+	JdbcTemplate jdbcTemplate = ConnectionUtil.getJdbcTemplate();
 	Product product = new Product();
 
 	// ----Insert Product Details
-	public int saveProductDetails(Product product) throws ExistProductException
-	{		
+	public int saveProductDetails(Product product) throws ExistProductException {
 		String insert = "insert into product(name,price,category,size,quantity,fabric,gender,image,is_available)values(?,?,?,?,?,?,?,?,?)";
-		String input=product.getName();
-		String productName=input.substring(0,1).toUpperCase()+input.substring(1);
-		String inputFabric=product.getFabric();
-		String fabricName=inputFabric.substring(0,1).toUpperCase()+inputFabric.substring(1);
+		String input = product.getName();
+		String productName = input.substring(0, 1).toUpperCase() + input.substring(1);
+		String inputFabric = product.getFabric();
+		String fabricName = inputFabric.substring(0, 1).toUpperCase() + inputFabric.substring(1);
 		boolean name = valid.nameValidation(productName);
 		boolean size = valid.nameValidation(product.getSize());
 		boolean fabric = valid.nameValidation(product.getFabric());
 		if (name == true && size == true && fabric == true) {
-			Object[] details = {productName, product.getPrice(), product.getType(), product.getSize(),
+			Object[] details = { productName, product.getPrice(), product.getType(), product.getSize(),
 					product.getQuantity(), fabricName, product.getGender(), product.getImage(), "Available" };
 			int numberOfRows = jdbcTemplate.update(insert, details);
 			logger.info("Inserted Rows : " + numberOfRows);
 			return 1;
 		} else
-            logger.error("Invalid Product Details");	
+			logger.error("Invalid Product Details");
 		return 0;
 	}
 
 	// ----Update Product Details-----
 	public void updateProductDetails(int id, String name, int price, String size, int quantity, String fabric,
-			String gender) 
-	{
+			String gender) {
 		String update = "update product set name=?,price=?,size=?,quantity=?,fabric=?,gender=? where id=?";
-		String input=name;
-		String productName=input.substring(0,1).toUpperCase()+input.substring(1);
+		String input = name;
+		String productName = input.substring(0, 1).toUpperCase() + input.substring(1);
 		Object[] details = { productName, price, size, quantity, fabric, gender, id };
 		int numberOfRows = jdbcTemplate.update(update, details);
 		logger.info("Updated rows : " + numberOfRows);
@@ -73,7 +71,7 @@ public class AdminDao implements AdminInterface {
 	}
 
 	// Get Inactive Product List
-	public List<Product> unActiveProductList() {
+	public List<Product> inActiveProductList() {
 		String find = "select id,name,price,category,size,quantity,fabric,gender,image from product where is_available='Not Available'";
 		List<Product> productList = jdbcTemplate.query(find, new ProductMapperAll());
 		return productList;
@@ -85,15 +83,16 @@ public class AdminDao implements AdminInterface {
 		Product getDetails = jdbcTemplate.queryForObject(find, new SingleProductMapper(), productId);
 		return getDetails;
 	}
+
 	// --Delete Product---
-	public int deleteProduct(int id) 
-	{
+	public int deleteProduct(int id) {
 		String delete = "update product set is_available=? where id=?";
 		Object[] details = { "Not Available", id };
 		int update = jdbcTemplate.update(delete, details);
 		logger.info("Delete Product : " + update);
 		return update;
 	}
+
 	// ---Active Product By Id---
 	public int activeProduct(int id) {
 		String active = "update product set is_available=? where id=?";
@@ -102,24 +101,21 @@ public class AdminDao implements AdminInterface {
 		logger.info("Active Product : " + update);
 		return update;
 	}
-	
+
 	// ------save category details----
-	public void saveCategoryDetails(Category category) throws ExistCategoryException 
-	{
+	public void saveCategoryDetails(Category category) throws ExistCategoryException {
 		List<Category> categoryList = categoryList();
 		String getCategory = categoryList.toString();
 		String getName = category.getCategoryName();
 		boolean name = valid.nameValidation(getName);
 		boolean contains = getCategory.contains(getName);
-		
-		System.out.println("Category contains "+contains);
-		if (contains==true)
-		{
-		    throw new ExistCategoryException("Category Already Exist");
-		} else if (name == true)
-		{
-			String input=category.getCategoryName();
-			String categoryName=input.substring(0,1).toUpperCase()+input.substring(1);
+
+		System.out.println("Category contains " + contains);
+		if (contains == true) {
+			throw new ExistCategoryException("Category Already Exist");
+		} else if (name == true) {
+			String input = category.getCategoryName();
+			String categoryName = input.substring(0, 1).toUpperCase() + input.substring(1);
 			String save = "insert into category(category_name,is_available)values(?,?)";
 			Object[] details = { categoryName, "Available" };
 			int numberOfRows = jdbcTemplate.update(save, details);
@@ -135,8 +131,8 @@ public class AdminDao implements AdminInterface {
 		return listCategory;
 	}
 
-	// ---- Un Active Category List---------
-	public List<Category> unActiveCategoryList() {
+	// ---- In Active Category List---------
+	public List<Category> inActiveCategoryList() {
 		String categoryList = "select id,category_name,is_available from category where is_available='Not Available'";
 		List<Category> listCategory = jdbcTemplate.query(categoryList, new CategoryMapper());
 		return listCategory;
@@ -149,10 +145,9 @@ public class AdminDao implements AdminInterface {
 	}
 
 	// --Category Updated---
-	public void updateCategoryName(int id, String name)
-	{
-		String input=name;
-		String categoryName=input.substring(0,1).toUpperCase()+input.substring(1);
+	public void updateCategoryName(int id, String name) {
+		String input = name;
+		String categoryName = input.substring(0, 1).toUpperCase() + input.substring(1);
 		String updateName = "update category set category_name=? where id=?";
 		Object[] details = { categoryName, id };
 		int updateRows = jdbcTemplate.update(updateName, details);
@@ -192,42 +187,39 @@ public class AdminDao implements AdminInterface {
 		logger.info("status updated : " + rows);
 		return 1;
 	}
-	//-----Sales ----
-	Sales sale=new Sales();
-	
-	public int saveSalesDetails(int productId,int quantity) 
-	{	
-		String findSale=" select id,category_name,product_id,quantity,Date from sales  where product_id =?";
-		List<Sales> sales=jdbcTemplate.query(findSale, new SalesMapper(),productId);
-		for(Sales saleModel : sales)
-		{
+
+	// -----Sales ----
+	Sales sale = new Sales();
+
+	public int saveSalesDetails(int productId, int quantity) {
+		String findSale = " select id,category_name,product_id,quantity,Date from sales  where product_id =?";
+		List<Sales> sales = jdbcTemplate.query(findSale, new SalesMapper(), productId);
+		for (Sales saleModel : sales) {
 			int productId1 = saleModel.getProductId();
 			int quantity2 = saleModel.getQuantity();
-			int updateQuantity=quantity2 + quantity;
-			if(productId== productId1)
-			{
-				String update="update sales set quantity=? where product_id=?";
-				Object[] updates= {updateQuantity,productId};
-				int update2 = jdbcTemplate.update(update,updates);
-				logger.info("Increase Quantity in Sales : "+update2);
+			int updateQuantity = quantity2 + quantity;
+			if (productId == productId1) {
+				String update = "update sales set quantity=? where product_id=?";
+				Object[] updates = { updateQuantity, productId };
+				int update2 = jdbcTemplate.update(update, updates);
+				logger.info("Increase Quantity in Sales : " + update2);
 				return 1;
-			}	
-		}	
-		String insert="insert into payment(category_name,product_id,quantity,Date)values(?,?,?,?)";
-		Object[] details= {sale.getCategoryName(),sale.getProductId(),sale.getQuantity(),sale.getDate()};
-		int insertSales = jdbcTemplate.update(insert,details);
-		logger.info("Insert Sales Row : "+insertSales);
+			}
+		}
+		String insert = "insert into payment(category_name,product_id,quantity,Date)values(?,?,?,?)";
+		Object[] details = { sale.getCategoryName(), sale.getProductId(), sale.getQuantity(), sale.getDate() };
+		int insertSales = jdbcTemplate.update(insert, details);
+		logger.info("Insert Sales Row : " + insertSales);
 		return 1;
 	}
-	
-	//---Sales List----
-	public List<Sales> getSalesList(Model model) throws JsonProcessingException
-	{
-		String getSalesList="select id,category_name,product_id,quantity,Date from sales " ;
+
+	// ---Sales List----
+	public List<Sales> getSalesList(Model model) throws JsonProcessingException {
+		String getSalesList = "select id,category_name,product_id,quantity,Date from sales ";
 		List<Sales> getSales = jdbcTemplate.query(getSalesList, new SalesMapper());
-		ObjectMapper object=new ObjectMapper();
-		String sales=object.writeValueAsString(getSales);
-		model.addAttribute("listofsales",sales);
+		ObjectMapper object = new ObjectMapper();
+		String sales = object.writeValueAsString(getSales);
+		model.addAttribute("listofsales", sales);
 		return getSales;
 	}
 }

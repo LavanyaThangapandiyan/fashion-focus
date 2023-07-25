@@ -15,16 +15,19 @@
         <a href="" class="navbar-brand">Fashion Focus Boutique</a>
          <a th:href="@{/mycart}" class="navbar-brand">My Cart</a>
          <a th:href="@{/history}" class="navbar-brand">Order History</a>
-         <a th:href="@{/}" class="navbar-brand">Log Out</a>
+         
         <div class="topnav-right">
-           <a th:href="@{/mywish}" class="navbar-brand"><i class="fa fa-heart-o"></i>My Wish List</a>
+           <a th:href="@{/mywish}" class="navbar-brand"><i class="fa fa-heart-o"></i></a>
         </div>     
-         <a th:href="@{/myorder}" class="navbar-brand">My Orders</a>              
+         <a th:href="@{/myorder}" class="navbar-brand">My Orders</a>    
+         <a th:href="@{/}" class="navbar-brand">Log Out</a>          
       </nav>
  </div>
  </header>
+ <div class="font">
  <h1>Welcome</h1>
     <p th:text="${session.userName}"></p>
+   </div>
     <div class="container py-5">
         <h1 class="text-center">Popular Product</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
@@ -72,6 +75,10 @@
              </script> 
         
  <style>
+ .font
+ {
+ text-align: center;
+ }
  .topnav-right
 {
   float: right;

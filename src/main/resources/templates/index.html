@@ -1,639 +1,522 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org"> 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<html xmlns:th="https://thymeleaf.org">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
-<meta charset="ISO-8859-1">
-<title>Home</title>
+    <meta charset="ISO-8859-1">
+    <title>Home</title>
 </head>
 <body>
-  <header>
-  
-    <div class="topnav">
-     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFFtoTeqaTwrwGyI-PfJaBGGFTywZCA4xXkQIghMSeOaM3KpzxvWbXKbUKhpPlPdYEQJg&usqp=CAU" class="logo"/>
-      <a class="active" href="#home">Fashion Focus Boutique</a>
-      <div class="topnav-right">
-           
-      
-        <a th:href="@{/login}" class="navbar-brand"><i class="fa fa-fw fa-user"></i> Login</a>
+    <header>
+
+        <div class="topnav">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFFtoTeqaTwrwGyI-PfJaBGGFTywZCA4xXkQIghMSeOaM3KpzxvWbXKbUKhpPlPdYEQJg&usqp=CAU"
+                class="logo" />
+            <div class="topnav-right">
+                <a th:href="@{/login}" class="navbar-brand"><i class="fa fa-fw fa-user"></i> Login</a>
+            </div>
+        </div>
+
+    </header>
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'ethnic')">Women Ethnic</button>
+        <button class="tablinks" onclick="openCity(event, 'western')">Women Western</button>
+        <button class="tablinks" onclick="openCity(event, 'men')">Men</button>
+        <button class="tablinks" onclick="openCity(event, 'kids')">Kids</button>
         
-      </div>
     </div>
-    
- </header> 
-<div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'ethnic')">Women Ethnic</button>
-  <button class="tablinks" onclick="openCity(event, 'western')">Women Western</button>
-  <button class="tablinks" onclick="openCity(event, 'men')">Men</button>
-  <button class="tablinks" onclick="openCity(event, 'kids')">Kids</button>
-     <form id="formsearch" action="#" class="search-bar">
-      <input type="search" name="search" pattern=".*\S.*" required>
-      <button class="search-btn" type="submit">
-      <span>Search</span>
-      </button>
-   </form> 
-</div>
- <!-- Tab content -->
- <div id="ethnic" class="tabcontent">
-  <h4 style="color:purple;">All Women Ethnic</h4>
-  <table >
-    <thead >
-      <th>All Sarees</th>
-      <th>Kurtis</th>
-      <th>Kurta  Sets</th>
-      <th>Suits & Dress Material</th>
-     </thead>
-      <tbody>
-        <tr>
-        <form id="form" th:action="@{/silksaree}" th:object="${product}" method="Get">
-        <td> <button type="submit">Silk Sarees</button></td>
-        </form>
-        <form id="form" th:action="@{/rayonkurti}" th:object="${product}" method="Get">
-        <td> <button type="submit">Rayon Kurtis</button></td>
-        </form>
-        <form id="form" th:action="@{/allkurtas}" th:object="${product}" method="Get">
-        <td> <button type="submit">All Kurta Sets</button></td>
-        </form>
-        <form id="form" th:action="@{/duppata}" th:object="${product}" method="Get">
-        <td> <button type="submit">Dupattas</button></td>
-        </form>
-        </tr>
-        <tr>
-        <form id="form" th:action="@{/cottonsaree}" th:object="${product}" method="Get">
-        <td> <button type="submit">Cotton Sarees</button></td>
-        </form>
-        <form id="form" th:action="@{/embroidery}" th:object="${product}" method="Get">
-        <td> <button type="submit">Embroidered Kurtis</button></td>
-        </form>
-         <form id="form" th:action="@{/lehanga}" th:object="${product}" method="Get">
-        <td> <button type="submit">Lehanga</button></td>
-        </form>
-        </tr>
-        <tr>
-        <form id="form" th:action="@{/georgette}" th:object="${product}" method="Get">
-        <td> <button type="submit">Georgette Sarees</button></td>
-        </form>
-        <form id="form" th:action="@{/cottonkurti}" th:object="${product}" method="Get">
-        <td> <button type="submit">Cotton Kurtis</button></td>
-        </form>
-         <form id="form" th:action="@{/gowns}" th:object="${product}" method="Get">
-        <td> <button type="submit">Gown</button></td>
-        </form>
-        </tr>
-        <tr>
-        <form id="form" th:action="@{/filter}" th:object="${product}" method="Get">
-        <td> <button type="submit">Chiffon Sarees</button></td>
-        </form>
-          <form id="form" th:action="@{/anarkali}" th:object="${product}" method="Get">
-        <td> <button type="submit">Anarkali kurti</button></td>
-        </form>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-        </tr> 
-      </tbody>
-  </table>
-</div>
-<div id="western" class="tabcontent">
-  <h4 style="color:purple;">All Women Western</h4>
-  <table >
-    <thead >
-      <th>Top Wear</a></th>
-      <th>Bottom Wear</a></th>
-      <th>Sleep wear</a></th>
-      </thead>
-      <tbody>
-        <tr>
-        <form id="form" th:action="@{/tops}" th:object="${product}" method="Get">
-        <td> <button type="submit">Tops</button></td>
-        </form>
-        <form id="form" th:action="@{/jeans}" th:object="${product}" method="Get">
-        <td> <button type="submit">Jeans</button></td>
-        </form>
-        <form id="form" th:action="@{/nightsuits}" th:object="${product}" method="Get">
-        <td> <button type="submit">Night Suits</button></td>
-        </form>
-        </tr>
-        <tr>
-        <form id="form" th:action="@{/jeggins}" th:object="${product}" method="Get">
-        <td> <button type="submit">Jeggins</button></td>
-        </form>
-        <form id="form" th:action="@{/plazzo}" th:object="${product}" method="Get">
-        <td> <button type="submit">Plazzos</button></td>
-        </form>
-        <form id="form" th:action="@{/shorts}" th:object="${product}" method="Get">
-        <td> <button type="submit">Shorts</button></td>
-        </form>
-        </tr>
-        <tr>
-        <form id="form" th:action="@{/sweaters}" th:object="${product}" method="Get">
-        <td> <button type="submit">Sweaters</button></td>
-        </form>
-        </tr>
-        <tr>
-        <form id="form" th:action="@{/jumpsuits}" th:object="${product}" method="Get">
-        <td> <button type="submit">Jump Suits</button></td>
-        </form>
-          <td></td>
-        </tr>
-        </tbody></table></div>
-</div>
-<div id="men" class="tabcontent">
-  <table >
-    <thead >
-      <th>Top Wear</th>
-      <th>Bottom Wear</th>
-      </thead>
-      <tbody>
-        <tr>
-        <td><a th:href="@{/tshirt}">Tshirts</a></td>
-          <td><a th:href="@{/mentrack}">Track pants</a></td>
-        </tr>
-        <tr>
-           <td><a th:href="@{//shirt}">Shirts</a></td>
-          <td><a th:href="@{/jeansmen}">Jeans</a></td>
-        </tr>
-      </tbody>
-  </table>
-</div>
-<div id="men" class="tabcontent">
-  <table >
-    <thead >
-      <th ></th>
-      <th><a th:href="@{/bwear}">Bottom Wear</a></th>
-      <th><a th:href="@{/ewear}">Ethnic Wear</a></th>
-      </thead>
-      <tbody>
-        <tr>
-          <td><a th:href="@{/track}">Track pants</a></td>
-          <td><a th:href="@{/mkurtas}">Men Kurtas</a></td>
-        </tr>
-        <tr>
-          <td><a th:href="@{/tshirts}">Tshirts</a></td>
-          <td><a th:href="@{/jeans}">Jeans</a></td>
-          <td><a th:href="@{/jackets}">Ethnic Jackets</a></td>
-        </tr>
-        <tr>
-          <td><a th:href="@{/shirts}">Shirts</a></td>
-          <td><a th:href="@{/trousers}">Trousers</a></td>
-          <td></td>
-        </tr>
-      </tbody>
-  </table>
-</div>
-<div id="kids" class="tabcontent">
-  <table >
-    <thead >
-      <th><a th:href="@{/kids}">All Dresses</a></th>
-        </thead>
-      </tbody>
-  </table>
-</div>
-<div class="text">
-<p>Delivers Excellent Customer Service at our Boutique<br>
-  <h4>Lowest Prices Best Quality Shopping.</h4>
-</p>
-</div>
-<!-- Slideshow container -->
-<div class="slideshow-container">
-  <!-- Full-width images with number and caption text -->
-  <div class="mySlides fade">
-    <div class="numbertext">1 / 3</div>
-    <img src="https://img.freepik.com/free-photo/happy-beautiful-couple-posing-with-shopping-bags-violet_496169-2215.jpg?w=740&t=st=1689873712~exp=1689874312~hmac=a62f47bcc8a43bf65b6b62512b1060edafffc8894bea3a8afbe45c49289a1b4f" style="width:100%">
-    <div class="text">Caption Text</div>
-  </div>
+    <!-- Tab content -->
+    <div id="ethnic" class="tabcontent">
+        <h4 style="color:purple;">All Women Ethnic</h4>
+        <table>
+            <thead>
+                <th>All Sarees</th>
+                <th>Kurtis</th>
+                <th>Kurta Sets</th>
+                <th>Suits & Dress Material</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <form id="form" th:action="@{/silksaree}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Silk Sarees</button></td>
+                    </form>
+                    <form id="form" th:action="@{/rayonkurti}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Rayon Kurtis</button></td>
+                    </form>
+                    <form id="form" th:action="@{/allkurtas}" th:object="${product}" method="Get">
+                        <td> <button type="submit">All Kurta Sets</button></td>
+                    </form>
+                    <form id="form" th:action="@{/duppata}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Dupattas</button></td>
+                    </form>
+                </tr>
+                <tr>
+                    <form id="form" th:action="@{/cottonsaree}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Cotton Sarees</button></td>
+                    </form>
+                    <form id="form" th:action="@{/embroidery}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Embroidered Kurtis</button></td>
+                    </form>
+                    <form id="form" th:action="@{/lehanga}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Lehanga</button></td>
+                    </form>
+                </tr>
+                <tr>
+                    <form id="form" th:action="@{/georgette}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Georgette Sarees</button></td>
+                    </form>
+                    <form id="form" th:action="@{/cottonkurti}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Cotton Kurtis</button></td>
+                    </form>
+                    <form id="form" th:action="@{/gowns}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Gown</button></td>
+                    </form>
+                </tr>
+                <tr>
+                    <form id="form" th:action="@{/filter}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Chiffon Sarees</button></td>
+                    </form>
+                    <form id="form" th:action="@{/anarkali}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Anarkali kurti</button></td>
+                    </form>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="western" class="tabcontent">
+        <h4 style="color:purple;">All Women Western</h4>
+        <table>
+            <thead>
+                <th>Top Wear</a></th>
+                <th>Bottom Wear</a></th>
+                <th>Sleep wear</a></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <form id="form" th:action="@{/tops}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Tops</button></td>
+                    </form>
+                    <form id="form" th:action="@{/jeans}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Jeans</button></td>
+                    </form>
+                    <form id="form" th:action="@{/nightsuits}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Night Suits</button></td>
+                    </form>
+                </tr>
+                <tr>
+                    <form id="form" th:action="@{/jeggins}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Jeggins</button></td>
+                    </form>
+                    <form id="form" th:action="@{/plazzo}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Plazzos</button></td>
+                    </form>
+                    <form id="form" th:action="@{/shorts}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Shorts</button></td>
+                    </form>
+                </tr>
+                <tr>
+                    <form id="form" th:action="@{/sweaters}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Sweaters</button></td>
+                    </form>
+                </tr>
+                <tr>
+                    <form id="form" th:action="@{/jumpsuits}" th:object="${product}" method="Get">
+                        <td> <button type="submit">Jump Suits</button></td>
+                    </form>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <div id="men" class="tabcontent">
+        <table>
+            <thead>
+                <th>Top Wear</th>
+                <th>Bottom Wear</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a th:href="@{/tshirt}">Tshirts</a></td>
+                    <td><a th:href="@{/mentrack}">Track pants</a></td>
+                </tr>
+                <tr>
+                    <td><a th:href="@{//shirt}">Shirts</a></td>
+                    <td><a th:href="@{/jeansmen}">Jeans</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="men" class="tabcontent">
+        <table>
+            <thead>
+                <th></th>
+                <th><a th:href="@{/bwear}">Bottom Wear</a></th>
+                <th><a th:href="@{/ewear}">Ethnic Wear</a></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a th:href="@{/track}">Track pants</a></td>
+                    <td><a th:href="@{/mkurtas}">Men Kurtas</a></td>
+                </tr>
+                <tr>
+                    <td><a th:href="@{/tshirts}">Tshirts</a></td>
+                    <td><a th:href="@{/jeans}">Jeans</a></td>
+                    <td><a th:href="@{/jackets}">Ethnic Jackets</a></td>
+                </tr>
+                <tr>
+                    <td><a th:href="@{/shirts}">Shirts</a></td>
+                    <td><a th:href="@{/trousers}">Trousers</a></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="kids" class="tabcontent">
+        <table>
+            <thead>
+                <th><a th:href="@{/kids}">All Dresses</a></th>
+            </thead>
+            </tbody>
+        </table>
+    </div>
+    <div class="text">
+        <p>Delivers Excellent Customer Service at our Boutique<br>
+        <h4>Lowest Prices Best Quality Shopping.</h4>
+        </p>
+    </div>
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+        <!-- Full-width images with number and caption text -->
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 3</div>
+            <img src="https://img.freepik.com/free-photo/happy-beautiful-couple-posing-with-shopping-bags-violet_496169-2215.jpg?w=740&t=st=1689873712~exp=1689874312~hmac=a62f47bcc8a43bf65b6b62512b1060edafffc8894bea3a8afbe45c49289a1b4f"
+                style="width:100%">
+            <div class="text">Caption Text</div>
+        </div>
 
-  <div class="mySlides fade">
-    <div class="numbertext">2 / 3</div>
-    <img src="https://img.freepik.com/free-photo/portrait-bright-lady-with-red-lipstick-posing-happily-with-package-while-shopping-pink-background_197531-17613.jpg?w=740&t=st=1689873816~exp=1689874416~hmac=64557b99a4061f5bf33b6113e77a76f70d15b568514d81fba57d452ac33d1351"
-     style="width:100%">
-    <div class="text">Caption Two</div>
-  </div>
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 3</div>
+            <img src="https://img.freepik.com/free-photo/portrait-bright-lady-with-red-lipstick-posing-happily-with-package-while-shopping-pink-background_197531-17613.jpg?w=740&t=st=1689873816~exp=1689874416~hmac=64557b99a4061f5bf33b6113e77a76f70d15b568514d81fba57d452ac33d1351"
+                style="width:100%">
+            <div class="text">Caption Two</div>
+        </div>
 
-  <div class="mySlides fade">
-    <div class="numbertext">3 / 3</div>
-    <img src="https://busynessprofile.com/wp-content/uploads/2021/05/F-1-Mens-Clothing-Store.jpg" style="width:100%">
-    <div class="text">Caption Three</div>
-  </div>
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 3</div>
+            <img src="https://busynessprofile.com/wp-content/uploads/2021/05/F-1-Mens-Clothing-Store.jpg"
+                style="width:100%">
+            <div class="text">Caption Three</div>
+        </div>
 
-  <!-- Next and previous buttons -->
-  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-  <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-<br>
+        <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
 
-<!-- The dots/circles -->
-<div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span>
-  <span class="dot" onclick="currentSlide(2)"></span>
-  <span class="dot" onclick="currentSlide(3)"></span>
-</div>
+    <!-- The dots/circles -->
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
 
- 
+    <script>
 
-<script>
-  
- let slideIndex = 0;
-showSlides();
+        let slideIndex = 0;
+        showSlides();
 
-function showSlides() {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}
-  slides[slideIndex-1].style.display = "block";
-  setTimeout(showSlides, 2000); // Change image every 2 seconds
-}
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
 
+        function openCity(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
 
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
 
-function openCity(evt, cityName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
 
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-const previous = document.querySelector('.previous');
-    const next = document.querySelector('.next');
-    const images = document.querySelector('.slider-carousel').children;
-    const totalImages = images.length;
-    let currentIndex = 0;
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        const previous = document.querySelector('.previous');
+        const next = document.querySelector('.next');
+        const images = document.querySelector('.slider-carousel').children;
+        const totalImages = images.length;
+        let currentIndex = 0;
 
 
-	// Event Listeners to previous and next buttons
-    previous.addEventListener('click', () => {
-      previousImage()
-    })
+        // Event Listeners to previous and next buttons
+        previous.addEventListener('click', () => {
+            previousImage()
+        })
 
-    next.addEventListener('click', () => {
-      nextImage();
-    })
-    
-    setInterval(()=>{
-    	nextImage();
-    },1000);
-    
+        next.addEventListener('click', () => {
+            nextImage();
+        })
 
-
-</script>
- <style>
- .logo {
-        max-width: 50px;
-      }
- 
-.text{
-  color: #171717;
-  position: fixed;
-  text-align: center;
-}
+        setInterval(() => {
+            nextImage();
+        }, 1000);
 
 
-/*---Slide Show---*/
-* {box-sizing:border-box}
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
+    </script>
+    <style>
+        .logo {
+            max-width: 50px;
+        }
 
-/* Hide the images by default */
-.mySlides {
-  display: none;
-}
-
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  margin-top: -22px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
-/* Fading animation */
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
+        .text {
+            color: #171717;
+            position: fixed;
+            text-align: center;
+        }
 
 
-/*---Search Bar----*/
-.search-bar {
-	display: flex;
-}
+        /*---Slide Show---*/
+        * {
+            box-sizing: border-box
+        }
 
-  #formsearch{
-    float: right;
-  }
- * {
-	border: 0;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-.search-bar input,
-.search-btn, 
-.search-btn:before, 
-.search-btn:after {
-	transition: all 0.25s ease-out;
-}
-.search-bar input,
-.search-btn {
-	width: 3em;
-	height: 3em;
-}
-.search-bar input:invalid:not(:focus),
-.search-btn {
-	cursor: pointer;
-}
-.search-bar,
-.search-bar input:focus,
-.search-bar input:valid  {
-	width: 80%;
-}
-.search-bar input:focus,
-.search-bar input:not(:focus) + .search-btn:focus {
-	outline: transparent;
-}
-.search-bar {
-	margin: auto;
-	padding: 1.5em;
-	justify-content: center;
-	max-width: 30em;
-}
-.search-bar input {
-	background: transparent;
-	border-radius: 1.5em;
-	box-shadow: 0 0 0 0.4em #171717 inset;
-	padding: 0.75em;
-	transform: translate(0.5em,0.5em) scale(0.5);
-	transform-origin: 100% 0;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
-.search-bar input::-webkit-search-decoration {
-	-webkit-appearance: none;
-}
-.search-bar input:focus,
-.search-bar input:valid {
-	background: #fff;
-	border-radius: 0.375em 0 0 0.375em;
-	box-shadow: 0 0 0 0.1em #d9d9d9 inset;
-	transform: scale(1);
-}
-.search-btn {
-	background: #171717;
-	border-radius: 0 0.75em 0.75em 0 / 0 1.5em 1.5em 0;
-	padding: 0.75em;
-	position: relative;
-	transform: translate(0.25em,0.25em) rotate(45deg) scale(0.25,0.125);
-	transform-origin: 0 50%;
-}
-.search-btn:before, 
-.search-btn:after {
-	content: "";
-	display: block;
-	opacity: 0;
-	position: absolute;
-}
-.search-btn:before {
-	border-radius: 50%;
-	box-shadow: 0 0 0 0.2em #f1f1f1 inset;
-	top: 0.75em;
-	left: 0.75em;
-	width: 1.2em;
-	height: 1.2em;
-}
-.search-btn:after {
-	background: #f1f1f1;
-	border-radius: 0 0.25em 0.25em 0;
-	top: 51%;
-	left: 51%;
-	width: 0.75em;
-	height: 0.25em;
-	transform: translate(0.2em,0) rotate(45deg);
-	transform-origin: 0 50%;
-}
-.search-btn span {
-	display: inline-block;
-	overflow: hidden;
-	width: 1px;
-	height: 1px;
-}
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
 
-/* Active state */
-.search-bar input:focus + .search-btn,
-.search-bar input:valid + .search-btn {
-	background:#740074;
-	border-radius: 0 0.375em 0.375em 0;
-	transform: scale(1);
-}
-.search-bar input:focus + .search-btn:before, 
-.search-bar input:focus + .search-btn:after,
-.search-bar input:valid + .search-btn:before, 
-.search-bar input:valid + .search-btn:after {
-	opacity: 1;
-}
-.search-bar input:focus + .search-btn:hover,
-.search-bar input:valid + .search-btn:hover,
-.search-bar input:valid:not(:focus) + .search-btn:focus {
-	background:#740074;
-}
-.search-bar input:focus + .search-btn:active,
-.search-bar input:valid + .search-btn:active {
-	transform: translateY(1px);
-}
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+        }
 
-@media screen and (prefers-color-scheme: dark) {
-	body, input {
-		color: #f1f1f1;
-	}
-	body {
-		background: #171717;
-	}
-	.search-bar input {
-		box-shadow: 0 0 0 0.4em #f1f1f1 inset;
-	}
-	.search-bar input:focus,
-	.search-bar input:valid {
-		background: #3d3d3d;
-		box-shadow: 0 0 0 0.1em #3d3d3d inset;
-	}
-	.search-btn {
-		background: #f1f1f1;
-	}
-}
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+
+                @media screen and (prefers-color-scheme: dark) {
+
+            body,
+            input {
+                color: #f1f1f1;
+            }
+
+            body {
+                background: #171717;
+            }
+
+            .search-bar input {
+                box-shadow: 0 0 0 0.4em #f1f1f1 inset;
+            }
+
+            .search-bar input:focus,
+            .search-bar input:valid {
+                background: #3d3d3d;
+                box-shadow: 0 0 0 0.1em #3d3d3d inset;
+            }
+
+            .search-btn {
+                background: #f1f1f1;
+            }
+        }
+        /* ---Top 2 navigation*/
+
+        .tab {
+            overflow-wrap: break-word;
+            border: 20px solid #ccc;
+            background-color: #fdfcfc;
+        }
+
+        .tab a:hover {
+            background-color: #94149f;
+            padding: 5px 5px;
+        }
+
+        /* Create an active/current tablink class */
+        .tab a.active {
+            background-color: #94149f;
+        }
+
+        .tabcontent {
+            display: none;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        /* Style the tab */
+        table {
+            border-collapse: separate;
+            border-spacing: 50px 0;
+        }
+
+        td {
+            padding: 10px 0;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #94149f;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #94149f;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
 
 
 
 
+        /*Top Navigation */
+        .topnav {
+            background-color: #740074;
+            overflow: hidden;
+        }
 
+        /* Style the links inside the navigation bar */
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
 
-/* ---Top 2 navigation*/
+        /* Add a color to the active/current link */
+        .topnav a.active {
 
-.tab {
-  overflow-wrap: break-word;
-  border: 20px solid #ccc;
-  background-color: #fdfcfc;
-}
-.tab a:hover {
-    background-color: #94149f;
-    padding: 5px 5px;
-}
+            color: white;
+        }
 
-/* Create an active/current tablink class */
-.tab a.active {
-    background-color: #94149f;
-}
-.tabcontent {
-  display: none;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-/* Style the tab */
-table {
-  border-collapse: separate;
-  border-spacing: 50px 0;
-}
-td {
-  padding: 10px 0;
-}
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-}
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color:  #94149f;
-}
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color:  #94149f;
-}
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-
-
-
-
-/*Top Navigation */
-  .topnav {
-    background-color: #740074;
-    overflow: hidden;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-/* Add a color to the active/current link */
-.topnav a.active {
- 
-  color: white;
-}
-
-/* Right-aligned section inside the top navigation */
-.topnav-right {
-  float: right;
-}
- </style>
+        /* Right-aligned section inside the top navigation */
+        .topnav-right {
+            float: right;
+        }
+    </style>
 </body>
+
 </html>
