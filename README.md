@@ -41,15 +41,15 @@
 - [X] Manage Users
 - [X] CRUD Operations of Product 	
 - [X] Manage Product categories
-- [ ] Manage Sales
-- [ ] Manage Payment
+- [X] Manage Sales
+- [X] Manage Payment
 
 <h4> 3.User Panel :</h4>
 
 - [X] Log in with login Id
 - [X] Product list & categorization
 - [X] Product Details	
-- [ ] Advanced Search and Filter
+- [X] Advanced Search and Filter
 - [X] Cart Management
-- [ ] My Orders
-- [ ] Payment Option
+- [X] My Orders
+- [X] Payment Option
